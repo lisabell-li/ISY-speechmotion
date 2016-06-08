@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-    <title>Babylon - Getting Started</title>
-    <!--- link to the last version of babylon --->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>Babylon meets Leap Motion</title>
+    <!-- Babylon.js -->
+    <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
+    <script src="http://www.babylonjs.com/cannon.js"></script>
+    <script src="http://www.babylonjs.com/oimo.js"></script>
     <script src="js/babylon.js"></script>
+    <script src="js/leap.js"></script>
+    <script src="js/leap-plugins-0.1.11.js"></script>
     <style>
         html, body {
             overflow: hidden;
-            width   : 100%;
-            height  : 100%;
-            margin  : 0;
-            padding : 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         #renderCanvas {
-            width   : 100%;
-            height  : 100%;
+            width: 100%;
+            height: 100%;
             touch-action: none;
         }
     </style>
@@ -24,57 +30,112 @@
 <body>
 <canvas id="renderCanvas"></canvas>
 <script>
-    window.addEventListener('DOMContentLoaded', function(){
-        // get the canvas DOM element
-        var canvas = document.getElementById('renderCanvas');
+    var canvas = document.getElementById("renderCanvas");
+    var engine = new BABYLON.Engine(canvas, true);
 
-        // load the 3D engine
-        var engine = new BABYLON.Engine(canvas, true);
+    var createScene = function () {
 
-        // createScene function that creates and return the scene
-        var createScene = function(){
-            // create a basic BJS Scene object
-            var scene = new BABYLON.Scene(engine);
+        // This creates a basic Babylon Scene object (non-mesh)
+        var scene = new BABYLON.Scene(engine);
 
-            // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
-            var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
+        // This creates and positions a free camera (non-mesh)
+        var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
 
-            // target the camera to scene origin
-            camera.setTarget(BABYLON.Vector3.Zero());
+        // This targets the camera to scene origin
+        camera.setTarget(BABYLON.Vector3.Zero());
 
-            // attach the camera to the canvas
-            camera.attachControl(canvas, false);
+        // This attaches the camera to the canvas
+        camera.attachControl(canvas, true);
 
-            // create a basic light, aiming 0,1,0 - meaning, to the sky
-            var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
+        // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+        var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 
-            // create a built-in "sphere" shape; its constructor takes 5 params: name, width, depth, subdivisions, scene
-            var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 2, scene);
+        // Default intensity is 1. Let's dim the light a small amount
+        light.intensity = 0.7;
 
-            // move the sphere upward 1/2 of its height
-            sphere.position.y = 1;
+        // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
+        var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
 
-            // create a built-in "ground" shape; its constructor takes the same 5 params as the sphere's one
-            var ground = BABYLON.Mesh.CreateGround('ground1', 6, 6, 2, scene);
+        // Move the sphere upward 1/2 its height
+        sphere.position.y = 1;
 
-            // return the created scene
-            return scene;
-        }
+        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+        //var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
 
-        // call the createScene function
-        var scene = createScene();
+        Leap.loop(function(frame) {
 
-        // run the render loop
-        engine.runRenderLoop(function(){
-            scene.render();
-        });
+            frame.hands.forEach(function(hand, index) {
 
-        // the canvas/window resize event handler
-        window.addEventListener('resize', function(){
-            engine.resize();
-        });
+                // var cat = ( cats[index] || (cats[index] = new Cat()) );
+                //  cat.setTransform(hand.screenPosition(), hand.roll());
+
+                sphere.position.y = hand.screenPosition()[0] * (-0.05)  + 30;
+                sphere.position.z = hand.screenPosition()[2] * (-0.05) + 33;
+                sphere.position.x = hand.screenPosition()[1] * (-0.05) + 30;
+                // sphere.position.z = hand.screenPosition()[0] * (-0.05) + 33;
+                //sphere.rotate(BABYLON.Axis.X, hand.roll(), BABYLON.Space.LOCAL);
+                //sphere.translate(BABYLON.Axis.X, hand.roll(), BABYLON.Space.WORLD);
+                //  console.log ( "test" + hand.screenPosition()[0] * 0.005);
+
+
+            });
+
+        }).use('screenPosition', {scale: 0.25});
+
+        return scene;
+
+    };
+
+    var scene = createScene();
+
+    // Resize
+    window.addEventListener("resize", function () {
+        engine.resize();
+
     });
+
+
+    // JLEAPJS
+
+    /*var cats = {};
+
+
+
+
+     var Cat = function() {
+     var cat = this;
+     var img = document.createElement('img');
+     img.src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/109794/cat_2.png';
+     img.style.position = 'absolute';
+     img.onload = function () {
+     cat.setTransform([window.innerWidth/2,window.innerHeight/2], 0);
+     document.body.appendChild(img);
+     }
+
+     cat.setTransform = function(position, rotation) {
+
+     img.style.left = position[0] - img.width  / 2 + 'px';
+     img.style.top  = position[1] - img.height / 2 + 'px';
+
+     img.style.transform = 'rotate(' + -rotation + 'rad)';
+
+     img.style.webkitTransform = img.style.MozTransform = img.style.msTransform =
+     img.style.OTransform = img.style.transform;
+
+     };
+
+     };
+
+     cats[0] = new Cat();*/
+
+    // This allows us to move the cat even whilst in an iFrame.
+    Leap.loopController.setBackground(true)
+
+    engine.runRenderLoop(function () {
+        scene.render();
+
+    });
+
 </script>
 </body>
 </html>
-
