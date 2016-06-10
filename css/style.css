@@ -30,6 +30,8 @@
 /* -- make sure to declare a default for every property that you want animated -- */
 /* -- general styles, including Y axis rotation -- */
 .box .front {
+    background-color: darkred;
+    color: white;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
