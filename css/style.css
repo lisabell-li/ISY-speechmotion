@@ -1,9 +1,4 @@
-body {
-    background-color:#aaa;
-    margin: 0;
-    overflow: hidden;
-    font-family: 'Montserrat', sans-serif;
-}
+
 .card {
     width: 300px;
     height: 200px;
@@ -18,8 +13,10 @@ body {
     -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
-
-.panel {
+.hidden {
+    display: none;
+}
+.box {
     margin:-100px 0 0 -150px; /* half the card width and height to center card*/
     position: absolute;
     top: 50%;
@@ -32,7 +29,7 @@ body {
 
 /* -- make sure to declare a default for every property that you want animated -- */
 /* -- general styles, including Y axis rotation -- */
-.panel .front {
+.box .front {
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
@@ -42,7 +39,7 @@ body {
     backface-visibility: hidden;
 }
 
-.panel .back {
+.box .back {
     background-color: black;
     color: white;
 

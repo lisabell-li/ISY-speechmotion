@@ -1,5 +1,33 @@
 $(document).ready(function(){
     var state = 1;
+    var frontPage = true;
+
+
+    if (annyang) {
+        // Let's define a command.
+        var commands = {
+            'flip': function() {
+                if(frontPage==true) {
+                    transformCSS(".front", 0);
+                    transformCSS(".back", -180);
+                    frontPage=false;
+                }
+                else{
+                    transformCSS(".front", -180);
+                    transformCSS(".back", 0);
+                    frontPage=true;
+
+                }
+            }
+        };
+        annyang.debug(true);
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+
+        // Start listening.
+        annyang.start();
+    }
 
     function transformCSS (className, degree) {
         var style = {
