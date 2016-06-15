@@ -12,6 +12,8 @@
     <script src="js/babylon.js"></script>
     <script src="js/leap.js"></script>
     <script src="js/leap-plugins-0.1.11.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.4.0/annyang.min.js"></script>
+
     <style>
         html, body {
             overflow: hidden;
@@ -64,63 +66,67 @@
 
 <canvas id="renderCanvas"></canvas>
 <script>
+
+    // Scene Creation
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
+    var scene = new BABYLON.Scene(engine);
 
-    var createScene = function () {
+    var camera = new BABYLON.ArcRotateCamera("camera", 1, 0.8, 10, new BABYLON.Vector3(0, 0, 0), scene);
+    camera.setPosition(new BABYLON.Vector3(0, 0, 50));
+    camera.setTarget(BABYLON.Vector3.Zero());
+    scene.activeCamera = camera;
+    camera.attachControl(canvas, true);
 
-        // This creates a basic Babylon Scene object (non-mesh)
-        var scene = new BABYLON.Scene(engine);
+    // leap camera controls
+    //  cameraControls = new BABYLON.LeapCameraControls(camera);
 
-        // This creates and positions a free camera (non-mesh)
-        var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 
-        // This targets the camera to scene origin
-        camera.setTarget(BABYLON.Vector3.Zero());
+    // Default intensity is 1. Let's dim the light a small amount
+    light.intensity = 0.7;
 
-        // This attaches the camera to the canvas
-        camera.attachControl(canvas, true);
+    // create some boxes
+    var boxes = new Array();
 
-        // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-        var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+    for (var x = 0; x <= 20; x += 4){
+        for (var y = 0; y <= 20; y += 4){
 
-        // Default intensity is 1. Let's dim the light a small amount
-        light.intensity = 0.7;
+            var box = BABYLON.Mesh.CreateBox("box" + x.toString() + y.toString(), 2, scene);
+            box.position.y = y - 10;
+            box.position.x = x - 10;
+            box.position.z = Math.floor((Math.random() * 10) + 1);
+            boxes.push(box);
 
-        // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-        var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
+        }
+    }
 
-        // Move the sphere upward 1/2 its height
-        sphere.position.y = 1;
+    // --------------- annyang Functions --------------------------
 
+    var addGround = function () {
         // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        //var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
+        var ground = BABYLON.Mesh.CreateGround("ground1", 32, 32, 2, scene);
+        ground.position.y -= 14;
+    };
 
-        Leap.loop(function(frame) {
+    var removeGround = function () {
+        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+        scene.getMeshByName("ground1").dispose();
+    };
 
-            frame.hands.forEach(function(hand, index) {
-
-                // var cat = ( cats[index] || (cats[index] = new Cat()) );
-                //  cat.setTransform(hand.screenPosition(), hand.roll());
-
-                sphere.position.y = hand.screenPosition()[0] * (-0.05)  + 30;
-                sphere.position.z = hand.screenPosition()[2] * (-0.05) + 33;
-                sphere.position.x = hand.screenPosition()[1] * (-0.05) + 30;
-                // sphere.position.z = hand.screenPosition()[0] * (-0.05) + 33;
-                //sphere.rotate(BABYLON.Axis.X, hand.roll(), BABYLON.Space.LOCAL);
-                //sphere.translate(BABYLON.Axis.X, hand.roll(), BABYLON.Space.WORLD);
-                //  console.log ( "test" + hand.screenPosition()[0] * 0.005);
-
-
-            });
-
-        }).use('screenPosition', {scale: 0.25});
-
-        return scene;
+    var addBox = function () {
+        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+        var box = BABYLON.Mesh.CreateBox("box1",  16, scene);
 
     };
 
-    var scene = createScene();
+    var randomPosBoxes = function () {
+        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+        for (var x = 0; x <boxes.length; x++){
+            boxes[x].position.z = Math.floor((Math.random() * 10) + 1);
+        }
+    };
 
     // Resize
     window.addEventListener("resize", function () {
@@ -128,48 +134,58 @@
 
     });
 
+    // -------- ANNYANG ------------
+    if (annyang) {
+        // Let's define a command.
+        var commands = {
+            'ground': addGround,
+            'remove' : removeGround,
+            'random' : randomPosBoxes
+        };
+        annyang.debug(true);
+        // Add our commands to annyang
+        annyang.addCommands(commands);
 
-    // JLEAPJS
 
-    /*var cats = {};
+        // Start listening.
+        annyang.start(true, true);
+    }
 
+    // ------------------------------
 
-
-
-     var Cat = function() {
-     var cat = this;
-     var img = document.createElement('img');
-     img.src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/109794/cat_2.png';
-     img.style.position = 'absolute';
-     img.onload = function () {
-     cat.setTransform([window.innerWidth/2,window.innerHeight/2], 0);
-     document.body.appendChild(img);
-     }
-
-     cat.setTransform = function(position, rotation) {
-
-     img.style.left = position[0] - img.width  / 2 + 'px';
-     img.style.top  = position[1] - img.height / 2 + 'px';
-
-     img.style.transform = 'rotate(' + -rotation + 'rad)';
-
-     img.style.webkitTransform = img.style.MozTransform = img.style.msTransform =
-     img.style.OTransform = img.style.transform;
-
-     };
-
-     };
-
-     cats[0] = new Cat();*/
-
-    // This allows us to move the cat even whilst in an iFrame.
-    Leap.loopController.setBackground(true)
+    // Render Loop + Leap Loop
 
     engine.runRenderLoop(function () {
+        Leap.loop(function(frame) {
+
+            frame.hands.forEach(function(hand, index) {
+
+                camera.beta = hand.pitch();
+                camera.alpha = hand.roll() * Math.PI;
+                //    sphere.position.z = hand.screenPosition()[2] * (-0.05) + 33;
+                //     box.position.y = hand.screenPosition()[1] * (-0.05) + 30;
+                //    sphere.position = hand.screenPosition() * -0.05;
+                // sphere.position.z = hand.screenPosition()[0] * (-0.05) + 33;
+                //sphere.rotate(BABYLON.Axis.X, hand.roll(), BABYLON.Space.LOCAL);
+                //sphere.translate(BABYLON.Axis.X, hand.roll(), BABYLON.Space.WORLD);
+                //console.log ( "test" + hand.screenPosition()[0] * 0.005);
+
+
+            });
+
+            // set correct camera control
+            //cameraControls.update(frame);
+
+
+        }).use('screenPosition', {scale: 0.25});
+
         scene.render();
 
     });
 
+    Leap.loopController.setBackground(true)
+
+
 </script>
 </body>
-</html>
+</html> 
