@@ -17,7 +17,7 @@
     display: none;
 }
 .box {
-    margin:-100px 0 0 -150px; /* half the card width and height to center card*/
+    margin:100px 100px 0 -150px; /* half the card width and height to center card*/
     position: absolute;
     top: 50%;
     left: 50%;
