@@ -8,20 +8,23 @@ window.addEventListener("DOMContentLoaded", function(){
     //   scene.debugLayer.show();
     scene.ambientColor= BABYLON.Color3.Red();
 
-    var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(150,250,200), scene);
+    //the boxcube
+    var cube = BABYLON.Mesh.CreateBox("cube", 4, scene);
+
+    //Free Camera
+    var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(250,200,50), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
 
     //the ambient light
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,-1,0), scene);
-    //the boxcube
-    var cube = BABYLON.Mesh.CreateBox("cube", 4, scene);
+    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,1,0), scene);
+
 
 
     // Create a particle system
     var particleSystem = new BABYLON.ParticleSystem("particles", 2000, scene);
 
     //Texture of each particle
-    particleSystem.particleTexture = new BABYLON.Texture("flare.png", scene);
+    particleSystem.particleTexture = new BABYLON.Texture("images/flare.png", scene);
     // Where the particles come from
     particleSystem.emitter = cube; // the starting object, the emitter
     particleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // Starting all from
