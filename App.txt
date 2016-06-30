@@ -1,0 +1,25 @@
+Steuerung
+
+linke hand   = Kamera
+rechte hand = objektsteuerung
+
+Objekte:
+bewegen = grab
+rotieren  = 2 finger?
+skalieren = ???
+
+
+Kamera:
+Rotieren
+Zoomen
+
+
+App / Sprache
+
+Objekte erzeugen
+Physik steuern
+Materialen steuern
+Partikel
+Stapeln
+
+
