@@ -163,14 +163,15 @@ window.addEventListener("DOMContentLoaded", function(){
     if (annyang) {
         // Let's define a command.
         var commands = {
-            'ground': addGround,
-            'remove' : removeGround,
-            'rotate'  : rotate,
-            'stop rotate'  : rotateStop,
+            'Boden': addGround,
+            'entfernen' : removeGround,
+            'drehen'  : rotate,
+            'bewegen'  : rotateStop,
         };
         annyang.debug(true);
         // Add our commands to annyang
         annyang.addCommands(commands);
+        annyang.setLanguage("de-DE")
 
 
         // Start listening.
