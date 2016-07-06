@@ -238,7 +238,7 @@
 	
     // Render Loop + Leap Loop
     engine.runRenderLoop(function () {
-            var controller = Leap.loop(function(frame) {
+            var controller = Leap.loop({enableGestures:true}, function(frame) {
             
             var radius = camera.radius;
 			
@@ -289,7 +289,7 @@
                     var mesh = scene.pickWithRay(ray);
                     
                     //----------- 5 Finger = Zoom --------------------
-                    if(hand.fingers.length == 5 && hand.pinchStrength <= 0.2){
+                    if(hand.fingers.length == 5 && hand.pinchStrength <= 0.2 && hand.type == "right" ) {
                     	var velZoom = velocity[1]/canvas.width/2;
                     	if(velocity[1] < 0){
                     		if(camera.radius >=1 ){
@@ -332,24 +332,28 @@
                     frame.gestures.forEach(function(gesture){
                         switch (gesture.type){
                             case "circle":
-
-                              //  console.log("Circle Gesture");
-                                break;
-                            case "keyTap":
-                              //  console.log("key tap Gesture");
-                                                           	for(var i = 0; gallery.length > i; i++){
+								var state = gesture.state;
+								if(state == "start"){
+								
+                               		for(var i = 0; gallery.length > i; i++){
     								//Creation of a plane
     								gallery[i].material.diffuseTexture  = new BABYLON.Texture("gallery/img" + index + ".jpg", scene);
     								index++;
     								if(index > 8){index = 1;}
+                             		}
                              	}
+                              //  console.log("Circle Gesture");
+                                break;
+                            case "keyTap":
+                            //    console.log("key tap Gesture");
+							
                                 break;
                             case "screenTap":
                            //     var position = gesture.position;
-                            //    console.log("screen tap Gesture" + position);
+                           //     console.log("screen tap Gesture" + position);
                                 break;
                             case "swipe":
-                             //   console.log("Swipe Gesture");
+                           //     console.log("Swipe Gesture");
 
                                 break;
                     }
@@ -359,6 +363,8 @@
 
 
         }).use('screenPosition', {scale: 1});
+        
+       
         
         scene.render();
 
