@@ -1,12 +1,14 @@
 window.addEventListener("DOMContentLoaded", function(){
     //Switch case number of Leaploop, triggered by annyang commands and functions
+    var state =1;
 
-
-    var img = new Image();
-    img.src = 'images/rhino.jpg';
-    img.onload = function() {
-        draw(this);
-    };
+    function initialImagetoCanvas(imgsrc) {
+        var img = new Image();
+        img.src = imgsrc;
+        img.onload = function () {
+            draw(this);
+        };
+    }
 
     function draw(img) {
         var canni = document.getElementById('imgcanvas');
@@ -15,31 +17,12 @@ window.addEventListener("DOMContentLoaded", function(){
         img.style.display = 'none';
         var imageData = ctx.getImageData(0,0,canni.width, canni.height);
         var data = imageData.data;
-
-        var invert = function() {
-            for (var i = 0; i < data.length; i += 4) {
-                data[i]     = 255 - data[i];     // red
-                data[i + 1] = 255 - data[i + 1]; // green
-                data[i + 2] = 255 - data[i + 2]; // blue
-            }
-            ctx.putImageData(imageData, 0, 0);
-        };
-
-        var grayscale = function() {
-            for (var i = 0; i < data.length; i += 4) {
-                var avg = (data[i] + data[i +1] + data[i +2]) / 3;
-                data[i]     = avg; // red
-                data[i + 1] = avg; // green
-                data[i + 2] = avg; // blue
-            }
-            ctx.putImageData(imageData, 0, 0);
-        };
-
     }
 
 
 
-    var state =3;
+    //Texture/image - current image src file
+    var currentPickedMeshTextureSrc;
 
     //Frames
     var previousFrame =0;
@@ -78,6 +61,7 @@ window.addEventListener("DOMContentLoaded", function(){
     //-----Initial boxes----------//
 
     // create some boxes
+    /*
     var boxes = new Array();
     for (var x = -6; x <= 6; x += 4){
 
@@ -90,11 +74,12 @@ window.addEventListener("DOMContentLoaded", function(){
 
 
     }
+    */
     //------------------------//
 
 
 
-
+    //---------------Image/Texture Creation --------//
 
 
     //Creation of a repeated textured material
@@ -113,30 +98,47 @@ window.addEventListener("DOMContentLoaded", function(){
 
 
 
+    //Creation of a repeated textured material
+    var materialPlane2 = new BABYLON.StandardMaterial("texturePlane", scene);
+    materialPlane2.diffuseTexture = new BABYLON.Texture("images/wildboar.jpg", scene);
+    materialPlane2.specularColor = new BABYLON.Color3(0, 0, 0);
+    materialPlane2.backFaceCulling = false;//Allways show the front and the back of an element
+
+    //Creation of a plane
+    var plane2 = BABYLON.Mesh.CreatePlane("plane2", 10, scene);
+    plane2.rotation.z = 0.90;
+    plane2.position.x = 15;
+    plane2.position.y = 15;
+    plane2.position.z = 5;
+    plane2.material = materialPlane2;
+
+
+    //-------------------//
 
 
 
 
-
+    //---------Image Processing -----------
 
         var invert = function() {
+            if (currentPickedMesh) {
             var img = new Image();
-            img.src = "images/rhino.jpg";
+            img.src = currentPickedMeshTextureSrc;
             var canni = document.getElementById('imgcanvas');
             var ctx = canni.getContext('2d');
             ctx.drawImage(img, 0, 0);
             img.style.display = 'none';
-            var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+            var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
             var data = imageData.data;
             for (var i = 0; i < data.length; i += 4) {
-                data[i]     = 255 - data[i];     // red
+                data[i] = 255 - data[i];     // red
                 data[i + 1] = 255 - data[i + 1]; // green
                 data[i + 2] = 255 - data[i + 2]; // blue
             }
             ctx.putImageData(imageData, 0, 0);
             var dataURL = canni.toDataURL("image/jpg");
-             dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-           // console.log(dataURL);
+            dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            // console.log(dataURL);
 
             //Creation of a repeated textured material
             var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
@@ -144,26 +146,28 @@ window.addEventListener("DOMContentLoaded", function(){
             materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
             materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
 
-            //Creation of a plane
-            plane.material = materialPlane;
+            //assign new material to current selected plane
+             currentPickedMesh.material = materialPlane;
+        }
 
         };
-
+       //Grayscale and invert from:  https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas
         var grayscale = function() {
+            if (currentPickedMesh) {
             var img = new Image();
-            img.src = "images/rhino.jpg";
+            img.src = currentPickedMeshTextureSrc;
             var canni = document.getElementById('imgcanvas');
             var ctx = canni.getContext('2d');
             ctx.drawImage(img, 0, 0);
             img.style.display = 'none';
-            var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+            var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
             var data = imageData.data;
             for (var i = 0; i < data.length; i += 4) {
-                    var avg = (data[i] + data[i +1] + data[i +2]) / 3;
-                    data[i]     = avg; // red
-                    data[i + 1] = avg; // green
-                    data[i + 2] = avg; // blue
-                }
+                var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                data[i] = avg; // red
+                data[i + 1] = avg; // green
+                data[i + 2] = avg; // blue
+            }
             ctx.putImageData(imageData, 0, 0);
             var dataURL = canni.toDataURL("image/jpg");
             dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
@@ -173,38 +177,39 @@ window.addEventListener("DOMContentLoaded", function(){
             var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
             materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "newimageGrayScale", scene);
             materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
-            materialPlane.backFaceCulling = false    ;//Allways show the front and the back of an element
+            materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
 
-            //Creation of a plane
-            plane.material = materialPlane;
+            //assign new material to current selected plane
+                currentPickedMesh.material = materialPlane;
 
-
+        }
         };
     var blau = function() {
+        if (currentPickedMesh) {
         var img = new Image();
-        img.src = "images/rhino.jpg";
+        img.src = currentPickedMeshTextureSrc;
         var canni = document.getElementById('imgcanvas');
         var ctx = canni.getContext('2d');
         ctx.drawImage(img, 0, 0);
         img.style.display = 'none';
-        var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+        var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
         var data = imageData.data;
-        // run through the image, increasing blue, but filtering // down red and green:
-        var w2 = canni.width/2;
+        //  go through each pixel, increasing blue, but decrease red and green:
+        var w2 = canni.width / 2;
         for (y = 0; y < canni.height; y++) {
-            inpos = y * canni.width * 4; // *4 for 4 ints per pixel
-            outpos = inpos + w2 * 4
+            pixi = y * canni.width * 4;
             for (x = 0; x < w2; x++) {
-                r = imageData.data[inpos++] / 3; // less red
-                g = imageData.data[inpos++] / 3; // less green
-                b = imageData.data[inpos++] * 5; // MORE BLUE
-                a = imageData.data[inpos++]; // same alpha
-                b = Math.min(255, b); // clamp to [0..255]
-                imageData.data[inpos++] = r;
-                imageData.data[inpos++] = g;
-                imageData.data[inpos++] = b;
-                imageData.data[inpos++] = a;
-            } }
+                r = imageData.data[pixi++] / 3; //less red
+                g = imageData.data[pixi++] / 3; //less green
+                b = imageData.data[pixi++] * 5; //increase blue
+                a = imageData.data[pixi++]; // no change to alpha alpha
+                b = Math.min(255, b); //clamp to[0..255]
+                imageData.data[pixi++] = r;
+                imageData.data[pixi++] = g;
+                imageData.data[pixi++] = b;
+                imageData.data[pixi++] = a;
+            }
+        }
         ctx.putImageData(imageData, 0, 0);
         var dataURL = canni.toDataURL("image/jpg");
         dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
@@ -214,25 +219,28 @@ window.addEventListener("DOMContentLoaded", function(){
         var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
         materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "blueimage", scene);
         materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
-        materialPlane.backFaceCulling = false    ;//Allways show the front and the back of an element
+        materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
 
-        //Creation of a plane
-        plane.material = materialPlane;
-
-
+        //assign new material to current selected plane
+         currentPickedMesh.material = materialPlane;
+    }
     };
 
     var downloadImage = function(){
-
-        document.getElementById('download').click();
+        if (currentPickedMesh) {
+            document.getElementById('download').click();
+        }
     }
 
 
     document.getElementById('download').addEventListener('click', function() {
         this.href = document.getElementById('imgcanvas').toDataURL();
-        this.download = "picture";
+        var picName = currentPickedMeshTextureSrc.split("/")[1];
+        this.download = picName;
         console.log(document.getElementById('imgcanvas'))
     }, false);
+
+    //-----------------------------//
 
 
 
@@ -496,6 +504,9 @@ window.addEventListener("DOMContentLoaded", function(){
                    pickResult.pickedMesh.renderOutline = true;
                    //set the current selected mesh
                    currentPickedMesh = pickResult.pickedMesh;
+                   currentPickedMeshTextureSrc= currentPickedMesh.material.diffuseTexture.url;
+                   initialImagetoCanvas(currentPickedMeshTextureSrc);
+                     console.log(currentPickedMesh.material.diffuseTexture);
                    //hide the cursor
                    cursor.style.display = "none";
                    //set loop state to 2 -> resize and rotate action
@@ -597,7 +608,7 @@ window.addEventListener("DOMContentLoaded", function(){
                     //needs adjustment! No matter how the camera has been rotated the movement should be intuitiv
                     currentPickedMesh.position.x =leapX;
                     currentPickedMesh.position.y =leapY;
-                    currentPickedMesh.position.z =leapZ;
+                    currentPickedMesh.position.z =-leapZ;
 
 
                 }
