@@ -1,6 +1,45 @@
 window.addEventListener("DOMContentLoaded", function(){
     //Switch case number of Leaploop, triggered by annyang commands and functions
-    var state =1;
+
+
+    var img = new Image();
+    img.src = 'images/rhino.jpg';
+    img.onload = function() {
+        draw(this);
+    };
+
+    function draw(img) {
+        var canni = document.getElementById('imgcanvas');
+        var ctx = canni.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        img.style.display = 'none';
+        var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+        var data = imageData.data;
+
+        var invert = function() {
+            for (var i = 0; i < data.length; i += 4) {
+                data[i]     = 255 - data[i];     // red
+                data[i + 1] = 255 - data[i + 1]; // green
+                data[i + 2] = 255 - data[i + 2]; // blue
+            }
+            ctx.putImageData(imageData, 0, 0);
+        };
+
+        var grayscale = function() {
+            for (var i = 0; i < data.length; i += 4) {
+                var avg = (data[i] + data[i +1] + data[i +2]) / 3;
+                data[i]     = avg; // red
+                data[i + 1] = avg; // green
+                data[i + 2] = avg; // blue
+            }
+            ctx.putImageData(imageData, 0, 0);
+        };
+
+    }
+
+
+
+    var state =3;
 
     //Frames
     var previousFrame =0;
@@ -52,6 +91,148 @@ window.addEventListener("DOMContentLoaded", function(){
 
     }
     //------------------------//
+
+
+
+
+
+
+    //Creation of a repeated textured material
+    var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+    materialPlane.diffuseTexture = new BABYLON.Texture("images/rhino.jpg", scene);
+    materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+    materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
+
+    //Creation of a plane
+    var plane = BABYLON.Mesh.CreatePlane("plane", 10, scene);
+   plane.rotation.z = 0.90;
+    plane.position.x = 10;
+    plane.position.y = 10;
+    plane.position.z = 15;
+    plane.material = materialPlane;
+
+
+
+
+
+
+
+
+
+        var invert = function() {
+            var img = new Image();
+            img.src = "images/rhino.jpg";
+            var canni = document.getElementById('imgcanvas');
+            var ctx = canni.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            img.style.display = 'none';
+            var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+            var data = imageData.data;
+            for (var i = 0; i < data.length; i += 4) {
+                data[i]     = 255 - data[i];     // red
+                data[i + 1] = 255 - data[i + 1]; // green
+                data[i + 2] = 255 - data[i + 2]; // blue
+            }
+            ctx.putImageData(imageData, 0, 0);
+            var dataURL = canni.toDataURL("image/jpg");
+             dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+           // console.log(dataURL);
+
+            //Creation of a repeated textured material
+            var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+            materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "iverted", scene);
+            materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+            materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
+
+            //Creation of a plane
+            plane.material = materialPlane;
+
+        };
+
+        var grayscale = function() {
+            var img = new Image();
+            img.src = "images/rhino.jpg";
+            var canni = document.getElementById('imgcanvas');
+            var ctx = canni.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            img.style.display = 'none';
+            var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+            var data = imageData.data;
+            for (var i = 0; i < data.length; i += 4) {
+                    var avg = (data[i] + data[i +1] + data[i +2]) / 3;
+                    data[i]     = avg; // red
+                    data[i + 1] = avg; // green
+                    data[i + 2] = avg; // blue
+                }
+            ctx.putImageData(imageData, 0, 0);
+            var dataURL = canni.toDataURL("image/jpg");
+            dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            // console.log(dataURL);
+
+            //Creation of a repeated textured material
+            var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+            materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "newimageGrayScale", scene);
+            materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+            materialPlane.backFaceCulling = false    ;//Allways show the front and the back of an element
+
+            //Creation of a plane
+            plane.material = materialPlane;
+
+
+        };
+    var blau = function() {
+        var img = new Image();
+        img.src = "images/rhino.jpg";
+        var canni = document.getElementById('imgcanvas');
+        var ctx = canni.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        img.style.display = 'none';
+        var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+        var data = imageData.data;
+        // run through the image, increasing blue, but filtering // down red and green:
+        var w2 = canni.width/2;
+        for (y = 0; y < canni.height; y++) {
+            inpos = y * canni.width * 4; // *4 for 4 ints per pixel
+            outpos = inpos + w2 * 4
+            for (x = 0; x < w2; x++) {
+                r = imageData.data[inpos++] / 3; // less red
+                g = imageData.data[inpos++] / 3; // less green
+                b = imageData.data[inpos++] * 5; // MORE BLUE
+                a = imageData.data[inpos++]; // same alpha
+                b = Math.min(255, b); // clamp to [0..255]
+                imageData.data[inpos++] = r;
+                imageData.data[inpos++] = g;
+                imageData.data[inpos++] = b;
+                imageData.data[inpos++] = a;
+            } }
+        ctx.putImageData(imageData, 0, 0);
+        var dataURL = canni.toDataURL("image/jpg");
+        dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        // console.log(dataURL);
+
+        //Creation of a repeated textured material
+        var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+        materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "blueimage", scene);
+        materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+        materialPlane.backFaceCulling = false    ;//Allways show the front and the back of an element
+
+        //Creation of a plane
+        plane.material = materialPlane;
+
+
+    };
+
+    var downloadImage = function(){
+
+        document.getElementById('download').click();
+    }
+
+
+    document.getElementById('download').addEventListener('click', function() {
+        this.href = document.getElementById('imgcanvas').toDataURL();
+        this.download = "picture";
+        console.log(document.getElementById('imgcanvas'))
+    }, false);
 
 
 
@@ -216,6 +397,10 @@ window.addEventListener("DOMContentLoaded", function(){
             'verschieben' : move,
             'animieren'   : addRotationAnimation,
             'Wolke'   : addParticles,
+             'grayscale' : grayscale,
+            'invers' :   invert,
+            'blau': blau,
+            'herunterladen' : downloadImage,
         };
         annyang.debug(true);
         // Add our commands to annyang
