@@ -51,7 +51,8 @@ window.addEventListener("DOMContentLoaded", function(){
    // camera.setTarget(BABYLON.Vector3.Zero());
    // ArcRotateCamera >> Camera turning around a 3D point (here Vector zero) with mouse and cursor keys
    // Parameters : name, alpha, beta, radius, target, scene
-    var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 1, 50, new BABYLON.Vector3(0, 0, 0), scene);
+    var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera",Math.PI / 2, Math.PI / 2, 50, new BABYLON.Vector3(0, 0, 0), scene);
+    camera.attachControl(canvas, true);
 
     //the ambient light
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,1,0), scene);
@@ -90,10 +91,10 @@ window.addEventListener("DOMContentLoaded", function(){
 
     //Creation of a plane
     var plane = BABYLON.Mesh.CreatePlane("plane", 10, scene);
-   plane.rotation.z = 0.90;
-    plane.position.x = 10;
-    plane.position.y = 10;
-    plane.position.z = 15;
+ //  plane.rotation.z = 0.90;
+ //   plane.position.x = 10;
+ //   plane.position.y = 10;
+ //   plane.position.z = 15;
     plane.material = materialPlane;
 
 
@@ -106,10 +107,10 @@ window.addEventListener("DOMContentLoaded", function(){
 
     //Creation of a plane
     var plane2 = BABYLON.Mesh.CreatePlane("plane2", 10, scene);
-    plane2.rotation.z = 0.90;
-    plane2.position.x = 15;
-    plane2.position.y = 15;
-    plane2.position.z = 5;
+//     plane2.rotation.z = 0.90;
+     plane2.position.x = 15;
+//     plane2.position.y = 15;
+//     plane2.position.z = 5;
     plane2.material = materialPlane2;
 
 
