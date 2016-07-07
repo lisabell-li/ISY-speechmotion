@@ -145,7 +145,8 @@ window.addEventListener("DOMContentLoaded", function(){
             materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "iverted", scene);
             materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
             materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
-
+            //delete current texture to free memory space
+             currentPickedMesh.material.diffuseTexture.dispose();
             //assign new material to current selected plane
              currentPickedMesh.material = materialPlane;
         }
@@ -178,7 +179,8 @@ window.addEventListener("DOMContentLoaded", function(){
             materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "newimageGrayScale", scene);
             materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
             materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
-
+                //delete current texture to free memory space
+                currentPickedMesh.material.diffuseTexture.dispose();
             //assign new material to current selected plane
                 currentPickedMesh.material = materialPlane;
 
@@ -220,7 +222,8 @@ window.addEventListener("DOMContentLoaded", function(){
         materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "blueimage", scene);
         materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
         materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
-
+            //delete current texture to free memory space
+            currentPickedMesh.material.diffuseTexture.dispose();
         //assign new material to current selected plane
          currentPickedMesh.material = materialPlane;
     }
