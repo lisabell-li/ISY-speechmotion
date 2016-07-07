@@ -37,18 +37,21 @@
 <canvas id="renderCanvas"></canvas>
 <script type="text/javascript">
 
-
+	
     var leapX = 0;
     var leapY = 0;
-
+	var leapZ = 0;	
+	
     // Scene Creation
     var canvas = document.getElementById("renderCanvas");
+
     var engine = new BABYLON.Engine(canvas, true);
     var scene = new BABYLON.Scene(engine);
 
     //Physics
-
-    var camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2, 50, BABYLON.Vector3.Zero(), scene);
+	scene.enablePhysics(new BABYLON.Vector3(0, -200, 0), new BABYLON.OimoJSPlugin());
+	
+    var camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2, canvas.width / 2, BABYLON.Vector3.Zero(), scene);
     scene.activeCamera = camera;
     camera.attachControl(canvas, true);
     camera.applyGravity = true;
@@ -59,17 +62,17 @@
 
     // create some boxes
     var boxes = new Array();
-    for (var x = 0; x <= 5; x += 4){
-        for (var y = 0; y <= 5; y += 4){
+    for (var x = 0; x <= 150; x += 100){
+        for (var y = 0; y <= 150; y += 100){
 
-            var box = BABYLON.Mesh.CreateBox("box" + x.toString() + y.toString(), 2, scene);
+            var box = BABYLON.Mesh.CreateBox("box" + x.toString() + y.toString(), 50, scene);
             box.position.y = y ;
             box.position.x = x ;
             box.position.z = Math.floor((Math.random() * 10) + 1);
 
             box.actionManager = new BABYLON.ActionManager(scene);
 
-//            box.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, { mass: 4 });
+            box.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, { mass: 4 });
 
             box.isPickable = true;
 
@@ -85,22 +88,13 @@
 
     leapBox.material = leapMaterial;
 
+    // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+    var ground = BABYLON.Mesh.CreateGround("ground", camera.radius, camera.radius, 2, scene);
+
+    ground.position.y -= 300;
+    ground.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, { mass: 0 });
     // --------------- annyang Functions --------------------------
 
-    var addGround = function () {
-
-        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        var ground = BABYLON.Mesh.CreateGround("ground1", 42, 42, 2, scene);
-
-        ground.position.y -= 14;
-        ground.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, { mass: 0 });
-
-    };
-    
-    var removeGround = function () {
-        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        scene.getMeshByName("ground1").dispose();
-    };
     
 	var addBox = function () {
         // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
@@ -151,8 +145,7 @@
         annyang.setLanguage("de-DE");
         // Let's define a command.
         var commands = {
-            'Boden': addGround,
-            'Entfernen' : removeGround,
+
             'Kugel' : addSphere,
             'Box' : addBox,
             'Physik' : physics,
@@ -212,39 +205,56 @@
         zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
     };
 
-    showAxis(10)
+    showAxis(200)
 
     // Show Debug Ray for Leap Position
     var debugRay = BABYLON.Mesh.CreateLines("debugRay", [
-        new BABYLON.Vector3(0, 0, 0),
-        new BABYLON.Vector3(0, 0, 100),
+        new BABYLON.Vector3(camera.position.x, camera.position.y, camera.position.z),
+        new BABYLON.Vector3(0, 0, -300),
 
     ], scene);
 
+
+	var displayArea = canvas.getContext("2d");
+	
     // Render Loop + Leap Loop
     engine.runRenderLoop(function () {
-            Leap.loop(function(frame) {
+            var controller = Leap.loop(function(frame) {
+            
+            var radius = camera.radius;
+			
+			var previousFrame = controller.frame[1];
+			
+			var appWidth = radius * 2;
+			var appHeight = canvas.height;
 
                 if(frame.hands.length > 0)
                 {
-
+					
                     var hand = frame.hands[0];
                     var position = hand.palmPosition;
                     var velocity = hand.palmVelocity;
                     var direction = hand.direction;
+                    
+					// ---------- LEAP COORDINATE MAPPING IN CAMERA COORDINATE ----------------
+					
+					canvas.width = canvas.width; //clear
+					var interactionBox = frame.interactionBox;
+					
+					var normalizedPosition = interactionBox.normalizePoint(position, true);
+  
+ 					var canvasX = radius*2 * normalizedPosition[0] ;
+      				var canvasY = radius*2 * (1 - normalizedPosition[1]);
+      				var canvasZ = radius * 2 * normalizedPosition[2]
 
-                    var index = hand.indexFinger;
-
-                    var interactionBox = frame.interactionBox;
-                    var normalized = interactionBox.normalizePoint(position,true);
-
-                    var canvasX = 50 * (normalized[0] - 1);
-                    var canvasY  = 50 * (1 - (normalized[1] - 1));
-
-                    leapY = (-1) * hand.screenPosition()[1] / 50;
-                    leapX = (-1) * hand.screenPosition()[0] / 50 + 16;
+					leapX = (radius) - canvasX;
+					leapY = (radius) - canvasY;
+					leapZ = (radius) - canvasZ;
+					
+				//	console.log("x :" + leapX + " - y :" + leapY);
 
 
+					// ------- RAY COLLOSION -------------
                     debugRay.position.x = leapX;
                     debugRay.position.y = leapY;
 
@@ -253,9 +263,19 @@
 
                     var dir = pos.subtract(origin).normalize();
 
-                    var ray = new BABYLON.Ray(debugRay.position, new BABYLON.Vector3(0, 0, 1),200);
+                    var ray = new BABYLON.Ray(debugRay.position, new BABYLON.Vector3(0, 0, 1),300);
 
                     var mesh = scene.pickWithRay(ray);
+                    
+                    // 5 Finger = Zoom
+                    if(hand.fingers.length == 5 && hand.pinchStrength <= 0.2){
+
+                    	if(velocity[1] < 0){
+                   // 		camera.radius -= 0.06;
+                    	} else {
+                   // 		camera.radius += 0.06;
+                    	}
+                    }
 
                     if (mesh.pickedMesh != null){
 
@@ -263,20 +283,14 @@
                         mesh.pickedMesh.outlineWidth = 0.3;
                         mesh.pickedMesh.renderOutline = true;
 
-                       // Rotate selected Mesh by handy rotation
-                        mesh.pickedMesh.rotation.y = direction[1] * Math.PI;
-                        mesh.pickedMesh.rotation.x = direction[0]* Math.PI;
-                        mesh.pickedMesh.rotation.z = direction[2]* Math.PI;
-
                         // Hand closed >> Move selected mesh
-                        if(hand.grabStrength == 1){
-                            mesh.pickedMesh.position.x = leapX;
+                        if(hand.grabStrength >= 0.6){
+                        	mesh.pickedMesh.position.x = leapX;
                             mesh.pickedMesh.position.y = leapY;
+                            mesh.pickedMesh.position.z = -1 * leapZ / 2;
+                        	mesh.pickedMesh.updatePhysicsBodyPosition();
                         }
                     }
-
-                   //  console.log("x:  "+ canvasX + "  y:  "+ canvasY +"  z:  ");
-
                 }
 
 
