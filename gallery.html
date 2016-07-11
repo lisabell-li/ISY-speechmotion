@@ -48,7 +48,7 @@
     var scene = new BABYLON.Scene(engine);
 
     //Physics
-	scene.enablePhysics(new BABYLON.Vector3(0, -200, 0), new BABYLON.OimoJSPlugin());
+	//scene.enablePhysics(new BABYLON.Vector3(0, -200, 0), new BABYLON.OimoJSPlugin());
 	
     var camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2, canvas.width / 2, BABYLON.Vector3.Zero(), scene);
     scene.activeCamera = camera;
@@ -273,7 +273,7 @@
 					leapBox.position.x = leapX;
 					leapBox.position.y = leapY;
 					
-				//	console.log("x :" + leapX + " - y :" + leapY);
+				    //	console.log("x :" + leapX + " - y :" + leapY);
 
 					// ------- RAY COLLOSION -------------
                     debugRay.position.x = leapX;

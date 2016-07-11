@@ -1,6 +1,9 @@
 window.addEventListener("DOMContentLoaded", function(){
     //Switch case number of Leaploop, triggered by annyang commands and functions
     var state =1;
+    var leapX = 0;
+    var leapY = 0;
+    var leapZ = 0;
 
     function initialImagetoCanvas(imgsrc) {
         var img = new Image();
@@ -51,13 +54,55 @@ window.addEventListener("DOMContentLoaded", function(){
    // camera.setTarget(BABYLON.Vector3.Zero());
    // ArcRotateCamera >> Camera turning around a 3D point (here Vector zero) with mouse and cursor keys
    // Parameters : name, alpha, beta, radius, target, scene
-    var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera",Math.PI / 2, Math.PI / 2, 50, new BABYLON.Vector3(0, 0, 0), scene);
+    var camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2, 1000, BABYLON.Vector3.Zero(), scene);
+    scene.activeCamera = camera;
     camera.attachControl(canvas, true);
+    camera.applyGravity = true;
+
 
     //the ambient light
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,1,0), scene);
     var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(-15, 1, -4), scene);
+    light.intensity = 1;
 
+    //---------------Image/Texture Gallery Creation --------//
+
+    var index = 1;
+    var gallery = new Array();
+    for (var x = 0; x <= 250; x += 200){
+        for (var y = 0; y <= 250; y += 200){
+
+
+            //Creation of a repeated textured material
+            var materialPlane = new BABYLON.StandardMaterial("texturePlane"+index, scene);
+            materialPlane.diffuseTexture = new BABYLON.Texture("gallery/img" + index + ".jpg", scene);
+            materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+            materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
+
+            //Creation of a plane
+            var plane = BABYLON.Mesh.CreatePlane("image"+index, 120, scene);
+            plane.material = materialPlane;
+
+            plane.position.y = y ;
+            plane.position.x = x ;
+            plane.position.z = 0;
+
+            plane.isPickable = true;
+
+            gallery.push(plane);
+
+            index++;
+
+        }
+    }
+
+
+
+    // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+    var ground = BABYLON.Mesh.CreateGround("ground", camera.radius, camera.radius, 20, scene);
+
+    ground.position.y -= 300;
+    ground.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, { mass: 0 });
 
     //-----Initial boxes----------//
 
@@ -80,54 +125,19 @@ window.addEventListener("DOMContentLoaded", function(){
 
 
 
-    //---------------Image/Texture Creation --------//
-
-
-    //Creation of a repeated textured material
-    var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
-    materialPlane.diffuseTexture = new BABYLON.Texture("images/rhino.jpg", scene);
-    materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
-    materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
-
-    //Creation of a plane
-    var plane = BABYLON.Mesh.CreatePlane("plane", 10, scene);
- //  plane.rotation.z = 0.90;
- //   plane.position.x = 10;
- //   plane.position.y = 10;
- //   plane.position.z = 15;
-    plane.material = materialPlane;
-
-
-
-    //Creation of a repeated textured material
-    var materialPlane2 = new BABYLON.StandardMaterial("texturePlane", scene);
-    materialPlane2.diffuseTexture = new BABYLON.Texture("images/wildboar.jpg", scene);
-    materialPlane2.specularColor = new BABYLON.Color3(0, 0, 0);
-    materialPlane2.backFaceCulling = false;//Allways show the front and the back of an element
-
-    //Creation of a plane
-    var plane2 = BABYLON.Mesh.CreatePlane("plane2", 10, scene);
-//     plane2.rotation.z = 0.90;
-     plane2.position.x = 15;
-//     plane2.position.y = 15;
-//     plane2.position.z = 5;
-    plane2.material = materialPlane2;
-
-
-    //-------------------//
-
-
-
 
     //---------Image Processing -----------
 
         var invert = function() {
             if (currentPickedMesh) {
+            var width=    currentPickedMesh.scaling.y*100;
+            var height=    currentPickedMesh.scaling.x*100;
+                console.log(width+" height: "+ height);
             var img = new Image();
             img.src = currentPickedMeshTextureSrc;
             var canni = document.getElementById('imgcanvas');
             var ctx = canni.getContext('2d');
-            ctx.drawImage(img, 0, 0);
+            ctx.drawImage(img, 0, 0, height, width);
             img.style.display = 'none';
             var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
             var data = imageData.data;
@@ -442,7 +452,12 @@ window.addEventListener("DOMContentLoaded", function(){
         switch(state) {
             //initial state: meshes are selectable via cursor
             case 1:
-                if (frame.pointables.length > 0) {
+                if(frame.hands[0] && frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
+                    var degreeRoll= frame.hands[0].roll()
+                    console.log("lefthand");
+                    scene.activeCamera.alpha = degreeRoll;
+                }
+                if (frame.pointables.length > 0 &&  frame.hands[0].type === "right") {
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap);
                     var hand = frame.hands[0];
@@ -481,6 +496,12 @@ window.addEventListener("DOMContentLoaded", function(){
                         //console.log(String);
                     }
 
+
+                    if(frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
+                        var degreeRoll= frame.hands[0].roll()
+                        console.log("lefthand");
+                        scene.activeCamera.alpha = degreeRoll;
+                    }
                 // Store frame for hand motion comparisment, see above
                 previousFrame = frame;
 
@@ -503,7 +524,7 @@ window.addEventListener("DOMContentLoaded", function(){
 
                  //console.log(pickResult +""+pickResult.hit);
                  // Highlight selected Mesh if a mesh has been hit/selected by leap
-                 if(pickResult.hit) {
+                 if(pickResult.hit&&pickResult.pickedMesh.material) {
                    pickResult.pickedMesh.outlineWidth = 0.3;
                    pickResult.pickedMesh.renderOutline = true;
                    //set the current selected mesh
@@ -550,15 +571,31 @@ window.addEventListener("DOMContentLoaded", function(){
                         currentPickedMesh.rotation.y = -frame.hands[0].pitch();
                         currentPickedMesh.rotation.z =-frame.hands[0].yaw();
                     }
-
                     var hand = frame.hands[0];
-                    //the radius of the virtual sphere inside your hand, with palm facing towards leap
+
+
+                    //left hand image scaling
+                    if(frame.hands[1]){
+
+                        var handNormPosition = frame.interactionBox.normalizePoint(frame.hands[1].palmPosition, true);
+
+                        var velHand = frame.hands[1].palmVelocity;
+                        if(velHand[1] < 0){
+                            currentPickedMesh.scaling.x = handNormPosition[1]*4;
+                            currentPickedMesh.scaling.y = handNormPosition[1]*4;
+                        } else {
+                            currentPickedMesh.scaling.x = handNormPosition[1]*4;
+                            currentPickedMesh.scaling.y = handNormPosition[1]*4;                    			}
+                    }
+/*
+                    //Sphere image scaling: the radius of the virtual sphere inside your hand, with palm facing towards leap
                     var radius = hand.sphereRadius;
                     currentPickedMesh.scaling.x = radius/50;
                     currentPickedMesh.scaling.y = radius/50;
                     currentPickedMesh.scaling.z = radius/50;
                     //var newsize = radius/25;
                     //console.log("Sphere Radius: " + radius);
+*/
                 }
                 break;
             //detect gestures
