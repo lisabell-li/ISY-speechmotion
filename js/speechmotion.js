@@ -428,6 +428,7 @@ window.addEventListener("DOMContentLoaded", function(){
         currentPickedMesh = 0;
         state= 1;
         clickable = true;
+        camera.radius += 400;
         cursor.style.display = "block";
     };
     var move = function () {
@@ -567,7 +568,14 @@ window.addEventListener("DOMContentLoaded", function(){
                    //hide the cursor
                    cursor.style.display = "none";
                    //set loop state to 2 -> resize and rotate action
+                     console.log(currentPickedMesh.position.x);
+                    if(currentPickedMesh.position.x >700){
+                        currentPickedMesh.position.x =0;
+                        currentPickedMesh.position.y =0;
+                    }
+                   camera.radius -= 400;
                    state = 2;
+
                    }
                    else{
                     //if no mesh has been hit/selected show cursor and enable leap click action
@@ -659,7 +667,9 @@ window.addEventListener("DOMContentLoaded", function(){
                 break
             //move picked mesh around -> new position via leap
             case 4:
+
                 if (frame.pointables.length > 0) {
+
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap);
 
