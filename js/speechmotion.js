@@ -1,6 +1,31 @@
 window.addEventListener("DOMContentLoaded", function(){
     //Switch case number of Leaploop, triggered by annyang commands and functions
     var state =1;
+    var leapX = 0;
+    var leapY = 0;
+    var leapZ = 0;
+
+    function initialImagetoCanvas(imgsrc) {
+        var img = new Image();
+        img.src = imgsrc;
+        img.onload = function () {
+            draw(this);
+        };
+    }
+
+    function draw(img) {
+        var canni = document.getElementById('imgcanvas');
+        var ctx = canni.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        img.style.display = 'none';
+        var imageData = ctx.getImageData(0,0,canni.width, canni.height);
+        var data = imageData.data;
+    }
+
+
+
+    //Texture/image - current image src file
+    var currentPickedMeshTextureSrc;
 
     //Frames
     var previousFrame =0;
@@ -29,16 +54,91 @@ window.addEventListener("DOMContentLoaded", function(){
    // camera.setTarget(BABYLON.Vector3.Zero());
    // ArcRotateCamera >> Camera turning around a 3D point (here Vector zero) with mouse and cursor keys
    // Parameters : name, alpha, beta, radius, target, scene
-    var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 1, 50, new BABYLON.Vector3(0, 0, 0), scene);
+    var camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2, 1700, BABYLON.Vector3.Zero(), scene);
+    scene.activeCamera = camera;
+    camera.attachControl(canvas, true);
+    camera.applyGravity = true;
+
 
     //the ambient light
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,1,0), scene);
     var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(-15, 1, -4), scene);
+    light.intensity = 1;
+
+    //---------------Image/Texture Gallery Creation --------//
+
+    var index = 1;
+    var gallery = new Array();
+    for (var x = 800; x <= 1050; x += 200){
+        for (var y = -250; y <= 350; y += 200){
+  //Creation of image as textured material
+            var materialPlane = new BABYLON.StandardMaterial("texturePlane"+index, scene);
+            materialPlane.diffuseTexture = new BABYLON.Texture("gallery/img" + index + ".jpg", scene);
+            materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+            materialPlane.backFaceCulling = false;//Always show the front and the back of an element
+
+            //Creation of a plane
+            var plane = BABYLON.Mesh.CreatePlane("image"+index, 120, scene);
+            plane.material = materialPlane;
+            plane.position.y = y ;
+            plane.position.x = x ;
+            plane.position.z = 0;
+            plane.isPickable = true;
+            gallery.push(plane);
+            index++;
+
+        }
+    }
+
+    var box1 = BABYLON.Mesh.CreateBox("box1", 80, scene);
+    box1.material = new BABYLON.StandardMaterial("materialbox1", scene);
+    box1.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+    box1.position.y = -255;
+    box1.position.x = -400;
+    box1.position.z = 400;
+    box1.isPickable = true;
+
+
+    var box2 = BABYLON.Mesh.CreateBox("box2", 80, scene);
+    box2.material = new BABYLON.StandardMaterial("materialbox2", scene);
+    box2.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+    box2.position.y = -255;
+    box2.position.x = 400;
+    box2.position.z = 400;
+    box2.isPickable = true;
+
+
+    var box3 = BABYLON.Mesh.CreateBox("box3", 80, scene);
+    box3.material = new BABYLON.StandardMaterial("materialbox3", scene);
+    box3.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+    box3.position.y = -255;
+    box3.position.x = -400;
+    box3.position.z = -400;
+    box3.isPickable = true;
+
+    var box4 = BABYLON.Mesh.CreateBox("box4", 80, scene);
+    box4.material = new BABYLON.StandardMaterial("materialbox4", scene);
+    box4.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+    box4.position.y = -255;
+    box4.position.x = 400;
+    box4.position.z = -400;
+    box4.isPickable = true;
+
+
+    // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+    var ground = BABYLON.Mesh.CreateGround("ground", 1000, 1000, 1, scene);
+    ground.position.y = -300;
+    ground.position.x = 0;
+    ground.position.z = 0;
+    ground.material = new BABYLON.StandardMaterial("materialGround", scene);
+    ground.material.backFaceCulling = false;
+    ground.material.diffuseColor = new BABYLON.Color3(0.5, 0.9, 1);
 
 
     //-----Initial boxes----------//
 
     // create some boxes
+    /*
     var boxes = new Array();
     for (var x = -6; x <= 6; x += 4){
 
@@ -51,7 +151,141 @@ window.addEventListener("DOMContentLoaded", function(){
 
 
     }
+    */
     //------------------------//
+
+
+
+
+    //---------Image Processing -----------
+
+        var invert = function() {
+            if (currentPickedMesh) {
+            var width=    currentPickedMesh.scaling.y*100;
+            var height=    currentPickedMesh.scaling.x*100;
+                console.log(width+" height: "+ height);
+            var img = new Image();
+            img.src = currentPickedMeshTextureSrc;
+            var canni = document.getElementById('imgcanvas');
+            var ctx = canni.getContext('2d');
+            ctx.drawImage(img, 0, 0, height, width);
+            img.style.display = 'none';
+            var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
+            var data = imageData.data;
+            for (var i = 0; i < data.length; i += 4) {
+                data[i] = 255 - data[i];     // red
+                data[i + 1] = 255 - data[i + 1]; // green
+                data[i + 2] = 255 - data[i + 2]; // blue
+            }
+            ctx.putImageData(imageData, 0, 0);
+            var dataURL = canni.toDataURL("image/jpg");
+            dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            // console.log(dataURL);
+
+            //Creation of a repeated textured material
+            var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+            materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "iverted", scene);
+            materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+            materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
+            //delete current texture to free memory space
+             currentPickedMesh.material.diffuseTexture.dispose();
+            //assign new material to current selected plane
+             currentPickedMesh.material = materialPlane;
+        }
+
+        };
+       //Grayscale and invert from:  https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas
+        var grayscale = function() {
+            if (currentPickedMesh) {
+            var img = new Image();
+            img.src = currentPickedMeshTextureSrc;
+            var canni = document.getElementById('imgcanvas');
+            var ctx = canni.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            img.style.display = 'none';
+            var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
+            var data = imageData.data;
+            for (var i = 0; i < data.length; i += 4) {
+                var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                data[i] = avg; // red
+                data[i + 1] = avg; // green
+                data[i + 2] = avg; // blue
+            }
+            ctx.putImageData(imageData, 0, 0);
+            var dataURL = canni.toDataURL("image/jpg");
+            dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            // console.log(dataURL);
+
+            //Creation of a repeated textured material
+            var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+            materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "newimageGrayScale", scene);
+            materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+            materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
+                //delete current texture to free memory space
+                currentPickedMesh.material.diffuseTexture.dispose();
+            //assign new material to current selected plane
+                currentPickedMesh.material = materialPlane;
+
+        }
+        };
+    var blau = function() {
+        if (currentPickedMesh) {
+        var img = new Image();
+        img.src = currentPickedMeshTextureSrc;
+        var canni = document.getElementById('imgcanvas');
+        var ctx = canni.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        img.style.display = 'none';
+        var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
+        var data = imageData.data;
+        //  go through each pixel, increasing blue, but decrease red and green:
+        var w2 = canni.width / 2;
+        for (y = 0; y < canni.height; y++) {
+            pixi = y * canni.width * 4;
+            for (x = 0; x < w2; x++) {
+                r = imageData.data[pixi++] / 3; //less red
+                g = imageData.data[pixi++] / 3; //less green
+                b = imageData.data[pixi++] * 5; //increase blue
+                a = imageData.data[pixi++]; // no change to alpha alpha
+                b = Math.min(255, b); //clamp to[0..255]
+                imageData.data[pixi++] = r;
+                imageData.data[pixi++] = g;
+                imageData.data[pixi++] = b;
+                imageData.data[pixi++] = a;
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+        var dataURL = canni.toDataURL("image/jpg");
+        dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        // console.log(dataURL);
+
+        //Creation of a repeated textured material
+        var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+        materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "blueimage", scene);
+        materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+        materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
+            //delete current texture to free memory space
+            currentPickedMesh.material.diffuseTexture.dispose();
+        //assign new material to current selected plane
+         currentPickedMesh.material = materialPlane;
+    }
+    };
+
+    var downloadImage = function(){
+        if (currentPickedMesh) {
+            document.getElementById('download').click();
+        }
+    }
+
+
+    document.getElementById('download').addEventListener('click', function() {
+        this.href = document.getElementById('imgcanvas').toDataURL();
+        var picName = currentPickedMeshTextureSrc.split("/")[1];
+        this.download = picName;
+        console.log(document.getElementById('imgcanvas'))
+    }, false);
+
+    //-----------------------------//
 
 
 
@@ -173,16 +407,16 @@ window.addEventListener("DOMContentLoaded", function(){
 
     var addGround = function () {
         // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        var ground = BABYLON.Mesh.CreateGround("ground1", 100, 100,3, scene);
+        var ground = BABYLON.Mesh.CreateGround("ground", camera.radius, camera.radius, 20, scene);
         ground.material = new BABYLON.StandardMaterial("materialGround", scene);
         ground.material.backFaceCulling = false;
         ground.material.diffuseColor = new BABYLON.Color3(0.4, 0.3, 1);
-        ground.position.y -= 10;
+        ground.position.y -= 300;
     };
 
     var removeGround = function () {
         // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        scene.getMeshByName("ground1").dispose();
+        scene.getMeshByName("ground").dispose();
     };
     var rotate = function () {
        state= 2;
@@ -194,6 +428,7 @@ window.addEventListener("DOMContentLoaded", function(){
         currentPickedMesh = 0;
         state= 1;
         clickable = true;
+        camera.radius += 400;
         cursor.style.display = "block";
     };
     var move = function () {
@@ -216,6 +451,10 @@ window.addEventListener("DOMContentLoaded", function(){
             'verschieben' : move,
             'animieren'   : addRotationAnimation,
             'Wolke'   : addParticles,
+             'grayscale' : grayscale,
+            'invers' :   invert,
+            'blau': blau,
+            'herunterladen' : downloadImage,
         };
         annyang.debug(true);
         // Add our commands to annyang
@@ -245,7 +484,12 @@ window.addEventListener("DOMContentLoaded", function(){
         switch(state) {
             //initial state: meshes are selectable via cursor
             case 1:
-                if (frame.pointables.length > 0) {
+                if(frame.hands[0] && frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
+                    var degreeRoll= frame.hands[0].roll()
+                    console.log("lefthand");
+                    scene.activeCamera.alpha = degreeRoll;
+                }
+                if (frame.pointables.length > 0 &&  frame.hands[0].type === "right") {
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap);
                     var hand = frame.hands[0];
@@ -284,6 +528,12 @@ window.addEventListener("DOMContentLoaded", function(){
                         //console.log(String);
                     }
 
+
+                    if(frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
+                        var degreeRoll= frame.hands[0].roll()
+                        console.log("lefthand");
+                        scene.activeCamera.alpha = degreeRoll;
+                    }
                 // Store frame for hand motion comparisment, see above
                 previousFrame = frame;
 
@@ -306,15 +556,26 @@ window.addEventListener("DOMContentLoaded", function(){
 
                  //console.log(pickResult +""+pickResult.hit);
                  // Highlight selected Mesh if a mesh has been hit/selected by leap
-                 if(pickResult.hit) {
+                 if(pickResult.hit&&pickResult.pickedMesh.material.diffuseTexture) {
                    pickResult.pickedMesh.outlineWidth = 0.3;
                    pickResult.pickedMesh.renderOutline = true;
                    //set the current selected mesh
                    currentPickedMesh = pickResult.pickedMesh;
+                     console.log("curretnmesh"+currentPickedMesh);
+                   currentPickedMeshTextureSrc= currentPickedMesh.material.diffuseTexture.url;
+                   initialImagetoCanvas(currentPickedMeshTextureSrc);
+                     console.log(currentPickedMesh.material.diffuseTexture.url);
                    //hide the cursor
                    cursor.style.display = "none";
                    //set loop state to 2 -> resize and rotate action
+                     console.log(currentPickedMesh.position.x);
+                    if(currentPickedMesh.position.x >700){
+                        currentPickedMesh.position.x =0;
+                        currentPickedMesh.position.y =0;
+                    }
+                   camera.radius -= 400;
                    state = 2;
+
                    }
                    else{
                     //if no mesh has been hit/selected show cursor and enable leap click action
@@ -350,15 +611,32 @@ window.addEventListener("DOMContentLoaded", function(){
                         currentPickedMesh.rotation.y = -frame.hands[0].pitch();
                         currentPickedMesh.rotation.z =-frame.hands[0].yaw();
                     }
-
                     var hand = frame.hands[0];
-                    //the radius of the virtual sphere inside your hand, with palm facing towards leap
+
+
+
+                    //left hand image scaling
+                    if(frame.hands[1]){
+
+                        var handNormPosition = frame.interactionBox.normalizePoint(frame.hands[1].palmPosition, true);
+
+                        var velHand = frame.hands[1].palmVelocity;
+                        if(velHand[1] < 0){
+                            currentPickedMesh.scaling.x = handNormPosition[1]*4;
+                            currentPickedMesh.scaling.y = handNormPosition[1]*4;
+                        } else {
+                            currentPickedMesh.scaling.x = handNormPosition[1]*4;
+                            currentPickedMesh.scaling.y = handNormPosition[1]*4;                    			}
+                    }
+/*
+                    //Sphere image scaling: the radius of the virtual sphere inside your hand, with palm facing towards leap
                     var radius = hand.sphereRadius;
                     currentPickedMesh.scaling.x = radius/50;
                     currentPickedMesh.scaling.y = radius/50;
                     currentPickedMesh.scaling.z = radius/50;
                     //var newsize = radius/25;
                     //console.log("Sphere Radius: " + radius);
+*/
                 }
                 break;
             //detect gestures
@@ -389,7 +667,9 @@ window.addEventListener("DOMContentLoaded", function(){
                 break
             //move picked mesh around -> new position via leap
             case 4:
+
                 if (frame.pointables.length > 0) {
+
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap);
 
@@ -401,18 +681,24 @@ window.addEventListener("DOMContentLoaded", function(){
                     // pointerSphere.position.y = positionLeap[1];
                     //pointerSphere.position.z = positionLeap[0];
                     // console.log("x:  "+positionLeap[2] + "  y:  "+positionLeap[1]+"  z:  "+positionLeap[0]);
+                    if (currentPickedMesh.intersectsMesh(ground, false)) {
+                        currentPickedMesh.material.emissiveColor = new BABYLON.Color3(1, 0.9, 0.4);
+                        console.log("touched ground");
+                    } else {
+                        currentPickedMesh.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+                    }
 
 
                     var hand = frame.hands[0];
 
-                    leapX = (-1) * hand.screenPosition()[0] / 50 + 16;
-                    leapY = (-1) * hand.screenPosition()[1] / 50;
-                    leapZ = (-1) * hand.screenPosition()[2] / 50 + 16;
+                    leapX = (-1) * hand.screenPosition()[0];
+                    leapY = (-1) * hand.screenPosition()[1];
+                    leapZ = (-1) * hand.screenPosition()[2];
 
                     //needs adjustment! No matter how the camera has been rotated the movement should be intuitiv
                     currentPickedMesh.position.x =leapX;
                     currentPickedMesh.position.y =leapY;
-                    currentPickedMesh.position.z =leapZ;
+                    currentPickedMesh.position.z =-leapZ;
 
 
                 }

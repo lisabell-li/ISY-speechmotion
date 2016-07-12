@@ -22,4 +22,7 @@ Materialen steuern
 Partikel
 Stapeln
 
+Gesten= Bei mir funktioniert nur "circle" einwandfrei. screentap und key tap erkennt er bei mir fast nie, swipe auch selten.
+"Notice: Gestures are deprecated in version 3.0 and may not behave the same as they did in earlier versions."
+
 
