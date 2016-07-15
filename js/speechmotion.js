@@ -451,10 +451,10 @@ window.addEventListener("DOMContentLoaded", function(){
             'verschieben' : move,
             'animieren'   : addRotationAnimation,
             'Wolke'   : addParticles,
-             'grayscale' : grayscale,
+            'graustufen' : grayscale,
             'invers' :   invert,
             'blau': blau,
-            'herunterladen' : downloadImage,
+            'speichern' : downloadImage,
         };
         annyang.debug(true);
         // Add our commands to annyang
@@ -703,6 +703,7 @@ window.addEventListener("DOMContentLoaded", function(){
 
                 }
                 break
+            
             default:
 
         }

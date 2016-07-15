@@ -8,7 +8,7 @@
     <!-- Babylon.js -->
     <script src="js/babylon.js"></script>
     <script src="js/leap.js"></script>
-    <script src="js/speechmotion.js"></script>
+    <script src="js/speechmotion_markus.js"></script>
     <!-- FOr touch events. olyfill library https://github.com/deltakosh/handjs/blob/master/bin/hand.js -->
     <script src="js/hand.js"></script>
     <script src="js/leap-plugins-0.1.11.js"></script>
@@ -25,7 +25,6 @@
 
 
     <script>
-
     </script>
     <style>
         html, body {
@@ -57,61 +56,7 @@
 
 </head>
 <body>
-<!--Navigation
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
 
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="./speechmotion.html">SpeechMotion</a>
-        </div>
-
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li ><a href="./leapann.html">LeapMotion + Annyang</a></li>
-                <li><a href="./fingertracking.html">Leap Tracking </a></li>
-                <li><a href="./babylon.html">Leap select </a></li>
-            </ul>
-
-        </div>
-    </div>
-</nav>-->
-
-<!--Accordion/Explanation
-<div class="panel-group" id="accordion">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Use voice command</a>
-        </h4>
-    </div>
-    <div id="collapse1" class="panel-collapse collapse">
-        <div class="panel-body">  Say "Boden" to add a ground to the scene. </br>Say "entfernen" to remove that ground. </br>
-            Say "drehen" to enable rotation mode for Leap Motion gestures.</br>
-            Say "bewegen" to disable rotation mode for Leap Motion gestures.</br></br><small>(If you see the red circle in your current tab you are good to go, if not use another browser.) If you use speechregognition annyang in two (or more) tabs, it won't work.</small></div>
-    </div>
-</div>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">  Use Leap Motion</a>
-        </h4>
-    </div>
-    <div id="collapse2" class="panel-collapse collapse">
-        <div class="panel-body"> Move your index finger to move the box around.</br>
-            In Rotation mode: Rotate your extended hand to rotate the box. The degree of rotation correlates to the rotation of your hand.</br>
-            Example: </br>
-            <img src="images/particles2.png" alt="Finger tracking with leap example" style="width:500px;height:auto;"></div>
-    </div>
-</div>
-
-</div>-->
 
 <canvas id="imgcanvas" style="display: none"></canvas>
 <a id="download" style="display: none">Download as image</a>
