@@ -29,11 +29,25 @@
             height: 100%;
             touch-action: none;
         }
+        #cursor{
+            position: absolute;
+            left: -1000px;
+            top: -1000px;
+            z-index: 1;
+            width: 10px;
+            height: 10px;
+            background-color: #ffffff;
+            border-radius: 6px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border: 1px solid #ff0000;
+        }
     </style>
 
 </head>
 <body>
 
+<div id="cursor"></div>
 
 <canvas id="renderCanvas"></canvas>
 <script type="text/javascript">
@@ -42,7 +56,7 @@
     var leapX = 0;
     var leapY = 0;
     var leapZ = 0;
-
+    var ground = 0;
     // Objects that can be created
     var stoneMove = false;
     var stoneIndex = 0;
@@ -70,7 +84,7 @@
     light.intensity = 0.8;
 
     // Skybox
-    var skybox = BABYLON.Mesh.CreateBox("skyBox", canvas.width*4, scene);
+    var skybox = BABYLON.Mesh.CreateBox("skyBox", canvas.width * 4, scene);
     var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("skybox/morning", scene);
@@ -87,14 +101,15 @@
     leapBox.material = leapMaterial;
 
     // Ground Terrain
-    var ground = BABYLON.Mesh.CreateGround("ground", camera.radius, camera.radius, 2, scene);
-    var groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
+    ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "heightmaps/hm1.jpg", camera.radius / 2, camera.radius / 2, 100, 0, 150, scene, false);
+    var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
     groundMaterial.diffuseTexture = new BABYLON.Texture("texturen/sand.jpg", scene);
-    groundMaterial.diffuseTexture.uScale = 4;
-    groundMaterial.diffuseTexture.vScale = 4;
+    groundMaterial.diffuseTexture.uScale = 6;
+    groundMaterial.diffuseTexture.vScale = 6;
+    groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    ground.position.y -= 50;
     ground.material = groundMaterial;
     ground.isPickable = true;
-    ground.position.y -= 50;
 
     // Water material
     var waterMaterial = new BABYLON.WaterMaterial("waterMaterial", scene, new BABYLON.Vector2(32, 32));
@@ -109,14 +124,44 @@
     waterMaterial.colorBlendFactor = 0;
 
     // Water mesh
-   /* var waterMesh = BABYLON.Mesh.CreateGround("waterMesh", camera.radius, camera.radius, 16, scene, false);
-    waterMesh.material = waterMaterial;
+    /*    var waterMesh = BABYLON.Mesh.CreateGround("waterMesh", camera.radius/2, camera.radius/2, 2, scene, false);
+     waterMesh.material = waterMaterial;
+     waterMesh.position.y -= 45;
 
-    waterMaterial.addToRenderList(skybox);
-    waterMaterial.addToRenderList(ground);
+     waterMaterial.addToRenderList(skybox);
+     waterMaterial.addToRenderList(ground);
+     */
 
-*/
 
+    // --------------- Height Maps Gallery ------------------------
+
+    var index = 1;
+    var gallery = new Array();
+    for (var y = canvas.height / 2 - 50; y >= -(canvas.height / 2); y -= canvas.height / 4) {
+        //Creation of image as textured material
+        var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+        materialPlane.diffuseTexture = new BABYLON.Texture("heightmaps/hm" + index + ".jpg", scene);
+        materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+        materialPlane.backFaceCulling = false;//Always show the front and the back of an element
+
+        //Creation of a plane
+        var plane = BABYLON.Mesh.CreatePlane("hm" + index, 300, scene);
+        plane.material = materialPlane;
+        plane.position.y = y;
+        plane.position.x = canvas.width / 2 - 50;
+        plane.position.z = 0;
+        plane.isPickable = true;
+        gallery.push(plane);
+        index++;
+
+    }
+
+    var updateHeightmap = function (tex) {
+
+        ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", tex.url, camera.radius / 2, camera.radius / 2, 100, 0, 150, scene, false);
+        
+
+    };
     // --------------- annyang Functions --------------------------
 
 
@@ -246,6 +291,21 @@
     var time = 0;
     var end = 3000;
     var displayArea = canvas.getContext("2d");
+    var clickable = true;
+
+    scene.updateTransformMatrix();
+    //3D positions
+    var _3Dposition = new BABYLON.Vector3(1, 1, 1);
+    //Babylons Project Methog to convert 3D to 2D
+    var _2Dposition = BABYLON.Vector3.Project(
+            _3Dposition,
+            BABYLON.Matrix.Identity(),   //world matrix
+            scene.getTransformMatrix(), //transformation matrix
+            scene.activeCamera.viewport.toGlobal(engine) //viewport
+    );
+    //set HTML position of "cursor"
+    cursor.style.left = _2Dposition.x + 'px';
+    cursor.style.top = _2Dposition.y + 'px';
 
     // Render Loop + Leap Loop
     engine.runRenderLoop(function () {
@@ -282,23 +342,61 @@
                 leapY = (radius) - canvasY;
                 leapZ = (radius) - canvasZ;
 
+                //cursors position is updated with leaps normalized position
+                cursor.style.left = canvas.width/2 - leapX + 'px';
+                cursor.style.top = canvas.height/2 - leapY + 'px';
+
+                // ------- Height Map Select via Cursor -----------
+
+                //get a past frame -> click event is triggered if finger is at one position for frame(x) frames
+                var tenFramesBack = controller.frame(50);
+                //get the movement vector of tenFramesBack and current frame
+                var movement = hand.translation(tenFramesBack);
+
+                //if movement is smaller than 1, than the user is pointing at the screen
+                if (movement[0] > 0 && movement[0] <= 1 && movement[1] <= 1 && movement[2] <= 1 && clickable) {
+
+                    //no more clickevent are being accepted
+                   // clickable = false;
+
+                    //html element cursors size and position relative to viewport
+                    var rect = cursor.getBoundingClientRect();
+
+                    //create click event with scene.pick and get the picked result
+                    var pickResult = scene.pick(rect.left, rect.top);
+
+                    //console.log(pickResult +""+pickResult.hit);
+                    // Highlight selected Mesh if a mesh has been hit/selected by leap
+                    if (pickResult.hit && pickResult.pickedMesh.material.diffuseTexture) {
+                        pickResult.pickedMesh.outlineWidth = 0.3;
+                        pickResult.pickedMesh.renderOutline = true;
+                        //set the current selected mesh
+                        var currentPickedMesh = pickResult.pickedMesh;
+
+                        cursor.style.display = "none";
+                        currentPickedMesh.outlineWidth = 15.0;
+                        currentPickedMesh.renderOutline = true;
+
+                        updateHeightmap(currentPickedMesh.material.diffuseTexture);
+                    }
+                    else {
+                        //if no mesh has been hit/selected show cursor and enable leap click action
+                        clickable = true;
+                        cursor.style.display = "block";
+                    }
+
+                }
+
                 // ------- RAY COLLOSION -------------
 
+                debugRay.position.x = leapX;
+                debugRay.position.y = leapY;
 
-                    debugRay.position.x = leapX;
-                    debugRay.position.y = leapY;
-                    //         leapBox.position.x = leapX;
-                    //          leapBox.position.y = leapY;
-
-                    var origin = camera.position;
-                    var pos = new BABYLON.Vector3(leapX, leapY, 0);
-
-                    var dir = pos.subtract(origin).normalize();
-
-                    var ray = new BABYLON.Ray(camera.position, dir, 2500);
-
-                    var mesh = scene.pickWithRay(ray);
-
+                var origin = camera.position;
+                var pos = new BABYLON.Vector3(leapX, leapY, 0);
+                var dir = pos.subtract(origin).normalize();
+                var ray = new BABYLON.Ray(camera.position, dir, 2500);
+                var mesh = scene.pickWithRay(ray);
 
                 // Stone is created and gets the  Position + Size depending on the Position/PinchStrength of the Hand at creation
                 if (stoneMove) {
@@ -309,7 +407,7 @@
                         stoneMesh.position = collisionPoint;
 
                     }
-                    var scaling = (2.0 - hand.pinchStrength)*4;
+                    var scaling = (2.0 - hand.pinchStrength) * 4;
                     stoneMesh.scaling = new BABYLON.Vector3(scaling, scaling, scaling);
 
                     var mergedMeshes = BABYLON.Mesh.MergeMeshes(stones);
@@ -318,10 +416,10 @@
                 }
                 stoneMove = false;
 
-                if(stones.length > 0 && frame.hands[1] != null && frame.hands[1].pinchStrength < 0.3){
+                if (stones.length > 0 && frame.hands[1] != null && frame.hands[1].pinchStrength < 0.3) {
                     var handNormPosition = interactionBox.normalizePoint(frame.hands[1].palmPosition, true);
 
-                    stones[0].position.y = handNormPosition[1] * 100 - handNormPosition[1] * 100/2;
+                    stones[0].position.y = handNormPosition[1] * 100 - handNormPosition[1] * 100 / 2;
                 }
             }
 
