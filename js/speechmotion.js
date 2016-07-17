@@ -161,20 +161,13 @@ window.addEventListener("DOMContentLoaded", function () {
 
 
     //---------Image Processing -----------
-
-<<<<<<< HEAD
+    
         var invert = function() {
             if (currentPickedMesh) {
             var width=    currentPickedMesh.material.diffuseTexture._texture._width;
             var height=    currentPickedMesh.material.diffuseTexture._texture._height;
                 console.log(width+" height: "+ height);
-=======
-    var invert = function () {
-        if (currentPickedMesh) {
-            var width = currentPickedMesh.scaling.y * 100;
-            var height = currentPickedMesh.scaling.x * 100;
-            console.log(width + " height: " + height);
->>>>>>> 0efcd590a2731d26323df1b39821d75651852f1a
+
             var img = new Image();
             img.src = currentPickedMesh.material.diffuseTexture.url;
             var canni = document.getElementById('imgcanvas');
@@ -493,26 +486,16 @@ window.addEventListener("DOMContentLoaded", function () {
     // -------- Leap Motion ------------//
     var controller = Leap.loop({enableGestures: true}, function (frame) {
 
-
-<<<<<<< HEAD
         switch(state) {
             //initial state: meshes are selectable with leap cursor /right index finger
-=======
-        switch (state) {
-            //initial state: meshes are selectable via cursor
->>>>>>> 0efcd590a2731d26323df1b39821d75651852f1a
             case 1:
                 if (frame.hands[0] && frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
                     var degreeRoll = frame.hands[0].roll()
                     console.log("lefthand");
                     scene.activeCamera.alpha = degreeRoll;
                 }
-<<<<<<< HEAD
-                if (frame.pointables.length > 0 &&  frame.hands[0].type === "right") {
-                    initialImagetoCanvas();
-=======
+
                 if (frame.pointables.length > 0 && frame.hands[0].type === "right") {
->>>>>>> 0efcd590a2731d26323df1b39821d75651852f1a
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap);
                     var hand = frame.hands[0];
@@ -557,54 +540,6 @@ window.addEventListener("DOMContentLoaded", function () {
                         console.log("lefthand");
                         scene.activeCamera.alpha = degreeRoll;
                     }
-<<<<<<< HEAD
-                // Store frame for hand motion comparisment, see above
-                previousFrame = frame;
-
-                 //get a past frame -> click event is triggered if finger is at one position for frame(x) frames
-                 var tenFramesBack = controller.frame(50);
-                 //get the movement vector of tenFramesBack and current frame
-                 var movement = hand.translation(tenFramesBack);
-
-                 //if movement is smaller than 1, than the user is pointing at the screen
-                 if(movement[0] >0 &&movement[0] <=1 && movement[1] <=1 && movement[2] <=1 && clickable){
-
-                 //no more clickevent are being accepted
-                 clickable = false;
-
-                 //html element cursors size and position relative to viewport
-                 var rect = cursor.getBoundingClientRect();
-
-                 //create click event with scene.pick and get the picked result
-                 var pickResult = scene.pick(rect.left, rect.top);
-
-                 //console.log(pickResult +""+pickResult.hit);
-                 // Highlight selected Mesh if a mesh has been hit/selected by leap
-                 if(pickResult.hit&&pickResult.pickedMesh.material.diffuseTexture) {
-                   pickResult.pickedMesh.outlineWidth = 0.3;
-                   pickResult.pickedMesh.renderOutline = true;
-                   //set the current selected mesh
-                   currentPickedMesh = pickResult.pickedMesh;
-                     console.log(currentPickedMesh.material.diffuseTexture._texture._width);
-                   currentPickedMeshTextureSrc= currentPickedMesh.material.diffuseTexture.url;
-
-                     console.log(currentPickedMesh.material.diffuseTexture.url);
-                   //hide the cursor
-                   cursor.style.display = "none";
-                   //set loop state to 2 -> resize and rotate action
-
-                     var img = new Image();
-                     img.src = currentPickedMesh.material.diffuseTexture.url;
-                     img.onload = function() {
-                         draw(img);
-                     };
-                    if(currentPickedMesh.position.x >700){
-                        currentPickedMesh.position.x =0;
-                        currentPickedMesh.position.y =0;
-                    }
-                   camera.radius -= 400;
-                   state = 2;
-=======
                     // Store frame for hand motion comparisment, see above
                     previousFrame = frame;
 
@@ -646,7 +581,6 @@ window.addEventListener("DOMContentLoaded", function () {
                             }
                             camera.radius -= 400;
                             state = 2;
->>>>>>> 0efcd590a2731d26323df1b39821d75651852f1a
 
                         }
                         else {
