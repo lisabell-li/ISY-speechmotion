@@ -5,21 +5,28 @@ window.addEventListener("DOMContentLoaded", function(){
     var leapY = 0;
     var leapZ = 0;
 
-    function initialImagetoCanvas(imgsrc) {
+    function initialImagetoCanvas() {
+
         var img = new Image();
-        img.src = imgsrc;
+        img.src = "images/rhino.jpg";
+        console.log(img.src);
         img.onload = function () {
-            draw(this);
+            draw(img);
         };
     }
 
     function draw(img) {
         var canni = document.getElementById('imgcanvas');
+        console.log("height: " + img.naturalHeight);
+        canni.width= img.naturalWidth;
+        canni.height= img.naturalHeight;
+       
         var ctx = canni.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        img.style.display = 'none';
+        //img.style.display = 'none';
         var imageData = ctx.getImageData(0,0,canni.width, canni.height);
         var data = imageData.data;
+        //ctx.putImageData(imageData, 0, 0);
     }
 
 
@@ -161,15 +168,18 @@ window.addEventListener("DOMContentLoaded", function(){
 
         var invert = function() {
             if (currentPickedMesh) {
-            var width=    currentPickedMesh.scaling.y*100;
-            var height=    currentPickedMesh.scaling.x*100;
+            var width=    currentPickedMesh.material.diffuseTexture._texture._width;
+            var height=    currentPickedMesh.material.diffuseTexture._texture._height;
                 console.log(width+" height: "+ height);
             var img = new Image();
-            img.src = currentPickedMeshTextureSrc;
+            img.src = currentPickedMesh.material.diffuseTexture.url;
             var canni = document.getElementById('imgcanvas');
             var ctx = canni.getContext('2d');
-            ctx.drawImage(img, 0, 0, height, width);
-            img.style.display = 'none';
+
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0);
+                    img.style.display = 'none';
+                };
             var imageData = ctx.getImageData(0, 0, canni.width, canni.height);
             var data = imageData.data;
             for (var i = 0; i < data.length; i += 4) {
@@ -184,7 +194,7 @@ window.addEventListener("DOMContentLoaded", function(){
 
             //Creation of a repeated textured material
             var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
-            materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "iverted", scene);
+            materialPlane.diffuseTexture = new BABYLON.Texture.CreateFromBase64String(dataURL, "inverted", scene);
             materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
             materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
             //delete current texture to free memory space
@@ -482,7 +492,7 @@ window.addEventListener("DOMContentLoaded", function(){
 
 
         switch(state) {
-            //initial state: meshes are selectable via cursor
+            //initial state: meshes are selectable with leap cursor /right index finger
             case 1:
                 if(frame.hands[0] && frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
                     var degreeRoll= frame.hands[0].roll()
@@ -490,6 +500,7 @@ window.addEventListener("DOMContentLoaded", function(){
                     scene.activeCamera.alpha = degreeRoll;
                 }
                 if (frame.pointables.length > 0 &&  frame.hands[0].type === "right") {
+                    initialImagetoCanvas();
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap);
                     var hand = frame.hands[0];
@@ -561,14 +572,19 @@ window.addEventListener("DOMContentLoaded", function(){
                    pickResult.pickedMesh.renderOutline = true;
                    //set the current selected mesh
                    currentPickedMesh = pickResult.pickedMesh;
-                     console.log("curretnmesh"+currentPickedMesh);
+                     console.log(currentPickedMesh.material.diffuseTexture._texture._width);
                    currentPickedMeshTextureSrc= currentPickedMesh.material.diffuseTexture.url;
-                   initialImagetoCanvas(currentPickedMeshTextureSrc);
+
                      console.log(currentPickedMesh.material.diffuseTexture.url);
                    //hide the cursor
                    cursor.style.display = "none";
                    //set loop state to 2 -> resize and rotate action
-                     console.log(currentPickedMesh.position.x);
+
+                     var img = new Image();
+                     img.src = currentPickedMesh.material.diffuseTexture.url;
+                     img.onload = function() {
+                         draw(img);
+                     };
                     if(currentPickedMesh.position.x >700){
                         currentPickedMesh.position.x =0;
                         currentPickedMesh.position.y =0;
