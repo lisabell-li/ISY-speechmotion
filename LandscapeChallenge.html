@@ -13,7 +13,7 @@
     <script src="js/leap-plugins-0.1.11.js"></script>
     <script src="js/hand.js"></script>
     <script src="js/babylon.waterMaterial.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.4.0/annyang.min.js"></script>
+    <script src="js/annyang.min.js"></script>
 
     <style>
         html, body {
@@ -63,6 +63,10 @@
     var stoneMesh = 0;
     var stones = new Array();
 
+    // ------- TEST STUFF---
+
+
+
     var tree = false;
 
     // Scene Creation
@@ -93,6 +97,32 @@
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
     skybox.material = skyboxMaterial;
 
+    // Sphere
+    var sphere = BABYLON.Mesh.CreateSphere("sphere", 50, 50, scene);
+    sphere.position.y = 80;
+
+    var angle = 0.0;
+    scene.registerBeforeRender(function() {
+        sphere.position.x = 100 * Math.cos(angle);
+        sphere.position.z = 100 * Math.sin(angle);
+
+        angle += 0.01;
+
+        // Casting a ray to get height
+        var ray = new BABYLON.Ray(new BABYLON.Vector3(sphere.position.x, ground.getBoundingInfo().boundingBox.maximumWorld.y + 1, sphere.position.z),
+                new BABYLON.Vector3(0, -1, 0)); // Direction
+        var worldInverse = new BABYLON.Matrix();
+
+        ground.getWorldMatrix().invertToRef(worldInverse);
+
+        ray = BABYLON.Ray.Transform(ray, worldInverse);
+
+        var pickInfo = ground.intersects(ray);
+
+        if (pickInfo.hit) {
+            sphere.position.y = pickInfo.pickedPoint.y + 0.5;
+        }
+    });
 
     // Debug Box
     var leapBox = BABYLON.Mesh.CreateBox("leapBox", 30, scene);
@@ -307,9 +337,11 @@
     cursor.style.left = _2Dposition.x + 'px';
     cursor.style.top = _2Dposition.y + 'px';
 
+
     // Render Loop + Leap Loop
     engine.runRenderLoop(function () {
         var controller = Leap.loop(function (frame) {
+
 
             var radius = camera.radius;
 
@@ -357,7 +389,7 @@
                 if (movement[0] > 0 && movement[0] <= 1 && movement[1] <= 1 && movement[2] <= 1 && clickable) {
 
                     //no more clickevent are being accepted
-                   // clickable = false;
+                    // clickable = false;
 
                     //html element cursors size and position relative to viewport
                     var rect = cursor.getBoundingClientRect();

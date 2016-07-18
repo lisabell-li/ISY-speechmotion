@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+        <!-- Babylon.js -->
+        <script src="js/hand.js"></script>
+        <script src="js/oimo.js"></script>
+        <script src="js/babylon.js"></script>
+        <script src="js/leap.js"></script>
+        <script src="js/leap-plugins-0.1.11.js"></script>
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+
+        var createScene = function() {
+        	var scene = new BABYLON.Scene(engine);
+        	scene.clearColor = new BABYLON.Color3( .5, .5, .5);
+
+             // FollowCamera >> Follow a mesh through your scene
+            // Parameters : name, position, scene
+            var camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), scene);
+
+
+        	// array of points
+        	var points = [];
+        	for (var i = 0; i < 50; i++) {
+        		points.push( new BABYLON.Vector3(i - 25, 5 * (i / 2),  i /5 * Math.cos(i / 2)) );
+        	}
+
+            // Creation of a torus
+            // (name, diameter, thickness, tessellation, scene, updatable)
+            var torus = BABYLON.Mesh.CreateTorus("torus", 4, 0.5, 10, scene, false);
+            torus.position = points[0];
+
+            camera.target = torus; // target any mesh or object with a "position" Vector3
+
+            camera.radius = 10; // how far from the object to follow
+            camera.heightOffset = -10; // how high above the object to place the camera
+            camera.rotationOffset = 270; // the viewing angle
+            camera.cameraAcceleration = 0.05 // how fast to move
+            camera.maxCameraSpeed = 20 // speed limit
+
+            scene.activeCamera = camera;
+
+
+            var initial = new BABYLON.Vector3(0,1,0);
+        	// Path3D
+        	var path3d = new BABYLON.Path3D(points, initial);
+        	var tangents = path3d.getTangents();
+        	var normals = path3d.getNormals();
+        	var binormals = path3d.getBinormals();
+        	var curve = path3d.getCurve();
+
+        	// visualisation
+        	var li = BABYLON.Mesh.CreateLines('li', curve, scene);
+
+            // Debug
+        /*	for(var p = 0; p < curve.length; p++) {
+        		var tg = BABYLON.Mesh.CreateLines('tg', [ curve[p], curve[p].add(tangents[p]) ], scene);
+        		tg.color = BABYLON.Color3.Red();
+        		var no = BABYLON.Mesh.CreateLines('no', [ curve[p], curve[p].add(normals[p]) ], scene);
+        		no.color = BABYLON.Color3.Blue();
+        		var bi = BABYLON.Mesh.CreateLines('bi', [ curve[p], curve[p].add(binormals[p]) ], scene);
+        		bi.color = BABYLON.Color3.Green();
+        	}*/
+        	return scene;
+        }
+        
+        var scene = createScene();
+
+        // LEAP MOTION LOOP
+        var controller = Leap.loop(function (frame) {
+
+            if (frame.hands.length > 0) {
+
+            }
+
+        }).use('screenPosition', {scale: 1});
+
+        // RENDER LOOP
+        engine.runRenderLoop(function () {
+            scene.render();
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
