@@ -27,8 +27,28 @@
     </style>
 </head>
 <body>
+<p>Framerate: <span id="leapFPS">FPS</span></p>
+<p>Number of hands: <span id="handCount">Hands</span></p>
+<p>Number of pointables: <span id="pointableCount">Pointables</span></p>
+<p>Number of tools: <span id="toolCount">Tools</span></p>
+<p>Number of fingers: <span id="fingerCount">Fingers</span></p>
+<p>Number of gestures: <span id="gestureCount">Gestures</span></p>
 <canvas id="renderCanvas"></canvas>
 <script>
+
+    // DEBUG
+    var controller = new Leap.Controller({
+        enableGestures: true,
+        frameEventName: 'animationFrame'
+    });
+
+    var fpsDisplay = document.getElementById('leapFPS');
+    var handCountDisplay = document.getElementById('handCount');
+    var pointableCountDisplay = document.getElementById('pointableCount');
+    var fingerCountDisplay = document.getElementById('fingerCount');
+    var toolCountDisplay = document.getElementById('toolCount');
+    var gestureCountDisplay = document.getElementById('gestureCount');
+
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
     var scene = new BABYLON.Scene(engine);
@@ -122,6 +142,13 @@
 
     // LEAP MOTION LOOP
     var controller = Leap.loop({enableGestures:true}, function (frame) {
+
+        fpsDisplay.innerText = frame.currentFrameRate;
+        handCountDisplay.innerText = frame.hands.length;
+        pointableCountDisplay.innerText = frame.pointables.length;
+        fingerCountDisplay.innerText = frame.fingers.length;
+        toolCountDisplay.innerText = frame.tools.length;
+        gestureCountDisplay.innerText = frame.gestures.length;
 
                 if (frame.hands.length > 0) {
 

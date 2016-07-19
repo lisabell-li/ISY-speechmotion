@@ -29,8 +29,7 @@
             height: 100%;
             touch-action: none;
         }
-
-        #cursor {
+        #cursor{
             position: absolute;
             left: -1000px;
             top: -1000px;
@@ -67,6 +66,7 @@
     // ------- TEST STUFF---
 
 
+
     var tree = false;
 
     // Scene Creation
@@ -97,12 +97,12 @@
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
     skybox.material = skyboxMaterial;
 
-    // Detect Ground of Landscape
+    // Sphere
     var sphere = BABYLON.Mesh.CreateSphere("sphere", 50, 50, scene);
     sphere.position.y = 80;
 
     var angle = 0.0;
-    scene.registerBeforeRender(function () {
+    scene.registerBeforeRender(function() {
         sphere.position.x = 100 * Math.cos(angle);
         sphere.position.z = 100 * Math.sin(angle);
 
@@ -130,6 +130,16 @@
     leapMaterial.diffuseColor = new BABYLON.Color3(1.0, 0.2, 0.7);
     leapBox.material = leapMaterial;
 
+    // Ground Terrain
+    ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "heightmaps/hm1.jpg", camera.radius / 2, camera.radius / 2, 100, 0, 150, scene, false);
+    var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
+    groundMaterial.diffuseTexture = new BABYLON.Texture("texturen/sand.jpg", scene);
+    groundMaterial.diffuseTexture.uScale = 6;
+    groundMaterial.diffuseTexture.vScale = 6;
+    groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    ground.position.y -= 50;
+    ground.material = groundMaterial;
+    ground.isPickable = true;
 
     // Water material
     var waterMaterial = new BABYLON.WaterMaterial("waterMaterial", scene, new BABYLON.Vector2(32, 32));
@@ -142,46 +152,6 @@
     waterMaterial.colorBlendFactor = 0;
     waterMaterial.windDirection = new BABYLON.Vector2(1, 1);
     waterMaterial.colorBlendFactor = 0;
-
-    // DYNAMIC TEXTURE
-
-    var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
-
-    var texture = new BABYLON.DynamicTexture("dynamic texture", 300, scene, true);
-    var textureContext = texture.getContext();
-
-    materialPlane.diffuseTexture = texture;
-    materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
-    materialPlane.backFaceCulling = false;//Always show the front and the back of an element
-
-    var planeDT = BABYLON.Mesh.CreatePlane("plane", 500, scene);
-    planeDT.position.x = 0;
-    planeDT.position.y = 150;
-    planeDT.position.z = -350;
-
-    planeDT.material = materialPlane;
-
-    planeDT.material.diffuseTexture = texture;
-
-    //Draw
-    textureContext.save();
-    textureContext.fillStyle = "#FF0000";
-    textureContext.fillRect(100, 0, 150, 75);
-    textureContext.restore();
-    texture.update();
-
-    var imageurl = texture.getContext().canvas.toDataURL("image/png");
-
-    // Ground Terrain
-    ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", imageurl, camera.radius / 2, camera.radius / 2, 50, 0, 150, scene, false);
-    var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
-    groundMaterial.diffuseTexture = new BABYLON.Texture("texturen/sand.jpg", scene);
-    groundMaterial.diffuseTexture.uScale = 6;
-    groundMaterial.diffuseTexture.vScale = 6;
-    groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-    ground.position.y -= 50;
-    ground.material = groundMaterial;
-    ground.isPickable = true;
 
     // Water mesh
     /*    var waterMesh = BABYLON.Mesh.CreateGround("waterMesh", camera.radius/2, camera.radius/2, 2, scene, false);
@@ -196,83 +166,32 @@
     // --------------- Height Maps Gallery ------------------------
 
     var index = 1;
-    /*  var gallery = new Array();
-     for (var y = canvas.height / 2 - 50; y >= -(canvas.height / 2); y -= canvas.height / 4) {
-     //Creation of image as textured material
-     var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
-     materialPlane.diffuseTexture = new BABYLON.Texture("heightmaps/hm" + index + ".jpg", scene);
-     materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
-     materialPlane.backFaceCulling = false;//Always show the front and the back of an element
+    var gallery = new Array();
+    for (var y = canvas.height / 2 - 50; y >= -(canvas.height / 2); y -= canvas.height / 4) {
+        //Creation of image as textured material
+        var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+        materialPlane.diffuseTexture = new BABYLON.Texture("heightmaps/hm" + index + ".jpg", scene);
+        materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+        materialPlane.backFaceCulling = false;//Always show the front and the back of an element
 
-     //Creation of a plane
-     var plane = BABYLON.Mesh.CreatePlane("hm" + index, 300, scene);
-     plane.material = materialPlane;
-     plane.position.y = y;
-     plane.position.x = canvas.width / 2 - 50;
-     plane.position.z = 0;
-     plane.isPickable = true;
-     gallery.push(plane);
-     index++;
+        //Creation of a plane
+        var plane = BABYLON.Mesh.CreatePlane("hm" + index, 300, scene);
+        plane.material = materialPlane;
+        plane.position.y = y;
+        plane.position.x = canvas.width / 2 - 50;
+        plane.position.z = 0;
+        plane.isPickable = true;
+        gallery.push(plane);
+        index++;
 
-     }
-     */
+    }
+
     var updateHeightmap = function (tex) {
 
         ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", tex.url, camera.radius / 2, camera.radius / 2, 100, 0, 150, scene, false);
 
 
     };
-
-    CreateGroundFromArray = function (width, height, subdivisions, buffer, bufferWidth, bufferHeight) {
-        var vertexData = new BABYLON.VertexData();
-        vertexData.positions = [];
-        vertexData.normals = [];
-        vertexData.indices = [];
-        vertexData.uvs = [];
-        var row, col;
-        var indicesToSkip = {};
-        var pos = 0;
-        for (row = 0; row <= subdivisions; row++) {
-            for (col = 0; col <= subdivisions; col++) {
-                if (buffer[pos] * 0.1 === -12345.6) {
-                    indicesToSkip[pos] = true;
-                    vertexData.positions.push(0, 0, 0);
-                    vertexData.uvs.push(0, 0);
-                } else {                // Add  vertex               
-                    vertexData.positions.push((col * width) / subdivisions - (width / 2.0), buffer[pos], ((subdivisions - row) * height) / subdivisions - (height / 2.0));
-                    vertexData.uvs.push(col / subdivisions, 1.0 - row / subdivisions);
-                }
-                pos++;
-            }
-        }
-        var subdivisionsPlus = subdivisions + 1;
-        for (row = 0; row < subdivisions; row++) {
-            for (col = 0; col < subdivisions; col++) {
-                var indexA = col + 1 + (row + 1) * subdivisionsPlus;
-                var indexB = col + 1 + row * subdivisionsPlus;
-                var indexC = col + row * subdivisionsPlus;
-                var indexD = col + (row + 1) * subdivisionsPlus;
-                var indexE = col + row * subdivisionsPlus;
-                var needsToBeSkipped = false;
-                if (!!indicesToSkip[indexA])
-                    needsToBeSkipped = true; else if (!!indicesToSkip[indexB])
-                    needsToBeSkipped = true; else if (!!indicesToSkip[indexC])
-                    needsToBeSkipped = true; else if (!!indicesToSkip[indexD])
-                    needsToBeSkipped = true; else if (!!indicesToSkip[indexE])
-                    needsToBeSkipped = true;
-                if (!needsToBeSkipped) {         
-                    //Triangle 1 and triangle 2               
-                    vertexData.indices.push(indexA, indexB, indexC, indexD, indexA, indexE);
-                }
-            }
-        }
-        // Normals   
-
-        BABYLON.VertexData.ComputeNormals(vertexData.positions, vertexData.indices, vertexData.normals);
-        // Result       
-        return vertexData;
-    };
-
     // --------------- annyang Functions --------------------------
 
 
@@ -456,8 +375,8 @@
                 leapZ = (radius) - canvasZ;
 
                 //cursors position is updated with leaps normalized position
-                cursor.style.left = canvas.width / 2 - leapX + 'px';
-                cursor.style.top = canvas.height / 2 - leapY + 'px';
+                cursor.style.left = canvas.width/2 - leapX + 'px';
+                cursor.style.top = canvas.height/2 - leapY + 'px';
 
                 // ------- Height Map Select via Cursor -----------
 
@@ -490,7 +409,7 @@
                         currentPickedMesh.outlineWidth = 15.0;
                         currentPickedMesh.renderOutline = true;
 
-                        //updateHeightmap(currentPickedMesh.material.diffuseTexture);
+                        updateHeightmap(currentPickedMesh.material.diffuseTexture);
                     }
                     else {
                         //if no mesh has been hit/selected show cursor and enable leap click action
