@@ -1,15 +1,20 @@
 window.addEventListener("DOMContentLoaded", function () {
     //Switch case number of Leaploop, triggered by annyang commands and functions
     var state = 1;
-    var leapX = 0;
-    var leapY = 0;
-    var leapZ = 0;
+    //Texture/image - current image src file
+    var currentPickedMeshTextureSrc;
+    //Frames
+    var previousFrame = 0;
+    // if mesh selected, no other click event allowed
+    var clickable = true;
+    //current selected mesh, to perform actions on
+    var currentPickedMesh = 0;
 
-    function initialImagetoCanvas() {
+
+    function initialImagetoCanvas(imgSrc) {
 
         var img = new Image();
-        img.src = "images/rhino.jpg";
-        console.log(img.src);
+        img.src = imgSrc;
         img.onload = function () {
             draw(img);
         };
@@ -25,19 +30,9 @@ window.addEventListener("DOMContentLoaded", function () {
         ctx.drawImage(img, 0, 0);
         var imageData = ctx.getImageData(0,0,canni.width, canni.height);
         var data = imageData.data;
-        //ctx.putImageData(imageData, 0, 0);
     }
 
 
-    //Texture/image - current image src file
-    var currentPickedMeshTextureSrc;
-
-    //Frames
-    var previousFrame = 0;
-    // if mesh selected, no other click event allowed
-    var clickable = true;
-    //current selected mesh, to perform actions on
-    var currentPickedMesh = 0;
 
 
     //Babylon engine creation
@@ -46,24 +41,18 @@ window.addEventListener("DOMContentLoaded", function () {
     //Babylon Scene creation
     var scene = new BABYLON.Scene(engine);
     scene.fogEnabled = true;
-    // scene.debugLayer.show();
     scene.ambientColor = BABYLON.Color3.Red();
 
-
-    //the boxcube
-    //var cube = BABYLON.Mesh.CreateBox("cube", 5, scene);
-    //var pointerSphere = BABYLON.Mesh.CreateSphere("sphere",  0.5, 0.5, scene);
 
     //Free Camera
     //var camera = new BABYLON.FreeCamera("camera", nevw BABYLON.Vector3(250,200,50), scene);
     // camera.setTarget(BABYLON.Vector3.Zero());
     // ArcRotateCamera >> Camera turning around a 3D point (here Vector zero) with mouse and cursor keys
     // Parameters : name, alpha, beta, radius, target, scene
-    var camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2, 1700, BABYLON.Vector3.Zero(), scene);
+    var camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2, 1700, new BABYLON.Vector3(-1600,0,50), scene);
     scene.activeCamera = camera;
     camera.attachControl(canvas, true);
     camera.applyGravity = true;
-
 
     //the ambient light
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
@@ -74,7 +63,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
     var index = 1;
     var gallery = new Array();
-    for (var x = 800; x <= 1050; x += 200) {
+    for (var x = 600; x <= 850; x += 200) {
         for (var y = -250; y <= 350; y += 200) {
             //Creation of image as textured material
             var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
@@ -86,7 +75,7 @@ window.addEventListener("DOMContentLoaded", function () {
             var plane = BABYLON.Mesh.CreatePlane("image" + index, 120, scene);
             plane.material = materialPlane;
             plane.position.y = y;
-            plane.position.x = x;
+            plane.position.x = -x;
             plane.position.z = 0;
             plane.isPickable = true;
             gallery.push(plane);
@@ -95,69 +84,74 @@ window.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+
+    //------creating 4 boxes and 4 small spheres (upper center of boxes)----//
     var box1 = BABYLON.Mesh.CreateBox("box1", 80, scene);
     box1.material = new BABYLON.StandardMaterial("materialbox1", scene);
     box1.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
     box1.position.y = -255;
-    box1.position.x = -400;
+    box1.position.x = -1900;
     box1.position.z = 400;
     box1.isPickable = true;
 
+
+    var center1 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
+    center1.position.y = -215;
+    center1.position.x = -1900;
+    center1.position.z = 400;
 
     var box2 = BABYLON.Mesh.CreateBox("box2", 80, scene);
     box2.material = new BABYLON.StandardMaterial("materialbox2", scene);
     box2.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
     box2.position.y = -255;
-    box2.position.x = 400;
+    box2.position.x = -1100;
     box2.position.z = 400;
     box2.isPickable = true;
 
+
+    var center2 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
+    center2.position.y = -215;
+    center2.position.x = -1100;
+    center2.position.z = 400;
 
     var box3 = BABYLON.Mesh.CreateBox("box3", 80, scene);
     box3.material = new BABYLON.StandardMaterial("materialbox3", scene);
     box3.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
     box3.position.y = -255;
-    box3.position.x = -400;
+    box3.position.x = -1900;
     box3.position.z = -400;
     box3.isPickable = true;
+
+    var center3 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
+    center3.position.y = -215;
+    center3.position.x = -1900;
+    center3.position.z = -400;
 
     var box4 = BABYLON.Mesh.CreateBox("box4", 80, scene);
     box4.material = new BABYLON.StandardMaterial("materialbox4", scene);
     box4.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
     box4.position.y = -255;
-    box4.position.x = 400;
+    box4.position.x = -1100;
     box4.position.z = -400;
     box4.isPickable = true;
 
+    var center4 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
+    center4.position.y = -215;
+    center4.position.x = -1100;
+    center4.position.z = -400;
 
     // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
     var ground = BABYLON.Mesh.CreateGround("ground", 1000, 1000, 1, scene);
     ground.position.y = -300;
-    ground.position.x = 0;
+    ground.position.x = -1500;
     ground.position.z = 0;
     ground.material = new BABYLON.StandardMaterial("materialGround", scene);
     ground.material.backFaceCulling = false;
     ground.material.diffuseColor = new BABYLON.Color3(0.5, 0.9, 1);
 
 
-    //-----Initial boxes----------//
+    //----------------------------------------------------//
 
-    // create some boxes
-    /*
-     var boxes = new Array();
-     for (var x = -6; x <= 6; x += 4){
-
-     var cube = BABYLON.Mesh.CreateBox("box" + x.toString(), 2, scene);
-     cube.position.y = 1;
-     cube.position.x = x;
-     cube.position.z = 10;
-     cube.isPickable = true;
-     boxes.push(cube);
-
-
-     }
-     */
-    //------------------------//
 
 
     //---------Image Processing -----------
@@ -492,26 +486,14 @@ window.addEventListener("DOMContentLoaded", function () {
                 if (frame.hands[0] && frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
                     var degreeRoll = frame.hands[0].roll()
                     console.log("lefthand");
-                    scene.activeCamera.alpha = degreeRoll;
+                    //scene.activeCamera.alpha = degreeRoll;
                 }
 
                 if (frame.pointables.length > 0 && frame.hands[0].type === "right") {
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap);
                     var hand = frame.hands[0];
-                    // var x = ctx.canvas.width * normalized[0];
-                    // var y = ctx.canvas.height * (1 - normalized[1]);
-                    //   pointerSphere.position.x = positionLeap[2];
-                    // pointerSphere.position.y = positionLeap[1];
-                    //pointerSphere.position.z = positionLeap[0];
-                    // console.log("x:  "+positionLeap[2] + "  y:  "+positionLeap[1]+"  z:  "+positionLeap[0]);
-                    /*
 
-
-                     leapX = (-1) * hand.screenPosition()[0] / 50 + 16;
-                     leapY = (-1) * hand.screenPosition()[1] / 50;
-                     leapZ = (-1) * hand.screenPosition()[2] / 50 + 16;
-                     */
                     //cursors position is updated with leaps normalized position
                     cursor.style.left = (canvas.width * normalized[0]) + 'px';
                     cursor.style.top = (canvas.height * (1 - normalized[1] )) + 'px';
@@ -521,6 +503,7 @@ window.addEventListener("DOMContentLoaded", function () {
                     if (previousFrame) {
                         //movement since last frame
                         var translation = hand.translation(previousFrame);
+                        //console.log(hand.translation(previousFrame)[0]);
                         var String = "Translation: " + translation.toString() + " ";
                         //rotationAxis since last frame
                         var rotationAxis = hand.rotationAxis(previousFrame, 2);
@@ -579,8 +562,8 @@ window.addEventListener("DOMContentLoaded", function () {
                                 currentPickedMesh.position.x = 0;
                                 currentPickedMesh.position.y = 0;
                             }
-                            camera.radius -= 400;
-                            state = 2;
+                          //  camera.radius -= 400;
+                            state = 4;
 
                         }
                         else {
@@ -677,34 +660,38 @@ window.addEventListener("DOMContentLoaded", function () {
                 if (frame.pointables.length > 0) {
 
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
-                    var normalized = frame.interactionBox.normalizePoint(positionLeap);
-
-                    // var x = ctx.canvas.width * normalized[0];
-                    // var y = ctx.canvas.height * (1 - normalized[1]);
-
+                    var normalized = frame.interactionBox.normalizePoint(positionLeap, false);
 
                     //   pointerSphere.position.x = positionLeap[2];
                     // pointerSphere.position.y = positionLeap[1];
                     //pointerSphere.position.z = positionLeap[0];
                     // console.log("x:  "+positionLeap[2] + "  y:  "+positionLeap[1]+"  z:  "+positionLeap[0]);
                     if (currentPickedMesh.intersectsMesh(ground, false)) {
-                        currentPickedMesh.material.emissiveColor = new BABYLON.Color3(1, 0.9, 0.4);
+                        ground.material.emissiveColor = new BABYLON.Color3(1, 0.9, 0.4);
                         console.log("touched ground");
                     } else {
-                        currentPickedMesh.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+                        ground.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+                    }
+                    if (currentPickedMesh.intersectsMesh(center1, false)) {
+                        box1.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+                        console.log("touched center1");
+                    } else {
+                        box1.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
                     }
 
 
-                    var hand = frame.hands[0];
 
-                    leapX = (-1) * hand.screenPosition()[0];
-                    leapY = (-1) * hand.screenPosition()[1];
-                    leapZ = (-1) * hand.screenPosition()[2];
+                    var hand = frame.hands[0];
+                    leapX = (-1) * hand.screenPosition()[0]+500;
+                    leapY = (-1) * hand.screenPosition()[1]+500;
+                    leapZ = hand.screenPosition()[2]+500;
 
                     //needs adjustment! No matter how the camera has been rotated the movement should be intuitiv
-                    currentPickedMesh.position.x = leapX;
-                    currentPickedMesh.position.y = leapY;
-                    currentPickedMesh.position.z = -leapZ;
+                    currentPickedMesh.position.x =leapX;
+                    currentPickedMesh.position.y =leapY;
+                    currentPickedMesh.position.z =leapZ;
+
+
 
 
                 }
