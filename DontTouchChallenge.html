@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>Babylon.js sample code</title>
+    <!-- Babylon.js -->
+    <script src="js/hand.js"></script>
+    <script src="js/oimo.js"></script>
+    <script src="js/babylon.js"></script>
+    <script src="js/leap.js"></script>
+    <script src="js/leap-plugins-0.1.11.js"></script>
+    <style>
+        html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+<canvas id="renderCanvas"></canvas>
+<script>
+    var canvas = document.getElementById("renderCanvas");
+    var engine = new BABYLON.Engine(canvas, true);
+
+    var scene = new BABYLON.Scene(engine);
+    scene.clearColor = new BABYLON.Color3(.5, .5, .5);
+
+    // FollowCamera >> Follow a mesh through your scene
+    // Parameters : name, position, scene
+    //  var camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), scene);
+    var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
+    camera.setPosition(new BABYLON.Vector3(0, 0, -70));
+    camera.attachControl(canvas, true);
+
+    // array of points
+    var points = [];
+    for (var i = 0; i < 50; i++) {
+        points.push(new BABYLON.Vector3(i - 25, 5 * Math.sin(i / 4), 0));
+    }
+    var colliders = [];
+
+    // Material
+    var matPlan = new BABYLON.StandardMaterial("matPlan1", scene);
+    matPlan.backFaceCulling = false;
+   // matPlan.emissiveColor = new BABYLON.Color3(0.2, 1, 0.2);
+
+    // Creation of a torus
+    // (name, diameter, thickness, tessellation, scene, updatable)
+    var torus = BABYLON.Mesh.CreateTorus("torus", 4, 0.5, 10, scene, false);
+    torus.position = points[0];
+    torus.material = matPlan;
+
+    //intersection sphere
+    var collideSphere1 = BABYLON.Mesh.CreateSphere("sphere1", 3, 1,scene);
+    collideSphere1.position = points[0];
+
+
+    //   collideSphere1.visibility = false;
+
+/*
+     camera.target = torus; // target any mesh or object with a "position" Vector3
+     camera.radius = 10; // how far from the object to follow
+     camera.heightOffset = -10; // how high above the object to place the camera
+     camera.rotationOffset = 270; // the viewing angle
+     camera.cameraAcceleration = 0.05 // how fast to move
+     camera.maxCameraSpeed = 20 // speed limit
+     */
+    scene.activeCamera = camera;
+
+    var initial = new BABYLON.Vector3(0, 1, 0);
+    // Path3D
+  /*  var path3d = new BABYLON.Path3D(points, initial);
+    var tangents = path3d.getTangents();
+    var normals = path3d.getNormals();
+    var binormals = path3d.getBinormals();
+    var curve = path3d.getCurve();
+*/
+
+    for (var p = 0; p < points.length-2; p++) {
+        var line = BABYLON.Mesh.CreateLines('line' +p, [new BABYLON.Vector3(points[p].x,points[p].y,0), new BABYLON.Vector3(points[p+1].x,points[p+1].y,0)], scene);
+        colliders.push(line);
+    }
+
+    // visualisation
+    //  var li = BABYLON.Mesh.CreateLines('li', curve, scene);
+
+
+    // Debug
+  /*  for (var p = 0; p < curve.length; p++) {
+        var tg = BABYLON.Mesh.CreateLines('tg', [curve[p], curve[p].add(tangents[p])], scene);
+        tg.color = BABYLON.Color3.Red();
+
+        var collider = BABYLON.Mesh.CreateSphere("sphere" + p, 1.0, 1.0, scene);
+        collider.position = curve[p];
+
+        colliders.push(collider);
+
+        var no = BABYLON.Mesh.CreateLines('no', [curve[p], curve[p].add(normals[p])], scene);
+        no.color = BABYLON.Color3.Blue();
+        var bi = BABYLON.Mesh.CreateLines('bi', [curve[p], curve[p].add(binormals[p])], scene);
+        bi.color = BABYLON.Color3.Green();
+    }
+*/
+
+    // Show some Debug Axis
+    var showAxis = function (size) {
+        var makeTextPlane = function (text, color, size) {
+            var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
+            dynamicTexture.hasAlpha = true;
+            dynamicTexture.drawText(text, 5, 40, "bold 36px Arial", color, "transparent", true);
+            var plane = new BABYLON.Mesh.CreatePlane("TextPlane", size, scene, true);
+            plane.material = new BABYLON.StandardMaterial("TextPlaneMaterial", scene);
+            plane.material.backFaceCulling = false;
+            plane.material.specularColor = new BABYLON.Color3(0, 0, 0);
+            plane.material.diffuseTexture = dynamicTexture;
+            return plane;
+        };
+
+        var axisX = BABYLON.Mesh.CreateLines("axisX", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
+            new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
+        ], scene);
+        axisX.color = new BABYLON.Color3(1, 0, 0);
+
+
+        var xChar = makeTextPlane("X", "red", size / 10);
+        xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
+        var axisY = BABYLON.Mesh.CreateLines("axisY", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
+            new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
+        ], scene);
+        axisY.color = new BABYLON.Color3(0, 1, 0);
+        var yChar = makeTextPlane("Y", "green", size / 10);
+        yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
+        var axisZ = BABYLON.Mesh.CreateLines("axisZ", [
+            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
+            new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
+        ], scene);
+        axisZ.color = new BABYLON.Color3(0, 0, 1);
+        var zChar = makeTextPlane("Z", "blue", size / 10);
+        zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
+    };
+
+    showAxis(20);
+
+   // collideSphere1.computeWorldMatrix(true);
+
+
+
+    // LEAP MOTION LOOP
+    var controller = Leap.loop(function (frame) {
+
+        if (frame.hands.length > 0) {
+
+            var rightHand = 0;
+            var leftHand = 0;
+
+            if (frame.hands[0].type == "right") {
+                rightHand = frame.hands[0];
+
+                var move = rightHand.palmVelocity;
+                var rollRadians = rightHand.roll();
+
+                torus.rotation.z = rollRadians;
+
+                if (move[0] > 0) {
+                    torus.position.x += move[0] / 1000;
+                    torus.position.y += move[1] / 1000;
+
+                    collideSphere1.position.x += move[0] / 1000;
+                    collideSphere1.position.y += move[1] / 1000;
+                }
+
+                // Collsion check
+                for (var p = 0; p < points.length - 2; p++) {
+                    if (collideSphere1.intersectsMesh(colliders[p], true)) {
+                        console.log("WAAA");
+                        torus.material.emissiveColor = new BABYLON.Color3(1, 0, 1);
+                    } else {
+                        torus.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+                    }
+                }
+            }
+        }
+
+
+    }).use('screenPosition', {scale: 1});
+
+    // RENDER LOOP
+    engine.runRenderLoop(function () {
+        scene.render();
+    });
+
+    // Resize
+    window.addEventListener("resize", function () {
+        engine.resize();
+    });
+</script>
+</body>
+</html>
