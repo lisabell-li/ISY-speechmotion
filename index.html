@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--Favicon-->
+    <link rel="shortcut icon" href="images/favicon.ico" />
+
+    <title>Speechmotion 3D | Leap Motion, BabylonJS and Annyang</title>
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/leapstrap.css" media="screen" />
+    <link rel="stylesheet" src="css/bootstrap.css">
+    <!--JavaScript -->
+    <script src="js/babylon.js"></script>
+    <script src="js/leap.js"></script>
+    <script src="js/speechmotion.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/leapstrap.js"></script>
+    <!-- FOr touch events. olyfill library https://github.com/deltakosh/handjs/blob/master/bin/hand.js -->
+    <script src="js/hand.js"></script>
+    <script src="js/leap-plugins-0.1.11.js"></script>
+    <script src="js/annyang.min.js"></script>
+    <script src="js/hand.js"></script>
+
+</head>
+<body>
+<nav  class="navbar mynav navbar-fixed-top " role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> </button> <a class="navbar-brand leap-interactive" href="#">Speechmotion 3D</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a class="leap-interactive" href="#idea">Die Idee</a></li>
+            <li><a class="leap-interactive" href="#implementation">Umsetzung</a></li>
+        </ul>
+
+
+    </div>
+
+    <!-- /.navbar-collapse -->
+</nav>
+
+<section style="background-color:rgba(255, 171, 152, 0.42);" id="idea">
+    <div style="padding:70px;"><h1 >Die Idee</h1>
+
+    <p>
+    </p>
+    </div>
+</section>
+
+<section style="background-color:rgba(193, 248, 255, 0.42);" id="implementation">
+    <div style="padding:70px;">
+    <h1>Die Umsetzung</h1>
+    <p>...more...</p>
+   </div>
+
+</section>
+
+
+<!-- Init Leap, Set all "a" interactive, use 1 Leap cursor/finger -->
+<script>LeapManager.init({interactiveSelector:"a",maxCursors:1});</script>
+
+</body>
+</html>
