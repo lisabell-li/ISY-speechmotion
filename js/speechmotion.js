@@ -86,46 +86,46 @@ window.addEventListener("DOMContentLoaded", function () {
 
 
     //------creating 4 boxes and 4 small spheres (upper center of boxes)----//
-    var box1 = BABYLON.Mesh.CreateBox("box1", 80, scene);
-    box1.material = new BABYLON.StandardMaterial("materialbox1", scene);
-    box1.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
-    box1.position.y = -255;
-    box1.position.x = -1900;
-    box1.position.z = 400;
-    box1.isPickable = true;
-
-
-    var center1 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
-    center1.position.y = -215;
-    center1.position.x = -1900;
-    center1.position.z = 400;
-
-    var box2 = BABYLON.Mesh.CreateBox("box2", 80, scene);
-    box2.material = new BABYLON.StandardMaterial("materialbox2", scene);
+    var box2 = BABYLON.Mesh.CreateBox("box1", 80, scene);
+    box2.material = new BABYLON.StandardMaterial("materialbox1", scene);
     box2.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
     box2.position.y = -255;
-    box2.position.x = -1100;
+    box2.position.x = -1900;
     box2.position.z = 400;
     box2.isPickable = true;
 
 
     var center2 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
     center2.position.y = -215;
-    center2.position.x = -1100;
+    center2.position.x = -1900;
     center2.position.z = 400;
 
-    var box3 = BABYLON.Mesh.CreateBox("box3", 80, scene);
-    box3.material = new BABYLON.StandardMaterial("materialbox3", scene);
+    var box3 = BABYLON.Mesh.CreateBox("box2", 80, scene);
+    box3.material = new BABYLON.StandardMaterial("materialbox2", scene);
     box3.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
     box3.position.y = -255;
-    box3.position.x = -1900;
-    box3.position.z = -400;
+    box3.position.x = -1100;
+    box3.position.z = 400;
     box3.isPickable = true;
+
 
     var center3 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
     center3.position.y = -215;
-    center3.position.x = -1900;
-    center3.position.z = -400;
+    center3.position.x = -1100;
+    center3.position.z = 400;
+
+    var box1 = BABYLON.Mesh.CreateBox("box3", 80, scene);
+    box1.material = new BABYLON.StandardMaterial("materialbox3", scene);
+    box1.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+    box1.position.y = -255;
+    box1.position.x = -1900;
+    box1.position.z = -400;
+    box1.isPickable = true;
+
+    var center1 = BABYLON.Mesh.CreateSphere("sphere",  10, 10, scene);
+    center1.position.y = -215;
+    center1.position.x = -1900;
+    center1.position.z = -400;
 
     var box4 = BABYLON.Mesh.CreateBox("box4", 80, scene);
     box4.material = new BABYLON.StandardMaterial("materialbox4", scene);
@@ -674,9 +674,33 @@ window.addEventListener("DOMContentLoaded", function () {
                     }
                     if (currentPickedMesh.intersectsMesh(center1, false)) {
                         box1.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+                        document.getElementById("touchedBox").innerHTML = "Upper center of BOX 1";
+                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 1";
                         console.log("touched center1");
+                    }
+                    else if (currentPickedMesh.intersectsMesh(center2, false)) {
+                        box2.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+                        document.getElementById("touchedBox").innerHTML = "Upper center of BOX 2";
+                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 2";
+                        console.log("touched center2");
+                    }
+                    else if(currentPickedMesh.intersectsMesh(center3, false)) {
+                        box3.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+                        document.getElementById("touchedBox").innerHTML = " Upper center of BOX 3";
+                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 3";
+                        console.log("touched center3");
+                    }
+                    else if (currentPickedMesh.intersectsMesh(center4, false)) {
+                        box4.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+                        document.getElementById("touchedBox").innerHTML = "Upper center of BOX 4";
+                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 4";
+                        console.log("touched center4");
                     } else {
                         box1.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+                        box2.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+                        box3.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+                        box4.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
+                        document.getElementById("touchingNow").innerHTML = "";
                     }
 
 
@@ -684,7 +708,7 @@ window.addEventListener("DOMContentLoaded", function () {
                     var hand = frame.hands[0];
                     leapX = (-1) * hand.screenPosition()[0]+500;
                     leapY = (-1) * hand.screenPosition()[1]+500;
-                    leapZ = hand.screenPosition()[2]+500;
+                    leapZ = hand.screenPosition()[2]+200;
 
                     //needs adjustment! No matter how the camera has been rotated the movement should be intuitiv
                     currentPickedMesh.position.x =leapX;

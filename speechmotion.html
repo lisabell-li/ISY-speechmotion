@@ -28,7 +28,7 @@
     </script>
     <style>
         html, body {
-            overflow: hidden;
+
             width: 100%;
             height: 100%;
             margin: 0;
@@ -38,6 +38,7 @@
         #gameCanvas {
             width: 100%;
             height: 100%;
+            z-index: 1;
         }
         #cursor{
             position: absolute;
@@ -56,12 +57,41 @@
 
 
         }
+        #info {
+            position: absolute;
+            width: 500px;
+            height: 200px;
+            text-align: left;
+            margin: 1%;
+            padding: 10px;
+            overflow: hidden;
+            z-index: 2;
+            color: white;
+            background-color: #ff6c29;
+            font-size: 24px;;
+            font-family: Arial;
+        }
+        p{
+            font-size: 24px;;
+        }
+        .inline {
+            display: inline;
+        }
+        .black {
+            color: black;
+            font-family: Arial;
+        }
     </style>
 
 </head>
 <body>
 
+<div id="info">
+    <h2>Analysis</h2>
+ <p class="inline black">Last detect collision:</p><p class="inline" id="touchedBox"></p>
+  <p></p><p class="inline black">Current collision: </p> <p class="inline" id="touchingNow"></p>
 
+</div>
 <a id="download" style="display: none;">Download as image</a>
 <canvas id="gameCanvas"></canvas>
 <div id="cursor"></div>
