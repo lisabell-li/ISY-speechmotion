@@ -104,9 +104,9 @@
     // Anleitung
 
     var makeTextPlane = function (text, color, size) {
-        var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 70, scene, true);
+        var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 130, scene, true);
         dynamicTexture.hasAlpha = true;
-        dynamicTexture.drawText(text, 5, 40, "bold 36px Arial", color, "transparent", true);
+        dynamicTexture.drawText(text, 5, 20, "bold 26px Arial", color, "transparent", true);
         var plane = new BABYLON.Mesh.CreatePlane("TextPlane", size, scene, true);
         plane.material = new BABYLON.StandardMaterial("TextPlaneMaterial", scene);
         plane.material.backFaceCulling = false;
@@ -115,11 +115,11 @@
         return plane;
     };
 
- /*   var berg1 = makeTextPlane("Berg1", "blue", 90);
-    berg1.position = new BABYLON.Vector3(getRandomInt(-width/2, width/3), width / 2 - getRandomInt(-width/2, width/3), 440);
+    /*   var berg1 = makeTextPlane("Berg1", "blue", 90);
+     berg1.position = new BABYLON.Vector3(getRandomInt(-width/2, width/3), width / 2 - getRandomInt(-width/2, width/3), 440);
 
-    var berg2 = makeTextPlane("Berg2", "blue", 90);
-    berg2.position = new BABYLON.Vector3(getRandomInt(-width/2, width/3), width / 2- getRandomInt(-width/2, width/3), 440);*/
+     var berg2 = makeTextPlane("Berg2", "blue", 90);
+     berg2.position = new BABYLON.Vector3(getRandomInt(-width/2, width/3), width / 2- getRandomInt(-width/2, width/3), 440);*/
     // -------------------------------------------------------
 
     var spots = [];
@@ -134,19 +134,25 @@
         var spotM = new BABYLON.StandardMaterial("spotM", scene);
         spotM.diffuseColor = new BABYLON.Color3(0.0, 0.0, 1.0);
         spot.material = spotM;
-        spot.position.x = getRandomInt(-width/2, width/2);
+        spot.position.x = getRandomInt(-width , width );
         spot.position.y = getRandomInt(-width, width);
-        spot.position.z = getRandomInt(-width/2, width/2);
+        spot.position.z = getRandomInt(-width , width );
 
         sceneObjects.push(spot);
         spots.push(spot);
     }
 
-
     // ------------------------------------------------------
     // BEFORE RENDERING - Collision Detection
+    var time = 0;
 
     var angle = 0.0;
+    var treeComplete = 0;
+
+    var timerMap = 0;
+    var timerTree = 0;
+    var timerWater = 0;
+
     scene.registerBeforeRender(function () {
 
         for (var i = 0; i < sceneObjects.length; i++) {
@@ -164,21 +170,44 @@
             var pickInfo = ground.intersects(ray);
 
             if (pickInfo.hit) {
-                obj.position.y = pickInfo.pickedPoint.y + 10;
+                obj.position.y = pickInfo.pickedPoint.y + 30;
             }
+        }
 
+        // Timer
+        time = time + (1 / engine.getFps().toFixed());
+
+        if(state == 2){
+
+            timerMap  +=  (1 / engine.getFps().toFixed());
         }
         if (state == 3) {
+            timerTree  += (1 / engine.getFps().toFixed());
+
             for (var i = 0; i < spots.length; i++) {
 
                 if (tree.intersectsMesh(spots[i], false)) {
-                    state = 1;
                     spots[i].material.diffuseColor = new BABYLON.Color3(0.0, 1.0, 0.0);
+                    if(treeComplete == 4){
+                        state = 1;
+                        var resultTree = makeTextPlane("trees " + timerTree, "white", 90);
+                        resultTree.position = new BABYLON.Vector3(-400,400,-800);
+
+                        var resultMap = makeTextPlane("maps " + timerMap, "white", 90);
+                        resultMap.position = new BABYLON.Vector3(-400,420,-800);
+                    }
+                    state = 1;
+
                 }
 
             }
         }
+        if(state == 4){
+            timerWater  += (1 / engine.getFps().toFixed());
+        }
+
     });
+
 
     // -------------------------------------------------------
     // Debug Box
@@ -186,7 +215,7 @@
     // Water material
     var waterMaterial = new BABYLON.WaterMaterial("waterMaterial", scene, new BABYLON.Vector2(32, 32));
     waterMaterial.bumpTexture = new BABYLON.Texture("Water/bump.png", scene);
-    waterMaterial.windForce = -10;
+    waterMaterial.windForce = -20;
     waterMaterial.waveHeight = 0.1;
     waterMaterial.bumpHeight = 1.1;
     waterMaterial.waveLength = 0.1;
@@ -260,9 +289,9 @@
         y = width - y;
 
         brushcontext.save();
-        brushcontext.globalAlpha = 0.3;
+        brushcontext.globalAlpha = 0.1;
         brushcontext.beginPath();
-        brushcontext.fillStyle = 'rgba(' + alphaSmooth + ',' + alphaSmooth + ',' + alphaSmooth + ', 0.2)';
+        brushcontext.fillStyle = 'rgba(' + alphaSmooth + ',' + alphaSmooth + ',' + alphaSmooth + ', 0.1)';
         brushcontext.arc(x, y, 55, 0, 2 * Math.PI);
         brushcontext.fill();
         brushcontext.restore();
@@ -304,13 +333,16 @@
         camera.beta = -Math.PI / 2;
 
         state = 3;
-
+        //(name, height, diameter, tessellation, scene, updatable)
+        tree = BABYLON.Mesh.CreateCylinder("treeBody", 70, 70, 6, 6, 1, scene, false);
         // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        tree = BABYLON.Mesh.CreateBox("tree", 60, scene);
         var treeM = new BABYLON.StandardMaterial("treeM", scene);
-        treeM.diffuseColor = new BABYLON.Color3(0.0, 1.0, 0.0);
-        tree.material = treeM;
+        treeM.diffuseTexture = new BABYLON.Texture("texturen/gras.jpg", scene);
 
+        tree.material = treeM;
+        tree.rotation.x = Math.PI;
+        tree.position.y = 20;
+        treeComplete++;
         sceneObjects.push(tree);
     };
 
@@ -387,46 +419,40 @@
 
     // ------------------------------
 
-    var predicate = function (mesh) {
-
-        return mesh.isPickable && mesh.isEnabled()
-
-    }
-
     // Show some Debug Axis
-/*    var showAxis = function (size) {
+    /*    var showAxis = function (size) {
      var axisX = BABYLON.Mesh.CreateLines("axisX", [
-            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
-            new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
-        ], scene);
-        axisX.color = new BABYLON.Color3(1, 0, 0);
-        var xChar = makeTextPlane("X", "red", size / 10);
-        xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
-        var axisY = BABYLON.Mesh.CreateLines("axisY", [
-            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
-            new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
-        ], scene);
-        axisY.color = new BABYLON.Color3(0, 1, 0);
-        var yChar = makeTextPlane("Y", "green", size / 10);
-        yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
-        var axisZ = BABYLON.Mesh.CreateLines("axisZ", [
-            new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
-            new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
-        ], scene);
-        axisZ.color = new BABYLON.Color3(0, 0, 1);
-        var zChar = makeTextPlane("Z", "blue", size / 10);
-        zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
-    };
+     new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
+     new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
+     ], scene);
+     axisX.color = new BABYLON.Color3(1, 0, 0);
+     var xChar = makeTextPlane("X", "red", size / 10);
+     xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
+     var axisY = BABYLON.Mesh.CreateLines("axisY", [
+     new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
+     new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
+     ], scene);
+     axisY.color = new BABYLON.Color3(0, 1, 0);
+     var yChar = makeTextPlane("Y", "green", size / 10);
+     yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
+     var axisZ = BABYLON.Mesh.CreateLines("axisZ", [
+     new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
+     new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
+     ], scene);
+     axisZ.color = new BABYLON.Color3(0, 0, 1);
+     var zChar = makeTextPlane("Z", "blue", size / 10);
+     zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
+     };
 
-    showAxis(200)
-*/
+     showAxis(200)
+     */
     // Show Debug Ray for Leap Position
-  /*  var debugRay = BABYLON.Mesh.CreateLines("debugRay", [
-        camera.position,
-        new BABYLON.Vector3(0, 0, 0),
+    /*  var debugRay = BABYLON.Mesh.CreateLines("debugRay", [
+     camera.position,
+     new BABYLON.Vector3(0, 0, 0),
 
-    ], scene);
-*/
+     ], scene);
+     */
     var time = 0;
     var end = 3000;
     var displayArea = canvas.getContext("2d");
@@ -448,7 +474,6 @@
 
     var controller = Leap.loop(function (frame) {
 
-
         var radius = camera.radius;
 
         var previousFrame = controller.frame[1];
@@ -463,6 +488,9 @@
             var position = hand.palmPosition;
             var velocity = hand.palmVelocity;
             var direction = hand.direction;
+
+            var pointable = frame.pointables[0];
+            var stabilizedPosition = pointable.stabilizedTipPosition;
 
             // ---------- LEAP COORDINATE MAPPING IN CAMERA COORDINATE ----------------
 
@@ -479,18 +507,17 @@
             leapY = (radius) - canvasY;
             leapZ = (radius) - canvasZ;
 
-            //cursors position is updated with leaps normalized position
-            cursor.style.left = canvas.width / 2 + leapX + 'px';
-            cursor.style.top = canvas.height / 2 - leapY + 60 + 'px';
-
-       //     debugRay.position.x = leapX;
-       //     debugRay.position.y = leapY;
+            //     debugRay.position.x = leapX;
+            //     debugRay.position.y = leapY;
             switch (state) {
                 case 1:
 
                     break;
 
                 case 2: // EDIT HIGH MAP
+                    //cursors position is updated with leaps normalized position
+                    cursor.style.left = canvas.width / 2 + leapX +30+ 'px';
+                    cursor.style.top = canvas.height / 2 - leapY + 50 + 'px';
 
                     // ------- RAY COLLOSION -------------
 
@@ -506,9 +533,80 @@
 
                         // Paint on Dynamic Texture
                         if (mesh.pickedMesh == planeDT || mesh.pickedMesh == bg) {
-                            draw(mesh, hand.grabStrength * 200);
+                            if(hand.grabStrength > 0.6){
+
+                                draw(mesh, hand.grabStrength * 255);
+
+                            }
                         }
                     }
+
+                    break;
+
+                case 3: // PLACE TREES
+                    //cursors position is updated with leaps normalized position
+                    cursor.style.left = canvas.width / 2 + leapX + 'px';
+                    cursor.style.top = canvas.height / 2 - leapY + 60 + 'px';
+
+                    tree.position.x = leapX;
+                    tree.position.y = 0;
+                    tree.position.z = leapY;
+
+                    break;
+
+                case 4: // Water
+
+                    if (frame.gestures.length > 0) {
+                        frame.gestures.forEach(function (gesture) {
+                            switch (gesture.type) {
+                                case "circle":
+
+                                    var clockwise = false;
+                                    var pointableID = gesture.pointableIds[0];
+                                    var direction = frame.pointable(pointableID).direction;
+                                    var dotProduct = Leap.vec3.dot(direction, gesture.normal);
+
+                                    if (dotProduct > 0) {
+                                        clockwise = true;
+
+                                        waterMaterial.waveHeight += 0.02;
+                                        waterMaterial.waveSpeed += 1.0;
+
+                                        if (waterMaterial.waveSpeed > 200) {
+                                            console.log("Sturm");
+                                            state = 1;
+                                            var resultWater = makeTextPlane("wasser " + timerWater, "white", 90);
+                                            resultWater.position = new BABYLON.Vector3(-400,380,-800);
+                                        }
+
+                                    } else {
+                                        clockwise = false;
+                                        waterMaterial.waveHeight -= 0.02;
+                                        waterMaterial.waveSpeed -= 1.0;
+
+                                    }
+
+                                    console.log("Circle Gesture");
+                                    break;
+                                case "keyTap":
+                                    console.log("Key Tap Gesture");
+                                    break;
+                                case "screenTap":
+                                    console.log("Screen Tap Gesture");
+                                    break;
+                                case "swipe":
+
+                                    waterMaterial.windForce *= -1;
+
+                                    console.log("Swipe Gesture");
+                                    break;
+                            }
+                        });
+                    }
+
+                    break;
+
+                case 5:
 
                     // Stone is created and gets the  Position + Size depending on the Position/PinchStrength of the Hand at creation
                     if (stoneMove) {
@@ -535,73 +633,13 @@
                     }
 
                     break;
-
-                case 3: // PLACE TREES
-
-                    tree.position.x = leapX ;
-                    tree.position.y = 0;
-                    tree.position.z =  leapY ;
-
-                    break;
-
-                case 4: // Water
-
-                    if (frame.gestures.length > 0) {
-                        frame.gestures.forEach(function(gesture){
-                            switch (gesture.type){
-                                case "circle":
-
-                                    var clockwise = false;
-                                    var pointableID = gesture.pointableIds[0];
-                                    var direction = frame.pointable(pointableID).direction;
-                                    var dotProduct = Leap.vec3.dot(direction, gesture.normal);
-
-                                    if (dotProduct  >  0) {
-                                        clockwise = true;
-
-                                        waterMaterial.waveHeight += 0.01;
-                                        waterMaterial.waveSpeed += 2.0;
-
-                                        if(waterMaterial.waveSpeed > 120){
-                                            console.log("Sturm");
-                                        }
-
-                                    } else{
-                                        clockwise = false;
-                                        waterMaterial.waveHeight -=  0.01;
-                                        waterMaterial.waveSpeed -= 2.0;
-
-                                    }
-
-
-                                    console.log("Circle Gesture");
-                                    break;
-                                case "keyTap":
-                                    console.log("Key Tap Gesture");
-                                    break;
-                                case "screenTap":
-                                    console.log("Screen Tap Gesture");
-                                    break;
-                                case "swipe":
-                                    console.log("Swipe Gesture");
-                                    break;
-                            }
-                        });
-                    }
-
-                    break;
-
-
             }
-
         }
-
 
     }).use('screenPosition', {scale: 1});
 
     // Render Loop + Leap Loop
     engine.runRenderLoop(function () {
-
 
         scene.render();
 
