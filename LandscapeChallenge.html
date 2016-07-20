@@ -63,7 +63,9 @@
     var stoneIndex = 0;
     var stoneMesh = 0;
     var stones = new Array();
-
+    var player = 0;
+    var playerCursor = 0;
+    var heli = 0;
     //states
     var state = 1;
     var sceneObjects = [];
@@ -134,15 +136,19 @@
         var spotM = new BABYLON.StandardMaterial("spotM", scene);
         spotM.diffuseColor = new BABYLON.Color3(0.0, 0.0, 1.0);
         spot.material = spotM;
-        spot.position.x = getRandomInt(-width , width );
+        spot.position.x = getRandomInt(-width, width);
         spot.position.y = getRandomInt(-width, width);
-        spot.position.z = getRandomInt(-width , width );
+        spot.position.z = getRandomInt(-width, width);
 
         sceneObjects.push(spot);
         spots.push(spot);
     }
 
     // ------------------------------------------------------
+
+    var fps = makeTextPlane("FPS" + engine.getFps().toFixed(), "white", 100);
+    fps.position = new BABYLON.Vector3(-400, 450, -800);
+
     // BEFORE RENDERING - Collision Detection
     var time = 0;
 
@@ -153,6 +159,7 @@
     var timerTree = 0;
     var timerWater = 0;
 
+    var playerY = 0;
     scene.registerBeforeRender(function () {
 
         for (var i = 0; i < sceneObjects.length; i++) {
@@ -171,30 +178,34 @@
 
             if (pickInfo.hit) {
                 obj.position.y = pickInfo.pickedPoint.y + 30;
+                if (player != 0) {
+                    //      console.log(pickInfo.pickedPoint.y + 40);
+                    //       playerY = pickInfo.pickedPoint.y + 40;
+                }
             }
         }
 
         // Timer
         time = time + (1 / engine.getFps().toFixed());
 
-        if(state == 2){
+        if (state == 2) {
 
-            timerMap  +=  (1 / engine.getFps().toFixed());
+            timerMap += (1 / engine.getFps().toFixed());
         }
         if (state == 3) {
-            timerTree  += (1 / engine.getFps().toFixed());
+            timerTree += (1 / engine.getFps().toFixed());
 
             for (var i = 0; i < spots.length; i++) {
 
                 if (tree.intersectsMesh(spots[i], false)) {
                     spots[i].material.diffuseColor = new BABYLON.Color3(0.0, 1.0, 0.0);
-                    if(treeComplete == 4){
+                    if (treeComplete == 4) {
                         state = 1;
                         var resultTree = makeTextPlane("trees " + timerTree, "white", 90);
-                        resultTree.position = new BABYLON.Vector3(-400,400,-800);
+                        resultTree.position = new BABYLON.Vector3(-400, 400, -800);
 
                         var resultMap = makeTextPlane("maps " + timerMap, "white", 90);
-                        resultMap.position = new BABYLON.Vector3(-400,420,-800);
+                        resultMap.position = new BABYLON.Vector3(-400, 420, -800);
                     }
                     state = 1;
 
@@ -202,15 +213,42 @@
 
             }
         }
-        if(state == 4){
-            timerWater  += (1 / engine.getFps().toFixed());
+        if (state == 4) {
+            timerWater += (1 / engine.getFps().toFixed());
         }
 
+        if (state == 5) {
+
+            var ray = new BABYLON.Ray(new BABYLON.Vector3(playerCursor.position.x, ground.getBoundingInfo().boundingBox.maximumWorld.y + 1, playerCursor.position.z),
+                    new BABYLON.Vector3(0, -1, 0)); // Direction
+            var worldInverse = new BABYLON.Matrix();
+
+            ground.getWorldMatrix().invertToRef(worldInverse);
+
+            ray = BABYLON.Ray.Transform(ray, worldInverse);
+
+            var pickInfo = ground.intersects(ray);
+
+            if (pickInfo.hit) {
+                playerCursor.position.y = pickInfo.pickedPoint.y + 20;
+            }
+
+            if(player.position.x < heli.position.x && player.position.z > heli.position.z){
+                var alive = makeTextPlane("ALIVE!", "green", 90);
+                alive.position = new BABYLON.Vector3(-400, 360, -800);
+                camera.beta = Math.PI / 2.4;
+            } else if(player.position.y < waterMesh.position.y){
+                var dead = makeTextPlane("DEAD!", "red", 90);
+                dead.position = new BABYLON.Vector3(-400, 360, -800);
+                camera.beta = Math.PI / 2.4;
+            }
+        }
     });
 
 
     // -------------------------------------------------------
     // Debug Box
+    var waterMesh = 0;
 
     // Water material
     var waterMaterial = new BABYLON.WaterMaterial("waterMaterial", scene, new BABYLON.Vector2(32, 32));
@@ -303,7 +341,7 @@
         planeDT.material.diffuseTexture = texture;
 
         ground.dispose();
-        ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", imageurl, width * 2, width * 2, 50, 0, 150, scene, true);
+        ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", imageurl, width * 2, width * 2, 50, 0, 300, scene, true);
         var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
         groundMaterial.diffuseTexture = new BABYLON.Texture("texturen/sand.jpg", scene);
         groundMaterial.diffuseTexture.uScale = 6;
@@ -346,42 +384,70 @@
         sceneObjects.push(tree);
     };
 
-    var addStone = function () {
-        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        stoneIndex++;
-
-        var stoneMesh = BABYLON.Mesh.CreateSphere("stone" + stoneIndex, 3, 50, scene);
-
-        var stoneMaterial = new BABYLON.StandardMaterial("stoneMaterial" + stoneIndex, scene);
-        stoneMaterial.diffuseTexture = new BABYLON.Texture("texturen/fels.jpg", scene);
-        stoneMaterial.diffuseTexture.uScale = 2;
-        stoneMaterial.diffuseTexture.vScale = 2;
-        stoneMesh.material = stoneMaterial;
-
-        stoneMesh.isPickable = true;
-        stones.push(stoneMesh);
-        stoneMove = true;
-
-    };
-
-    var randomPosBoxes = function () {
-        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        for (var x = 0; x < boxes.length; x++) {
-            boxes[x].position.z = Math.floor((Math.random() * 10) + 1);
-        }
-    };
 
     var editMap = function () {
 
         camera.beta = Math.PI / 2.4;
         state = 2;
     };
+    var addPlayer = function () {
 
+        camera.beta = Math.PI / 5;
+
+        //Create a manager for the player's sprite animation
+        var spriteManagerPlayer = new BABYLON.SpriteManager("playerManager", "texturen/player.png", 2, 64, scene);
+
+        // First animated player
+        player = new BABYLON.Sprite("player", spriteManagerPlayer);
+        player.playAnimation(0, 40, true, 100);
+        player.size = 70.0;
+        player.isPickable = true;
+        player.position.y = -50;
+
+        playerCursor = BABYLON.Mesh.CreateCylinder("playerCursor", 30, 30, 6, 6, 1, scene, false);
+        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+        var playerM = new BABYLON.StandardMaterial("treeM", scene);
+        playerM.diffuseColor = new BABYLON.Color3(1, 0, 0);
+
+        playerCursor.material = playerM;
+        playerCursor.position.y = 20;
+
+        // WATER ANIMATION
+        animationWater = new BABYLON.Animation("animationWater", "position.y", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+        // Animation keys
+        var keys4 = [];
+        keys4.push({
+            frame: 0,
+            value: waterMesh.position.y
+        });
+
+        keys4.push({
+            frame: 1500,
+            value: -20
+        });
+        animationWater.setKeys(keys4);
+        waterMesh.animations.push(animationWater);
+
+        // RESCUE HELICOPTER
+        heli = BABYLON.Mesh.CreateBox("heli", 100, scene);
+        var heliM = new BABYLON.StandardMaterial("ground", scene);
+        heliM.diffuseTexture = new BABYLON.Texture("texturen/heli.png", scene);
+        heliM.diffuseTexture.hasAlpha = true;
+        heliM.specularColor = new BABYLON.Color3(0, 0, 0);
+        heli.material = heliM;
+        heli.position.x = -width +150;
+        heli.position.z = width-150;
+
+        scene.beginAnimation(waterMesh, 0, 2000, true);
+
+        state = 5;
+    };
     var addWater = function () {
         camera.beta = Math.PI / 2.4;
 
         state = 4;
-        var waterMesh = BABYLON.Mesh.CreateGround("waterMesh", width * 2, width * 2, 20, scene, false);
+        waterMesh = BABYLON.Mesh.CreateGround("waterMesh", width * 2, width * 2, 20, scene, false);
         waterMesh.material = waterMaterial;
         waterMesh.position.y -= 290;
 
@@ -403,10 +469,10 @@
         // Let's define a command.
         var commands = {
 
-            'Stein': addStone,
             'Baum': addTree,
             'Karte': editMap,
-            'Wasser': addWater
+            'Wasser': addWater,
+            'Spieler': addPlayer
         };
         annyang.debug(true);
         // Add our commands to annyang
@@ -447,12 +513,12 @@
      showAxis(200)
      */
     // Show Debug Ray for Leap Position
-    /*  var debugRay = BABYLON.Mesh.CreateLines("debugRay", [
-     camera.position,
-     new BABYLON.Vector3(0, 0, 0),
+ /*   var debugRay = BABYLON.Mesh.CreateLines("debugRay", [
+        camera.position,
+        new BABYLON.Vector3(0, 0, 0),
 
-     ], scene);
-     */
+    ], scene);
+*/
     var time = 0;
     var end = 3000;
     var displayArea = canvas.getContext("2d");
@@ -507,8 +573,9 @@
             leapY = (radius) - canvasY;
             leapZ = (radius) - canvasZ;
 
-            //     debugRay.position.x = leapX;
-            //     debugRay.position.y = leapY;
+      //      debugRay.position.x = leapX;
+      //      debugRay.position.y = leapY;
+
             switch (state) {
                 case 1:
 
@@ -516,7 +583,7 @@
 
                 case 2: // EDIT HIGH MAP
                     //cursors position is updated with leaps normalized position
-                    cursor.style.left = canvas.width / 2 + leapX +30+ 'px';
+                    cursor.style.left = canvas.width / 2 + leapX + 30 + 'px';
                     cursor.style.top = canvas.height / 2 - leapY + 50 + 'px';
 
                     // ------- RAY COLLOSION -------------
@@ -533,7 +600,7 @@
 
                         // Paint on Dynamic Texture
                         if (mesh.pickedMesh == planeDT || mesh.pickedMesh == bg) {
-                            if(hand.grabStrength > 0.6){
+                            if (hand.grabStrength > 0.6) {
 
                                 draw(mesh, hand.grabStrength * 255);
 
@@ -569,19 +636,19 @@
                                     if (dotProduct > 0) {
                                         clockwise = true;
 
-                                        waterMaterial.waveHeight += 0.02;
+                                        waterMaterial.waveHeight += 0.01;
                                         waterMaterial.waveSpeed += 1.0;
 
                                         if (waterMaterial.waveSpeed > 200) {
                                             console.log("Sturm");
                                             state = 1;
                                             var resultWater = makeTextPlane("wasser " + timerWater, "white", 90);
-                                            resultWater.position = new BABYLON.Vector3(-400,380,-800);
+                                            resultWater.position = new BABYLON.Vector3(-400, 380, -800);
                                         }
 
                                     } else {
                                         clockwise = false;
-                                        waterMaterial.waveHeight -= 0.02;
+                                        waterMaterial.waveHeight -= 0.01;
                                         waterMaterial.waveSpeed -= 1.0;
 
                                     }
@@ -606,7 +673,116 @@
 
                     break;
 
-                case 5:
+                case 5: // Control Player
+
+
+                    // ------- RAY COLLOSION -------------
+
+                    var origin = camera.position;
+                    var pos = new BABYLON.Vector3(leapX, leapY, 0);
+                    var dir = pos.subtract(origin).normalize();
+                    var ray = new BABYLON.Ray(camera.position, dir, 2500);
+                    var mesh = scene.pickWithRay(ray);
+
+                    if (mesh.pickedMesh != null) {
+
+                        var collisionPoint = mesh.pickedPoint;
+
+                        playerCursor.position.x = collisionPoint.x;
+                        playerCursor.position.z = collisionPoint.z;
+
+                        if (frame.gestures.length > 0) {
+                            frame.gestures.forEach(function (gesture) {
+                                switch (gesture.type) {
+                                    case "circle":
+
+                                        console.log("Circle Gesture");
+                                        break;
+                                    case "keyTap":
+
+
+
+                                        // Paint on Dynamic Texture
+                                        if (mesh.pickedMesh == ground) {
+                                            /*    player.position.x = collisionPoint.x;
+                                             player.position.y = collisionPoint.y;
+                                             player.position.z = collisionPoint.z;
+                                             */
+                                            var animationPlayerX = new BABYLON.Animation("animationPlayer", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+                                                    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                                            // Animation keys
+                                            var keys = [];
+                                            keys.push({
+                                                frame: 0,
+                                                value: player.position.x
+                                            });
+
+                                            keys.push({
+                                                frame: 140,
+                                                value: collisionPoint.x
+                                            });
+
+
+                                            animationPlayerX.setKeys(keys);
+
+
+                                            animationPlayerZ = new BABYLON.Animation("animationPlayerZ", "position.z", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+                                                    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                                            // Animation keys
+                                            var keys2 = [];
+                                            keys2.push({
+                                                frame: 0,
+                                                value: player.position.z
+                                            });
+
+                                            keys2.push({
+                                                frame: 140,
+                                                value: collisionPoint.z
+                                            });
+
+
+                                            animationPlayerZ.setKeys(keys2);
+                                            var target = collisionPoint.y + 40;
+
+                                            animationPlayerY = new BABYLON.Animation("animationPlayerY", "position.y", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+                                                    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                                            // Animation keys
+                                            var keys3 = [];
+                                            keys3.push({
+                                                frame: 0,
+                                                value: player.position.y
+                                            });
+
+                                            keys3.push({
+                                                frame: 140,
+                                                value: target
+                                            });
+
+
+                                            animationPlayerY.setKeys(keys3);
+
+                                            scene.beginDirectAnimation(player, [animationPlayerX, animationPlayerZ, animationPlayerY], 0, 120, false, 1);
+                                        }
+
+
+                                        console.log("Key Tap Gesture");
+                                        break;
+                                    case "screenTap":
+
+                                        console.log("Screen Tap Gesture");
+                                        break;
+                                    case "swipe":
+
+
+                                        console.log("Swipe Gesture");
+                                        break;
+                                }
+                            });
+                        }
+                    }
+                    break;
+
+                case 6:
 
                     // Stone is created and gets the  Position + Size depending on the Position/PinchStrength of the Hand at creation
                     if (stoneMove) {
