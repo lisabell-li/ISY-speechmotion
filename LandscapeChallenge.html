@@ -43,15 +43,54 @@
             -webkit-border-radius: 6px;
             border: 1px solid #ff0000;
         }
+        #info {
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            text-align: left;
+            margin: 1%;
+            padding: 10px;
+            overflow: hidden;
+            z-index: 2;
+            color: white;
+            background-color: #e4cd88;
+            font-size: 18px;;
+            font-family: Arial;
+        }
+        p{
+            font-size: 18px;;
+        }
+        .inline {
+            display: inline;
+        }
+        .black {
+            color: black;
+            font-family: Arial;
+        }
     </style>
 
 </head>
 <body>
 
 <div id="cursor"></div>
+<div id="info">
+    <h2>Karte > Wald > Wasser > Spiel</h2>
+    <p class="inline black">LeapJS FPS:</p><p class="inline" id="fps"></p>
+    <p><p class="inline black">Babylon FPS:</p><p class="inline" id="fpsbaby"></p>
+    <p></p><p class="inline black">Zeit HeightMap: </p> <p class="inline" id="heightmap"></p>
+    <p></p><p class="inline black">Zeit Baumplatzierung: </p> <p class="inline" id="baum"></p>
+    <p></p><p class="inline black">Zeit Wassersimulation: </p> <p class="inline" id="wasser"></p>
+    <p></p><p class="inline black">Überlebt? </p> <p class="inline" id="alive"></p>
 
+</div>
 <canvas id="renderCanvas"></canvas>
 <script type="text/javascript">
+    var fpsDisplay = document.getElementById('fps');
+    var babyFpsDisplay = document.getElementById('fpsbaby');
+    var heightmapDisplay = document.getElementById('heightmap');
+    var baumDisplay = document.getElementById('baum');
+    var wasserDisplay = document.getElementById('wasser');
+    var aliveDisplay = document.getElementById('alive');
 
     // Leap Coordinates
     var leapX = 0;
@@ -70,6 +109,7 @@
     var state = 1;
     var sceneObjects = [];
     var tree = 0;
+    var animationWater = 0;
 
     // ------- TEST STUFF---
 
@@ -139,15 +179,12 @@
         spot.position.x = getRandomInt(-width, width);
         spot.position.y = getRandomInt(-width, width);
         spot.position.z = getRandomInt(-width, width);
-
+        spot.visibility = false;
         sceneObjects.push(spot);
         spots.push(spot);
     }
 
     // ------------------------------------------------------
-
-    var fps = makeTextPlane("FPS" + engine.getFps().toFixed(), "white", 100);
-    fps.position = new BABYLON.Vector3(-400, 450, -800);
 
     // BEFORE RENDERING - Collision Detection
     var time = 0;
@@ -158,10 +195,10 @@
     var timerMap = 0;
     var timerTree = 0;
     var timerWater = 0;
-
+    var moveTree = true;
     var playerY = 0;
     scene.registerBeforeRender(function () {
-
+        babyFpsDisplay.innerText = Math.round(engine.getFps()).toString()
         for (var i = 0; i < sceneObjects.length; i++) {
 
             var obj = sceneObjects[i];
@@ -191,30 +228,32 @@
         if (state == 2) {
 
             timerMap += (1 / engine.getFps().toFixed());
+            heightmapDisplay.innerText = timerMap.toString();
+
         }
         if (state == 3) {
             timerTree += (1 / engine.getFps().toFixed());
+            baumDisplay.innerText = timerTree.toString();
 
             for (var i = 0; i < spots.length; i++) {
+
+                spots[i].visibility = true;
 
                 if (tree.intersectsMesh(spots[i], false)) {
                     spots[i].material.diffuseColor = new BABYLON.Color3(0.0, 1.0, 0.0);
                     if (treeComplete == 4) {
                         state = 1;
-                        var resultTree = makeTextPlane("trees " + timerTree, "white", 90);
-                        resultTree.position = new BABYLON.Vector3(-400, 400, -800);
 
-                        var resultMap = makeTextPlane("maps " + timerMap, "white", 90);
-                        resultMap.position = new BABYLON.Vector3(-400, 420, -800);
                     }
-                    state = 1;
-
+                    moveTree = false;
                 }
 
             }
         }
         if (state == 4) {
             timerWater += (1 / engine.getFps().toFixed());
+            wasserDisplay.innerText = timerWater.toString();
+
         }
 
         if (state == 5) {
@@ -234,12 +273,13 @@
             }
 
             if(player.position.x < heli.position.x && player.position.z > heli.position.z){
-                var alive = makeTextPlane("ALIVE!", "green", 90);
-                alive.position = new BABYLON.Vector3(-400, 360, -800);
+                aliveDisplay.innerText = "ALIVE!!!";
+                animationWater.stop();
+
                 camera.beta = Math.PI / 2.4;
             } else if(player.position.y < waterMesh.position.y){
-                var dead = makeTextPlane("DEAD!", "red", 90);
-                dead.position = new BABYLON.Vector3(-400, 360, -800);
+                aliveDisplay.innerText = "DEAD!!!";
+
                 camera.beta = Math.PI / 2.4;
             }
         }
@@ -264,7 +304,7 @@
 
     var bg = BABYLON.Mesh.CreatePlane("bg", width, scene);
     bg.position.y = width / 2;
-    bg.position.z = 449;
+    bg.position.z = 549;
     bg.material = new BABYLON.StandardMaterial("tex", scene);
     bg.material.diffuseTexture = new BABYLON.Texture("heightmaps/hm1.png", scene);
     bg.material.diffuseTexture.hasAlpha = true;
@@ -284,7 +324,7 @@
     var planeDT = BABYLON.Mesh.CreatePlane("plane", width, scene);
     planeDT.position.x = 0;
     planeDT.position.y = width / 2;
-    planeDT.position.z = 450;
+    planeDT.position.z = 550;
     planeDT.material = materialPlane;
     planeDT.material.diffuseTexture = texture;
     planeDT.isPickable = true;
@@ -382,6 +422,8 @@
         tree.position.y = 20;
         treeComplete++;
         sceneObjects.push(tree);
+
+        moveTree = true;
     };
 
 
@@ -469,10 +511,10 @@
         // Let's define a command.
         var commands = {
 
-            'Baum': addTree,
+            'Wald': addTree,
             'Karte': editMap,
             'Wasser': addWater,
-            'Spieler': addPlayer
+            'Spiel': addPlayer
         };
         annyang.debug(true);
         // Add our commands to annyang
@@ -538,7 +580,10 @@
     cursor.style.left = _2Dposition.x + 'px';
     cursor.style.top = _2Dposition.y + 'px';
 
+    // -------------- LEAp MOTION LOOP --------------
     var controller = Leap.loop(function (frame) {
+
+        fpsDisplay.innerText = Math.round(frame.currentFrameRate).toString();
 
         var radius = camera.radius;
 
@@ -614,11 +659,12 @@
                     //cursors position is updated with leaps normalized position
                     cursor.style.left = canvas.width / 2 + leapX + 'px';
                     cursor.style.top = canvas.height / 2 - leapY + 60 + 'px';
+                    if(moveTree){
 
-                    tree.position.x = leapX;
-                    tree.position.y = 0;
-                    tree.position.z = leapY;
-
+                        tree.position.x = leapX;
+                        tree.position.y = 0;
+                        tree.position.z = leapY;
+                    }
                     break;
 
                 case 4: // Water
@@ -642,8 +688,7 @@
                                         if (waterMaterial.waveSpeed > 200) {
                                             console.log("Sturm");
                                             state = 1;
-                                            var resultWater = makeTextPlane("wasser " + timerWater, "white", 90);
-                                            resultWater.position = new BABYLON.Vector3(-400, 380, -800);
+
                                         }
 
                                     } else {
