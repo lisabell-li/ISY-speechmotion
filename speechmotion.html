@@ -4,24 +4,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!--Favicon-->
     <link rel="shortcut icon" href="images/favicon.ico" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/leapstrap.css" media="screen" />
+    <link rel="stylesheet" src="css/bootstrap.css">
     <title>Speechmotion| combined</title>
-    <!-- Babylon.js -->
+    <!-- Javascript -->
     <script src="js/babylon.js"></script>
     <script src="js/leap.js"></script>
     <script src="js/speechmotion.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/leapstrap.js"></script>
     <!-- FOr touch events. olyfill library https://github.com/deltakosh/handjs/blob/master/bin/hand.js -->
     <script src="js/hand.js"></script>
     <script src="js/leap-plugins-0.1.11.js"></script>
     <script src="js/annyang.min.js"></script>
     <script src="js/hand.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <!-- CSS -->
-    <link rel="stylesheet" src="css/bootstrap.css">
+
 
 
     <script>
@@ -35,62 +37,21 @@
             padding: 0;
         }
 
-        #gameCanvas {
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        #cursor{
-            position: absolute;
-            left: -1000px;
-            top: -1000px;
-            z-index: 1;
-            width: 10px;
-            height: 10px;
-            background-color: #ffffff;
-            border-radius: 6px;
-            -moz-border-radius: 6px;
-            -webkit-border-radius: 6px;
-            border: 1px solid #ff0000;
-        }
-        #imgcanvas{
 
-
-        }
-        #info {
-            position: absolute;
-            width: 500px;
-            height: 200px;
-            text-align: left;
-            margin: 1%;
-            padding: 10px;
-            overflow: hidden;
-            z-index: 2;
-            color: white;
-            background-color: #ff6c29;
-            font-size: 24px;;
-            font-family: Arial;
-        }
-        p{
-            font-size: 24px;;
-        }
-        .inline {
-            display: inline;
-        }
-        .black {
-            color: black;
-            font-family: Arial;
-        }
     </style>
 
 </head>
 <body>
 
 <div id="info">
-    <h2>Analysis</h2>
+    <h3>Analysis</h3>
  <p class="inline black">Last detect collision:</p><p class="inline" id="touchedBox"></p>
   <p></p><p class="inline black">Current collision: </p> <p class="inline" id="touchingNow"></p>
 
+</div>
+<div class="btn-group" id="imgprocessingButtons">
+    <div id="slider" style="margin-top: 80px; margin-left: 50px;">
+    </div>
 </div>
 <a id="download" style="display: none;">Download as image</a>
 <canvas id="gameCanvas"></canvas>
