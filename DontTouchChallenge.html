@@ -10,6 +10,8 @@
     <script src="js/babylon.js"></script>
     <script src="js/leap.js"></script>
     <script src="js/leap-plugins-0.1.11.js"></script>
+    <script src="js/annyang.min.js"></script>
+
     <style>
         html, body {
             overflow: hidden;
@@ -24,14 +26,56 @@
             height: 100%;
             touch-action: none;
         }
+        #info {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            text-align: left;
+            margin: 1%;
+            padding: 10px;
+            overflow: hidden;
+            z-index: 2;
+            color: white;
+            background-color: #e4cd88;
+            font-size: 18px;;
+            font-family: Arial;
+        }
+        p{
+            font-size: 18px;;
+        }
+        .inline {
+            display: inline;
+        }
+        .black {
+            color: black;
+            font-family: Arial;
+        }
     </style>
 </head>
 <body>
+
+<div id="info">
+    <h2>Dont Touch</h2>
+    <p class="inline black">LeapJS FPS:</p><p class="inline" id="fps"></p>
+    <p><p class="inline black">Babylon FPS:</p><p class="inline" id="fpsbaby"></p>
+    <p></p><p class="inline black">Collisions: </p> <p class="inline" id="collisions"></p>
+    <p></p><p class="inline black">Zeit: </p> <p class="inline" id="time"></p>
+    <p></p><p class="inline black">Done? </p> <p class="inline" id="done"></p>
+
+</div>
 <canvas id="renderCanvas"></canvas>
+
 <script>
+    var leapFpsDisplay = document.getElementById('fps');
+    var babyFpsDisplay = document.getElementById('fpsbaby');
+    var collisionsDisplay = document.getElementById('collisions');
+    var timeDisplay = document.getElementById('time');
+    var doneDisplay = document.getElementById('done');
+
+    var playing = true;
+
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
-
     var scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3(.5, .5, .5);
 
@@ -39,7 +83,7 @@
     // Parameters : name, position, scene
     //  var camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), scene);
     var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
-    camera.setPosition(new BABYLON.Vector3(0, 0, -70));
+    camera.setPosition(new BABYLON.Vector3(0, 0, -50));
     camera.attachControl(canvas, true);
 
     // array of points
@@ -52,7 +96,7 @@
     // Material
     var matPlan = new BABYLON.StandardMaterial("matPlan1", scene);
     matPlan.backFaceCulling = false;
-   // matPlan.emissiveColor = new BABYLON.Color3(0.2, 1, 0.2);
+    // matPlan.emissiveColor = new BABYLON.Color3(0.2, 1, 0.2);
 
     // Creation of a torus
     // (name, diameter, thickness, tessellation, scene, updatable)
@@ -61,59 +105,88 @@
     torus.material = matPlan;
 
     //intersection sphere
-    var collideSphere1 = BABYLON.Mesh.CreateSphere("sphere1", 3, 1,scene);
+    var collideSphere1 = BABYLON.Mesh.CreateSphere("sphere1", 3, 1, scene);
     collideSphere1.position = points[0];
+    collideSphere1.visibility = false;
 
+    //intersection sphere
+    var endBox = BABYLON.Mesh.CreateBox("sphere1", 2, scene);
+    endBox.position = points[points.length-1];
 
-    //   collideSphere1.visibility = false;
+    var state = 1;
 
-/*
-     camera.target = torus; // target any mesh or object with a "position" Vector3
-     camera.radius = 10; // how far from the object to follow
-     camera.heightOffset = -10; // how high above the object to place the camera
-     camera.rotationOffset = 270; // the viewing angle
-     camera.cameraAcceleration = 0.05 // how fast to move
-     camera.maxCameraSpeed = 20 // speed limit
-     */
     scene.activeCamera = camera;
 
     var initial = new BABYLON.Vector3(0, 1, 0);
-    // Path3D
-  /*  var path3d = new BABYLON.Path3D(points, initial);
-    var tangents = path3d.getTangents();
-    var normals = path3d.getNormals();
-    var binormals = path3d.getBinormals();
-    var curve = path3d.getCurve();
-*/
 
-    for (var p = 0; p < points.length-2; p++) {
-        var line = BABYLON.Mesh.CreateLines('line' +p, [new BABYLON.Vector3(points[p].x,points[p].y,0), new BABYLON.Vector3(points[p+1].x,points[p+1].y,0)], scene);
+    // 3D Path Lines
+    for (var p = 0; p < points.length - 1; p++) {
+        var line = BABYLON.Mesh.CreateLines('line' + p, [new BABYLON.Vector3(points[p].x, points[p].y, 0), new BABYLON.Vector3(points[p + 1].x, points[p + 1].y, 0)], scene);
         colliders.push(line);
     }
 
-    // visualisation
-    //  var li = BABYLON.Mesh.CreateLines('li', curve, scene);
+    var time = 0;
+    var counterCollisions = 0;
+
+    scene.registerBeforeRender(function () {
+        // Timer
+        if(playing) {
+            time = time + (1 / engine.getFps().toFixed());
+            timeDisplay.innerText = Math.round(time).toString();
+        }
+        babyFpsDisplay.innerText = Math.round(engine.getFps()).toString()
+    });
+
+    var waves = 4;
+
+    var restart = function () {
+        points = [];
+
+        waves /= 2;
+        for (var i = 0; i < 50; i++) {
+            points.push(new BABYLON.Vector3(i - 25, 5 * Math.sin(i / waves), 0));
+        }
+        for (var p = 0; p < points.length - 1; p++) {
+            colliders[p].dispose();
+        }
+        colliders = [];
+
+        for (var p = 0; p < points.length - 1; p++) {
+            var line = BABYLON.Mesh.CreateLines('line' + p, [new BABYLON.Vector3(points[p].x, points[p].y, 0), new BABYLON.Vector3(points[p + 1].x, points[p + 1].y, 0)], scene);
+            colliders.push(line);
+        }
+
+        torus.position = points[0];
+        collideSphere1.position = points[0];
+        endBox.position = points[points.length-1];
+
+        time = 0;
+        counterCollisions = 0;
+    };
+
+    // -------- ANNYANG ------------
+    if (annyang) {
+
+        annyang.setLanguage("de-DE");
+        // Let's define a command.
+        var commands = {
+
+            'Nächstes Level': restart
+
+        };
+        annyang.debug(true);
+        // Add our commands to annyang
+        annyang.addCommands(commands);
 
 
-    // Debug
-  /*  for (var p = 0; p < curve.length; p++) {
-        var tg = BABYLON.Mesh.CreateLines('tg', [curve[p], curve[p].add(tangents[p])], scene);
-        tg.color = BABYLON.Color3.Red();
-
-        var collider = BABYLON.Mesh.CreateSphere("sphere" + p, 1.0, 1.0, scene);
-        collider.position = curve[p];
-
-        colliders.push(collider);
-
-        var no = BABYLON.Mesh.CreateLines('no', [curve[p], curve[p].add(normals[p])], scene);
-        no.color = BABYLON.Color3.Blue();
-        var bi = BABYLON.Mesh.CreateLines('bi', [curve[p], curve[p].add(binormals[p])], scene);
-        bi.color = BABYLON.Color3.Green();
+        // Start listening.
+        annyang.start(true, true);
     }
-*/
+
+    // ------------------------------
 
     // Show some Debug Axis
-    var showAxis = function (size) {
+   /* var showAxis = function (size) {
         var makeTextPlane = function (text, color, size) {
             var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
             dynamicTexture.hasAlpha = true;
@@ -152,49 +225,93 @@
     };
 
     showAxis(20);
-
-   // collideSphere1.computeWorldMatrix(true);
-
-
-
+    */
+    state = 1;
+    var appWidth = 100;
+    var appHeight = 50;
     // LEAP MOTION LOOP
-    var controller = Leap.loop(function (frame) {
+    var controller = Leap.loop({enableGestures:true}, function (frame) {
 
-        if (frame.hands.length > 0) {
+        leapFpsDisplay.innerText = Math.round(frame.currentFrameRate).toString();
 
-            var rightHand = 0;
-            var leftHand = 0;
+                if (frame.hands.length > 0) {
 
-            if (frame.hands[0].type == "right") {
-                rightHand = frame.hands[0];
+                    var rightHand = 0;
+                    var leftHand = 0;
 
-                var move = rightHand.palmVelocity;
-                var rollRadians = rightHand.roll();
+                    if (frame.hands[0].type == "right") {
+                        rightHand = frame.hands[0];
 
-                torus.rotation.z = rollRadians;
+                        var move = rightHand.palmVelocity;
+                        var rollRadians = rightHand.roll();
 
-                if (move[0] > 0) {
-                    torus.position.x += move[0] / 1000;
-                    torus.position.y += move[1] / 1000;
 
-                    collideSphere1.position.x += move[0] / 1000;
-                    collideSphere1.position.y += move[1] / 1000;
-                }
+                        switch (state) {
+                                // Use Veloctiy for Moving
+                            case 1:
 
-                // Collsion check
-                for (var p = 0; p < points.length - 2; p++) {
-                    if (collideSphere1.intersectsMesh(colliders[p], true)) {
-                        console.log("WAAA");
-                        torus.material.emissiveColor = new BABYLON.Color3(1, 0, 1);
-                    } else {
-                        torus.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+                                torus.rotation.z = rollRadians;
+
+                                if (move[0] > 0) {
+                                    torus.position.x += move[0] / 1000;
+                                    torus.position.y += move[1] / 1000;
+
+                                    collideSphere1.position.x += move[0] / 1000;
+                                    collideSphere1.position.y += move[1] / 1000;
+                                }
+
+                                break;
+                            case 2: // Fixed Mapping for movement
+
+                                var iBox = frame.interactionBox;
+                                var pointable = frame.pointables[0];
+
+                                var leapPoint = rightHand.stabilizedPalmPosition;
+                                var normalized = iBox.normalizePoint(leapPoint, false);
+
+                                torus.rotation.z = rollRadians;
+
+                                var z = normalized[2];
+                                // if changing from right-hand to left-hand rule, use:
+                                //var z = normalized[2] * -1.0;
+                                //recenter origin
+                                var x = normalized[0] - 0.5;
+                                z -= 0.5;
+                                //scale
+                                x *= 100;
+                                var y = normalized[1] * 100;
+                                z *= 100;
+
+                                torus.position.x = x;
+                                torus.position.y = y;
+
+                                collideSphere1.position.x = x;
+                                collideSphere1.position.y = y;
+                                break;
+
+                        }
+                        // Collsion check
+                        var collide = true;
+                        for (var p = 0; p < points.length - 2; p++) {
+                            if (collideSphere1.intersectsMesh(colliders[p], true)) {
+                                console.log("In line");
+                                torus.material.emissiveColor = new BABYLON.Color3(1, 0, 1);
+                                collide = false;
+                            }
+                        }
+                        if(collideSphere1.intersectsMesh(endBox)){
+                            playing = false;
+                            doneDisplay.innerText = "YES!!"
+                        }
+                        if(collide && playing){
+                            counterCollisions++;
+                            torus.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+                        }
                     }
                 }
+                collisionsDisplay.innerText = counterCollisions.toString();
             }
-        }
-
-
-    }).use('screenPosition', {scale: 1});
+    ).use('screenPosition', {scale: 1});
 
     // RENDER LOOP
     engine.runRenderLoop(function () {
