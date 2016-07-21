@@ -32,7 +32,6 @@ window.addEventListener("DOMContentLoaded", function () {
        
         var ctx = canni.getContext('2d');
         ctx.drawImage(img, 0, 0);
-
     }
 
 
@@ -60,7 +59,7 @@ window.addEventListener("DOMContentLoaded", function () {
     //the ambient light
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
     var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(-15, 1, -4), scene);
-    light.intensity = 1;
+    light.intensity = 10;
 
 
     //----GUI ELEMENTS----///
@@ -134,7 +133,7 @@ window.addEventListener("DOMContentLoaded", function () {
     var buttonMinus = BABYLON.Mesh.CreatePlane("buttonMinusContrast" , 60, scene);
     buttonMinus.material = buttonMinusMaterial;
     buttonMinus.scaling.x= 1.2;
-    buttonMinus.position.y = canvas.height/2.60;
+    buttonMinus.position.y = canvas.height/2.80;
     buttonMinus.position.x = -450;
     buttonMinus.position.z = 0;
     buttonMinus.isPickable = true;
@@ -148,7 +147,7 @@ window.addEventListener("DOMContentLoaded", function () {
     var buttonPlus = BABYLON.Mesh.CreatePlane("buttonPlusContrast" , 60, scene);
     buttonPlus.material = buttonPlusMaterial;
     buttonPlus.scaling.x= 1.2;
-    buttonPlus.position.y = canvas.height/2.60;
+    buttonPlus.position.y = canvas.height/2.80;
     buttonPlus.position.x = -830;
     buttonPlus.position.z = 0;
     buttonPlus.isPickable = true;
@@ -162,7 +161,7 @@ window.addEventListener("DOMContentLoaded", function () {
     var sliderContrast = BABYLON.Mesh.CreatePlane("sliderContrast" , 10, scene);
     sliderContrast.material = sliderMateriaContrast;
     sliderContrast.scaling.x= 30;
-    sliderContrast.position.y = canvas.height/2.60;
+    sliderContrast.position.y = canvas.height/2.80;
     sliderContrast.position.x = -640;
     sliderContrast.position.z = 0;
     sliderContrast.isPickable = true;
@@ -176,7 +175,7 @@ window.addEventListener("DOMContentLoaded", function () {
     var sliderSelecterContrast = BABYLON.Mesh.CreatePlane("sliderSelectContrast" , 20, scene);
     sliderSelecterContrast.material = sliderSelecterContrastMaterial;
     sliderSelecterContrast.scaling.y= 3;
-    sliderSelecterContrast.position.y = canvas.height/2.60;
+    sliderSelecterContrast.position.y = canvas.height/2.8;
     sliderSelecterContrast.position.x = -640;
     sliderSelecterContrast.position.z = 0;
     sliderSelecterContrast.isPickable = true;
@@ -191,7 +190,7 @@ window.addEventListener("DOMContentLoaded", function () {
     var buttonGrayscale = BABYLON.Mesh.CreatePlane("buttonGrayscale" , 60, scene);
     buttonGrayscale.material = buttonGrayscaleMaterial;
     buttonGrayscale.scaling.x= 3.0;
-    buttonGrayscale.position.y = canvas.height/3.5;
+    buttonGrayscale.position.y = canvas.height/4.0;
     buttonGrayscale.position.x = -500;
     buttonGrayscale.position.z = 0;
     buttonGrayscale.isPickable = true;
@@ -206,7 +205,7 @@ window.addEventListener("DOMContentLoaded", function () {
     var buttonInverse = BABYLON.Mesh.CreatePlane("buttonInvers" , 60, scene);
     buttonInverse.material = buttonInverseMaterial;
     buttonInverse.scaling.x= 3.0;
-    buttonInverse.position.y = canvas.height/4.9;
+    buttonInverse.position.y = canvas.height/5.9;
     buttonInverse.position.x = -500;
     buttonInverse.position.z = 0;
     buttonInverse.isPickable = true;
@@ -221,20 +220,66 @@ window.addEventListener("DOMContentLoaded", function () {
     var buttonBlue = BABYLON.Mesh.CreatePlane("buttonBlue" , 60, scene);
     buttonBlue.material = buttonBlueMaterial;
     buttonBlue.scaling.x= 3.0;
-    buttonBlue.position.y = canvas.height/8.5;
+    buttonBlue.position.y = canvas.height/10.5;
     buttonBlue.position.x = -500;
     buttonBlue.position.z = 0;
     buttonBlue.isPickable = true;
 
+    //GUI element for reset function
+    var restMaterial = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+    restMaterial.diffuseTexture = new BABYLON.Texture("images/reset.png" , scene);
+    restMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    restMaterial.backFaceCulling = false;//Always show the front and the back of an element
 
-   //----GUI ELEMENTS ENDE----///
+    //Creation of a plane
+    var restBtn = BABYLON.Mesh.CreatePlane("buttonReset" , 60, scene);
+    restBtn.material = restMaterial;
+    restBtn.scaling.x= 3.0;
+    restBtn.position.y = canvas.height/50.5;
+    restBtn.position.x = -500;
+    restBtn.position.z = 0;
+    restBtn.isPickable = true;
+
+
+    //GUI element forbrightness title
+    var txtbrmat = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+    txtbrmat.diffuseTexture = new BABYLON.Texture("images/bright.png" , scene);
+    txtbrmat.specularColor = new BABYLON.Color3(0, 0, 0);
+    txtbrmat.backFaceCulling = false;//Always show the front and the back of an element
+
+    //Creation of a plane
+    var txtbr = BABYLON.Mesh.CreatePlane("txtbr" , 60, scene);
+    txtbr.material = txtbrmat;
+    txtbr.scaling.x= 3.0;
+    txtbr.position.y = canvas.height/1.75;
+    txtbr.position.x = -500;
+    txtbr.position.z = 0;
+    txtbr.isPickable = true;
+
+    //GUI element for contrast title
+    var txtcrmat = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+    txtcrmat.diffuseTexture = new BABYLON.Texture("images/contrast.png" , scene);
+    txtcrmat.specularColor = new BABYLON.Color3(0, 0, 0);
+    txtcrmat.backFaceCulling = false;//Always show the front and the back of an element
+
+    //Creation of a plane
+    var txtcr = BABYLON.Mesh.CreatePlane("contrast" , 60, scene);
+    txtcr.material = txtcrmat;
+    txtcr.scaling.x= 3.0;
+    txtcr.position.y = canvas.height/2.35;
+    txtcr.position.x = -500;
+    txtcr.position.z = 0;
+    txtcr.isPickable = true;
+
+
+    //----GUI ELEMENTS ENDE----///
 
     //---------------Image/Texture Gallery Creation --------//
 
     var index = 1;
     var gallery = new Array();
     for (var x = 500; x <= 850; x += 200) {
-        for (var y = -250; y <= 100; y += 200) {
+        for (var y = -400; y <= -100; y += 200) {
             //Creation of image as textured material
             var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
             materialPlane.diffuseTexture = new BABYLON.Texture("gallery/img" + index + ".jpg", scene);
@@ -311,6 +356,13 @@ window.addEventListener("DOMContentLoaded", function () {
                 data[i] = factor * (data[i] - 128) + 128;
                 data[i+1] = factor * (data[i+1] - 128) + 128;
                 data[i+2] = factor * (data[i+2] - 128) + 128;
+                //implement clamping in a separate function if using in production
+                if(data[i] > 255) data[i] = 255;
+                if(data[i+1] > 255) data[i+1] = 255;
+                if(data[i+2] > 255) data[i+2] = 255;
+                if(data[i] < 0) data[i] = 0;
+                if(data[i+1] < 0) data[i+1] = 0;
+                if(data[i+2] < 0) data[i+2] = 0;
             }
             ctx.putImageData(imageData, 0, 0);
             var dataURL = canni.toDataURL("image/jpg");
@@ -503,6 +555,12 @@ window.addEventListener("DOMContentLoaded", function () {
 
 
     document.getElementById('download').addEventListener('click', function () {
+        var canvas3 = document.getElementById('imgcanvas');
+        canvasContext = canvas3.getContext('2d');
+
+        canvasContext.translate(canvas3.width, 0);
+        canvasContext.scale(-1, 1);
+
         this.href = document.getElementById('imgcanvas').toDataURL();
         var picName = currentPickedMeshTextureSrc.split("/")[1];
         this.download = picName;
@@ -759,6 +817,16 @@ window.addEventListener("DOMContentLoaded", function () {
             cursor.style.display = "block";
         }
     };
+    var reset = function () {
+     initialImagetoCanvas(currentPickedMeshTextureSrc);
+        var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+        materialPlane.diffuseTexture = new BABYLON.Texture(currentPickedMeshTextureSrc, scene);
+        materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+        materialPlane.backFaceCulling = false;//Always show the front and the back of an element
+        currentPickedMesh.material = materialPlane;
+    };
+
+
 // -------- ANNYANG ------------
     if (annyang) {
         // ANNYANG commands
@@ -770,9 +838,9 @@ window.addEventListener("DOMContentLoaded", function () {
             'verschieben': move,
             'animieren': addRotationAnimation,
             'Wolke': addParticles,
-            'graustufen': grayscale,
-            'invers': invert,
-            'blau': blau,
+            'Graustufen': grayscale,
+            'Invertieren': invert,
+            'Blaufilter': blau,
             'speichern': downloadImage,
             'editieren': enableediting,
             'heller': increaseBrightness,
@@ -780,6 +848,7 @@ window.addEventListener("DOMContentLoaded", function () {
             'Kontrast erhöhen' : increaseContrast,
             'Kontrast reduzieren' : decreaseContrast,
             'Bilder wechseln' : changeImages,
+            'zurücksetzen' : reset,
         };
         annyang.debug(true);
         // Add our commands to annyang
@@ -1063,6 +1132,15 @@ window.addEventListener("DOMContentLoaded", function () {
                                     //delete current texture to free memory space
                                     currentPickedMesh.material.diffuseTexture.dispose();
                                     //assign new material to current selected plane
+                                    currentPickedMesh.material = materialPlane;
+
+                                }
+                                if ( pickResult.pickedMesh.name == "buttonReset") {
+                                    initialImagetoCanvas(currentPickedMeshTextureSrc);
+                                    var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+                                    materialPlane.diffuseTexture = new BABYLON.Texture(currentPickedMeshTextureSrc, scene);
+                                    materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+                                    materialPlane.backFaceCulling = false;//Always show the front and the back of an element
                                     currentPickedMesh.material = materialPlane;
 
                                 }
