@@ -10,6 +10,8 @@
     <script src="js/babylon.js"></script>
     <script src="js/leap.js"></script>
     <script src="js/leap-plugins-0.1.11.js"></script>
+    <script src="js/annyang.min.js"></script>
+
     <style>
         html, body {
             overflow: hidden;
@@ -24,32 +26,53 @@
             height: 100%;
             touch-action: none;
         }
+        #info {
+            position: absolute;
+            width: 400px;
+            height: 250px;
+            text-align: left;
+            margin: 1%;
+            padding: 10px;
+            overflow: hidden;
+            z-index: 2;
+            color: white;
+            background-color: #e4cd88;
+            font-size: 18px;;
+            font-family: Arial;
+        }
+        p{
+            font-size: 18px;;
+        }
+        .inline {
+            display: inline;
+        }
+        .black {
+            color: black;
+            font-family: Arial;
+        }
     </style>
 </head>
 <body>
-<p>Framerate: <span id="leapFPS">FPS</span></p>
-<p>Number of hands: <span id="handCount">Hands</span></p>
-<p>Number of pointables: <span id="pointableCount">Pointables</span></p>
-<p>Number of tools: <span id="toolCount">Tools</span></p>
-<p>Number of fingers: <span id="fingerCount">Fingers</span></p>
-<p>Number of gestures: <span id="gestureCount">Gestures</span></p>
 
+<div id="info">
+    <h2>Dont Touch</h2>
+    <p class="inline black">LeapJS FPS:</p><p class="inline" id="fps"></p>
+    <p><p class="inline black">Babylon FPS:</p><p class="inline" id="fpsbaby"></p>
+    <p></p><p class="inline black">Collisions: </p> <p class="inline" id="collisions"></p>
+    <p></p><p class="inline black">Zeit: </p> <p class="inline" id="time"></p>
+    <p></p><p class="inline black">Done? </p> <p class="inline" id="done"></p>
+
+</div>
 <canvas id="renderCanvas"></canvas>
 
 <script>
+    var leapFpsDisplay = document.getElementById('fps');
+    var babyFpsDisplay = document.getElementById('fpsbaby');
+    var collisionsDisplay = document.getElementById('collisions');
+    var timeDisplay = document.getElementById('time');
+    var doneDisplay = document.getElementById('done');
 
-    // DEBUG
-    var controller = new Leap.Controller({
-        enableGestures: true,
-        frameEventName: 'animationFrame'
-    });
-
-    var fpsDisplay = document.getElementById('leapFPS');
-    var handCountDisplay = document.getElementById('handCount');
-    var pointableCountDisplay = document.getElementById('pointableCount');
-    var fingerCountDisplay = document.getElementById('fingerCount');
-    var toolCountDisplay = document.getElementById('toolCount');
-    var gestureCountDisplay = document.getElementById('gestureCount');
+    var playing = true;
 
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
@@ -60,7 +83,7 @@
     // Parameters : name, position, scene
     //  var camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), scene);
     var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, 0), scene);
-    camera.setPosition(new BABYLON.Vector3(0, 0, -70));
+    camera.setPosition(new BABYLON.Vector3(0, 0, -50));
     camera.attachControl(canvas, true);
 
     // array of points
@@ -84,6 +107,11 @@
     //intersection sphere
     var collideSphere1 = BABYLON.Mesh.CreateSphere("sphere1", 3, 1, scene);
     collideSphere1.position = points[0];
+    collideSphere1.visibility = false;
+
+    //intersection sphere
+    var endBox = BABYLON.Mesh.CreateBox("sphere1", 2, scene);
+    endBox.position = points[points.length-1];
 
     var state = 1;
 
@@ -92,14 +120,73 @@
     var initial = new BABYLON.Vector3(0, 1, 0);
 
     // 3D Path Lines
-    for (var p = 0; p < points.length - 2; p++) {
+    for (var p = 0; p < points.length - 1; p++) {
         var line = BABYLON.Mesh.CreateLines('line' + p, [new BABYLON.Vector3(points[p].x, points[p].y, 0), new BABYLON.Vector3(points[p + 1].x, points[p + 1].y, 0)], scene);
         colliders.push(line);
     }
 
+    var time = 0;
+    var counterCollisions = 0;
+
+    scene.registerBeforeRender(function () {
+        // Timer
+        if(playing) {
+            time = time + (1 / engine.getFps().toFixed());
+            timeDisplay.innerText = Math.round(time).toString();
+        }
+        babyFpsDisplay.innerText = Math.round(engine.getFps()).toString()
+    });
+
+    var waves = 4;
+
+    var restart = function () {
+        points = [];
+
+        waves /= 2;
+        for (var i = 0; i < 50; i++) {
+            points.push(new BABYLON.Vector3(i - 25, 5 * Math.sin(i / waves), 0));
+        }
+        for (var p = 0; p < points.length - 1; p++) {
+            colliders[p].dispose();
+        }
+        colliders = [];
+
+        for (var p = 0; p < points.length - 1; p++) {
+            var line = BABYLON.Mesh.CreateLines('line' + p, [new BABYLON.Vector3(points[p].x, points[p].y, 0), new BABYLON.Vector3(points[p + 1].x, points[p + 1].y, 0)], scene);
+            colliders.push(line);
+        }
+
+        torus.position = points[0];
+        collideSphere1.position = points[0];
+        endBox.position = points[points.length-1];
+
+        time = 0;
+        counterCollisions = 0;
+    };
+
+    // -------- ANNYANG ------------
+    if (annyang) {
+
+        annyang.setLanguage("de-DE");
+        // Let's define a command.
+        var commands = {
+
+            'Nächstes Level': restart
+
+        };
+        annyang.debug(true);
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+
+        // Start listening.
+        annyang.start(true, true);
+    }
+
+    // ------------------------------
 
     // Show some Debug Axis
-    var showAxis = function (size) {
+   /* var showAxis = function (size) {
         var makeTextPlane = function (text, color, size) {
             var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
             dynamicTexture.hasAlpha = true;
@@ -138,19 +225,14 @@
     };
 
     showAxis(20);
-    state = 2;
+    */
+    state = 1;
     var appWidth = 100;
     var appHeight = 50;
-
     // LEAP MOTION LOOP
     var controller = Leap.loop({enableGestures:true}, function (frame) {
 
-        fpsDisplay.innerText = frame.currentFrameRate;
-        handCountDisplay.innerText = frame.hands.length;
-        pointableCountDisplay.innerText = frame.pointables.length;
-        fingerCountDisplay.innerText = frame.fingers.length;
-        toolCountDisplay.innerText = frame.tools.length;
-        gestureCountDisplay.innerText = frame.gestures.length;
+        leapFpsDisplay.innerText = Math.round(frame.currentFrameRate).toString();
 
                 if (frame.hands.length > 0) {
 
@@ -209,17 +291,25 @@
 
                         }
                         // Collsion check
-
+                        var collide = true;
                         for (var p = 0; p < points.length - 2; p++) {
                             if (collideSphere1.intersectsMesh(colliders[p], true)) {
-                                console.log("WAAA");
+                                console.log("In line");
                                 torus.material.emissiveColor = new BABYLON.Color3(1, 0, 1);
-                            } else {
-                                torus.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+                                collide = false;
                             }
+                        }
+                        if(collideSphere1.intersectsMesh(endBox)){
+                            playing = false;
+                            doneDisplay.innerText = "YES!!"
+                        }
+                        if(collide && playing){
+                            counterCollisions++;
+                            torus.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
                         }
                     }
                 }
+                collisionsDisplay.innerText = counterCollisions.toString();
             }
     ).use('screenPosition', {scale: 1});
 
