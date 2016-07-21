@@ -46,7 +46,7 @@
         #info {
             position: absolute;
             width: 400px;
-            height: 300px;
+            height: 330px;
             text-align: left;
             margin: 1%;
             padding: 10px;
@@ -80,7 +80,7 @@
     <p></p><p class="inline black">Zeit HeightMap: </p> <p class="inline" id="heightmap"></p>
     <p></p><p class="inline black">Zeit Baumplatzierung: </p> <p class="inline" id="baum"></p>
     <p></p><p class="inline black">Zeit Wassersimulation: </p> <p class="inline" id="wasser"></p>
-    <p></p><p class="inline black">Überlebt? </p> <p class="inline" id="alive"></p>
+    <p></p><p class="inline black">Überlebt? </p> <p class="inline" id="alive"></p> <p class="inline" id="gestures"></p>
 
 </div>
 <canvas id="renderCanvas"></canvas>
@@ -91,6 +91,7 @@
     var baumDisplay = document.getElementById('baum');
     var wasserDisplay = document.getElementById('wasser');
     var aliveDisplay = document.getElementById('alive');
+    var gestures = document.getElementById('gestures');
 
     // Leap Coordinates
     var leapX = 0;
@@ -110,7 +111,8 @@
     var sceneObjects = [];
     var tree = 0;
     var animationWater = 0;
-
+    var gesturesCounter = 0;
+    var gesturesKeytabs = 0;
     // ------- TEST STUFF---
 
     // Scene Creation
@@ -281,6 +283,8 @@
 
                 camera.beta = Math.PI / 2.4;
             }
+
+            gestures.innerText = "Gestures :" + gesturesCounter + " / Keytab "+ gesturesKeytabs;
         }
     });
 
@@ -788,13 +792,13 @@
                             frame.gestures.forEach(function (gesture) {
                                 switch (gesture.type) {
                                     case "circle":
-
-                                        console.log("Circle Gesture");
+                                        gesturesCounter++;
                                         break;
                                     case "keyTap":
 
 
-
+                                        gesturesCounter++;
+                                        gesturesKeytabs++;
                                         // Paint on Dynamic Texture
                                         if (mesh.pickedMesh == ground) {
                                             /*    player.position.x = collisionPoint.x;
@@ -858,16 +862,13 @@
                                         }
 
 
-                                        console.log("Key Tap Gesture");
                                         break;
                                     case "screenTap":
-
-                                        console.log("Screen Tap Gesture");
+                                        gesturesCounter++;
                                         break;
                                     case "swipe":
 
-
-                                        console.log("Swipe Gesture");
+                                        gesturesCounter++;
                                         break;
                                 }
                             });
@@ -877,29 +878,6 @@
 
                 case 6:
 
-                    // Stone is created and gets the  Position + Size depending on the Position/PinchStrength of the Hand at creation
-                    if (stoneMove) {
-                        var stoneMesh = scene.getMeshByID("stone" + stoneIndex);
-                        if (mesh.pickedMesh != null) {
-                            var collisionPoint = mesh.pickedPoint
-
-                            stoneMesh.position = collisionPoint;
-
-                        }
-                        var scaling = (2.0 - hand.pinchStrength) * 4;
-                        stoneMesh.scaling = new BABYLON.Vector3(scaling, scaling, scaling);
-
-                        var mergedMeshes = BABYLON.Mesh.MergeMeshes(stones);
-                        stones = [];
-                        stones.push(mergedMeshes);
-                    }
-                    stoneMove = false;
-
-                    if (stones.length > 0 && frame.hands[1] != null && frame.hands[1].pinchStrength < 0.3) {
-                        var handNormPosition = interactionBox.normalizePoint(frame.hands[1].palmPosition, true);
-
-                        stones[0].position.y = handNormPosition[1] * 100 - handNormPosition[1] * 100 / 2;
-                    }
 
                     break;
             }
