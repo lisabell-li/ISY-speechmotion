@@ -40,7 +40,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
+                <a class="navbar-brand page-scroll" href="./index.html">
                     <i class="fa fa-play-circle"></i> <span class="light">Start</span>
                 </a>
             </div>
@@ -53,20 +53,18 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">Konzept</a>
+                        <a class="page-scroll" href="#anleitung">Anleitung</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#leap">Leap Motion</a>
+                        <a class="page-scroll" href="#code">Implementierung</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#annyang">Annyang</a>
+                        <a class="page-scroll" href="#analyse">Analyse</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#babylon">BabylonJS</a>
+                        <a class="page-scroll" href="#fazit">Fazit</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Demos</a>
-                    </li>
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -75,19 +73,14 @@
     </nav>
 
     <!-- Intro Header -->
-    <header class="intro">
+    <header class="intro" style=" background: url(./images/landscape-bg.jpg) no-repeat bottom center scroll;">
         <div class="intro-body">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-md-offset-0">
-                        <h1 class="brand-heading">Speech + Motion</h1>
+                        <h1 class="brand-heading">Landschaftsspiel</h1>
                         <p class="intro-text">
-                            Im Rahmen des Kurses Interactive Systems (Prof. Dr. Hildebrand, SS2016) der Beuth Hochschule entstand folgende Idee für ein Projekt:
-                            </br>Eine 3D Szene im Browser mit Gesten und Sprache steuern.
-                            </br></br>
-
-
-                       Projekt: Markus Küpper und Lisa Bell
+                            Gestensteuerung in komplexen 3D Umfeld und Objektgenerierung/Spielleitung über Spracherkennung
                          </p>
                         <a href="#about" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
@@ -99,40 +92,53 @@
     </header>
 
     <!-- About Section -->
-    <section id="about" class="container content-section text-justify">
+    <section id="anleitung" class="container content-section text-justify">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Konzept</h2>
-               <p>Die Idee hinter dem Projekt war es die Steuerung einer Anwendung oder Webseite mit Hilfe von Gesten und Sprache zu ermöglichen. Hierfür sollten verschiedene Anwendungen  implementiert werden, die sich stark in ihrer Interaktion unterscheiden.
-                       Für die Gestensteuerung wurde ein Leap Motion Sensor gewählt und die Sprachsteuerung erfolgt über die Javascript Library Annyang, welche die Google Speech Services nutzt.
-                       Alle Anwendungen sollen im Browser funktionieren, weshalb das Javascript Framework BabylonJS zum Einsatz kommt, welches per WebGL da rendern komplexer 3D-Szenen und Anwendungen zulässt.
-                       Die Verknüpfung von BabylonJS, Annyang und Leap Motion war die Kernarbeit des Projektes, da es hierfür eine lange Einarbeitungszeit in die Technologien benötigte.
-                       Letztendlich sind 3 Anwendungen entwickelt worden, die auf unterschiedliche Weise die Interaktion per Sprache und Gesten ermöglichen.
-                <br>
+                <h2>Anleitung</h2>
+               <p>
+                   Landscape Challenge
 
-                <p>
-                <ul >
-                    <li><p>Fotobearbeitung (Steuerung von Software wie z.B. Photoshop)</p></li>
-                     <li><p>Landschafts Generator (Interaktion mit 3D Scenen)</p></li>
-                     <li><p>Geschicklichkeitsspiel (Pixelgenaue Steuerung)</p></li>
-                </ul>
-                </p>
+                   Ziel dieser Anwendung ist die Leap Motion Steuerung im 3D Raum zu testen und die Sprachsteuerung als Tool zur Spielleitung zu nutzen.
+                   Desweiteren beinhaltet die Anwendung komplexere 3D und Shader Elemente wodurch auch die Performance von Gesten und Sprachsteuerung in komplexen Szenen getestet wird.
+<br>
+                   Der Nutzer sieht zunächst eine flache Ebene und schwarze Fläche mit einer eingezeichneten Kontur. Aufgabe ist es in der schwarzen Fläche, möglichst innerhalb der Kontur per Gestensteurung eine Height Map einzuzeichnen, aus welcher darauf ein neuer Mesh mit entsprechenden Höheninformationen erstellt wird. Daraufhin muss der Nutzer 4 Bäume an eine zufällig erscheinende Stelle innerhalb der Landschaft verschieben. Als nächster Schritt wird Wasser inklusive Shader in die Szene hinzugefügt. Das Wasser soll durch eine Circle-Geste in einen unruhigen Wellenzustand gebracht werden. Als letzten Schritt aktiviert der Nutzer eine Spielfigur, welche er daraufhin per Tap-Geste zu einem Rettungshelikopter steuern muss. Das Wasser steigt dabei an und setzt den Nutzer emotional unter Zeitdruck. Schafft die Spielfigur es nicht rechtzeitig zum Hubschrauber wird das Spiel als verloren gewertet. Alle Schritte nochmal zusammengefasst:
+                    <br> <br>
+                   <strong>1) Sprachkommando „Karte“ startet die Höhenmap Aufgabe</strong> <br>
+                   > Per Handbewegung wird der Cursor gesteuert. Bei sich schließender Hand wird eine weiße Fläche gemalt je nach Stärke der geschlossenen Faust.
+                   <br>
+                   <img src="images/land1.jpg" class="img-responsive" alt="...">
+                   <br> <br>
+
+                   <strong>2) Sprachkommando „Wald“ startet die Platzierungsaufgabe </strong><br>
+                   > Es wird pro Sprachkommando ein Baum erzeugt, welcher an eine der 4 eingezeichneten Punkte verschoben werden muss. Bei Kontakt wird der Baum fest platziert.
+                   > Alle 4 Bäume müssen platziert werden
+                   <br>
+                   <img src="images/land2.jpg" class="img-responsive" alt="...">
+                   <br> <br>
+
+                   <strong>3) Sprachkommando „Wasser“ startet die Wasser Aufgabe </strong><br>
+                   > Per Kreis-Bewegung der Hand mit ausgestrecktem Zeigefinger kann eine der standardisierten Leap Motion Gesten getriggert werden. Pro erkannte Kreis-Geste werden wie Wellen und die Windstärke des Wassers erhöht. Sobald die zu erreichende Wellenhöhe erreicht wurde ist die Challenge beendet,
+                   <br>
+                   <img src="images/land3.jpg" class="img-responsive" alt="...">
+                   <br> <br>
+
+                   <strong>4) Sprachkommando „Spiel“ start die Helikopter Aufgabe.</strong> <br>
+                   > In der Mitte der Landschaft erscheint eine Spielfigur und eine rotes Dreieck, welches das anzuvisierende Laufziel der Figur symbolisiert. Aufgabe ist nun eine Finger-Tap-Geste auszuführen, so als würde man eine Tastaturtaste drücken. Wird diese vom Leap Sensor erkannt, rennt die Figur zu der anvisierten Stelle.
+               </p>
 
                 <br>
-                <p>Für alle Anwendungen wurden verschiedene Interaktionen zeitlich oder nummerisch getrackt und so gemessen wie schnell und sicher die Nutzer per Geste und Sprache mit der Anwendung interagieren können.</p>
-                </p>
-                <br>
-                <img src="images/konzept-bild.jpg" class="img-responsive" alt="...">
+                <img src="images/land4.jpg" class="img-responsive" alt="...">
             </div>
         </div>
     </section>
 
     <!-- Leap JS Section -->
-    <section id="leap" class="content-section text-center">
+    <section id="code" class="content-section text-center">
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Leap Motion</h2>
+                    <h2>Implementierung</h2>
                     <div class="row">
                         <div class="col-xs-6 col-md-3">
                             <a href="#" class="thumbnail">
@@ -164,10 +170,10 @@
     </section>
 
     <!-- Annyang Section -->
-    <section id="annyang" class="container content-section text-center">
+    <section id="analyse" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Annyang</h2>
+                <h2>Analyse</h2>
                 <div class="row">
                     <div class="col-xs-6 col-md-3 thumbnail">
 
@@ -197,11 +203,11 @@
     </section>
 
     <!-- Babylon JS Section -->
-    <section id="babylon" class="content-section text-center">
+    <section id="fazit" class="content-section text-center">
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>BabylonJS</h2>
+                    <h2>Fazit</h2>
                     <div class="row">
                         <div class="col-xs-6 col-md-3">
                             <a href="#" class="thumbnail">
@@ -255,7 +261,7 @@
                                 <h3>Landschaftsspiel</h3>
                                 <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
                                 <p><a target="_blank" href="./LandscapeChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                    <a href="./doc_LandscapeChallenge.html" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
+                                    <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
                             </div>
                         </div>
                     </div>
