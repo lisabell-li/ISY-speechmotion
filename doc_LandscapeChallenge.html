@@ -134,35 +134,19 @@
     </section>
 
     <!-- Leap JS Section -->
-    <section id="code" class="content-section text-center">
+    <section id="code" class="content-section text-justify">
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>Implementierung</h2>
                     <div class="row">
-                        <div class="col-xs-6 col-md-3">
-                            <a href="#" class="thumbnail">
-                                <img src="images/LeapCoordinates.png" alt="...">
-                            </a>
-                            <small>Koordinatensystem Leap Motion</small>
-                        </div>
-                        <div class="col-xs-12 col-md-8">
-                            <p>
-                            <ul style="text-align: left">
-                            <li>2 monochromatische IR-Kameras und 3 IR-LEDs </li>
-                            <li>Handbewegung wird 60fps analysiert/ausgegeben</li>
-                            <li>Erfasst ca. 1 Meter</li>
-                            <li>JavaScript API : LeapJS</li>
-
-
-
-
-                        </ul>
-                            </p>
-                        </div>
-
-                    </div>
-                    <a target="_blank" href="https://www.leapmotion.com/" class="btn btn-default btn-lg">Zur offiziellen Leap Motion-Seite</a>
+                        <p>Innerhalb der Implementierung werden verschiedene Spielzustände definiert, welche durch die Sprachkommandos gesteuert werden. Wird die Höhenmap Aufgabe durch „Karte“ aufgerufen, wird der Cursor per Leap Motion gesteuert und innerhalb des Leap Motion Loops die Stärke der Handkrümmung geprüft. Über die Leap Motion API ist über die jeweilige Hand die GrabStrength abfragbar, was ein Wert zwischen 0 und 1 je nachdem wie geschlossen die Hand ist. Per Ray Tracing wird dann geprüft ob sich die Cursor Position über der Höhenmap befindet und berechnet entsprechend den Schnittpunkt. Der Ray wird aus dem Kamera Ursprung in die Richtung des Punkts gleich der getrackten X/Y-Koordinaten der Hand und dem Z-Abstand der Höhenmap gefeuert.
+                         Ein Timer misst die Zeit wie lange der Nutzer brauch um die Höhenkarte innerhalb der Kontur einzuzeichnen. Verlässt der Nutzer mit dem Cursor die Höhenmap wird die Landschaft aufgrund der neuen Höhenmap neu erstellt und ein Mesh erzeugt.
+                         <br><br>
+                         Wird die Baum Platzierung gestartet, so wird die Kamera Positionen nach oben rotiert, da ansonsten die Zielpositionen für die Bäume nicht erkennbar wären. Es werden 4 zufällige Positionen auf der Karte erzeugt an welche die Bäume platziert werden sollen. Hier wird mit Collision Detection zwischen Meshes abgefragt, bis ein Baum eine der Markierungen berührt. Gemessen wird die Zeit die der Nutzer benötigt, nach einem erzeugten Baum diesen an eine der Position zu bringen. Die benötigte Zeit für alle 4 Bäume wird aufsummiert und gespeichert. Die Bäume werden wiederum per Ray Tracing zwischen Kamera und der Landschaft und getreckten Leap Motion Koordinaten gesteuert. Der Baum bewegt sich zudem nur auf der Höhe des Meshes, da es zu schwer wäre den Baum auch in der Höhe auf der Y-Achse entsprechend in der richtigen Höhe zu platzieren.
+                         <br>
+                        </p>
+                    <a target="_blank" href="https://www.leapmotion.com/" class="btn btn-default btn-lg">Link zum Git-Repository</a>
 
                 </div>
             </div>
