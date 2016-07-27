@@ -1,131 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!--Favicon-->
-    <link rel="shortcut icon" href="images/favicon.ico" />
 
-    <title>Speechmotion 3D | Leap Motion, BabylonJS and Annyang</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
+    <title>Speed + Motion - Projektdokumenation - Interactive Systems</title>
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="css/leapstrap.css" media="screen" />
-    <link rel="stylesheet" src="css/bootstrap.css">
-    <!--JavaScript -->
-    <script src="js/leap.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/leapstrap.js"></script>
-    <!-- FOr touch events. olyfill library https://github.com/deltakosh/handjs/blob/master/bin/hand.js -->
-    <script src="js/hand.js"></script>
-    <script src="js/leap-plugins-0.1.11.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="css/grayscale.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 </head>
-<body>
-<nav  class="navbar mynav navbar-fixed-top " role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <!--   <span class="icon-bar"></span> </button> <a class="navbar-brand leap-interactive" href="#">Speechmotion 3D</a> -->
-      </div>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-            <li><a class="leap-interactive" href="#idea">Die Idee</a></li>
-            <li><a class="leap-interactive" href="#implementation">Umsetzung</a></li>
-            <li><a class="leap-interactive" href="#examples">Anwendungen</a></li>
-        </ul>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-
-    </div>
-
-    <!-- /.navbar-collapse -->
-</nav>
-
-<section style="background-color:rgba(235, 235, 235, 0.30);" id="idea">
-    <div style="padding:70px;"><h1 >Die Idee</h1>
-
-    <p>
-        Im Rahmen des Kurses Interactive Systems (Prof. Dr. Hildebrand, SS2016) der Beuth Hochschule entstand folgende Idee für ein Projekt:
-        </br><strong>Eine 3D Szene im Browser mit Gesten und Sprache steuern.</strong>
-        </br></br>Technologien:
-        <ul>
-            <li>Babylon.js = 3D Framework für den Browser</li>
-            <li>Leap Motion = Gestenerkennung</li>
-            <li>Annyang = Spracherkennung</li>
-        </ul>
-        <p>Projekt von: Markus Küpper und Lisa Bell</p>
-
-
-    </p>
-    </div>
-</section>
-
-<section style="background-color:rgba(235, 235, 235, 0.50);" id="implementation">
-    <div style="padding:70px;">
-    <h1>Die Umsetzung</h1>
-    <p>...more...</p>
-   </div>
-
-</section>
-
-<section style="background-color:rgba(235, 235, 235, 0.30);" id="examples">
-    <div style="padding:70px;">
-        <h1>&nbsp Anwendungen</h1>
-        </br>
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail leap-interactive">
-                    <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
-                    <div class="caption">
-                        <h3>Bildbearbeitung</h3>
-                        <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
-                        <p><a target="_blank" href="./speechmotion.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                            <a href="./dokuPictureEditing.html" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation </a></p>
-                    </div>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <i class="fa fa-play-circle"></i> <span class="light">Start</span>
+                </a>
             </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail leap-interactive">
-                    <img src="images/watersp.PNG" alt="...">
-                    <div class="caption">
-                        <h3>Landschaftsspiel</h3>
-                        <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
-                        <p><a target="_blank" href="./LandscapeChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                            <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
-                    </div>
-                </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">Konzept</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#leap">Leap Motion</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#annyang">Annyang</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#babylon">BabylonJS</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Demos</a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail leap-interactive">
-                    <img src="images/dontouch.PNG" alt="...">
-                    <div class="caption">
-                        <h3>Geschicklichkeits-Spiel</h3>
-                        <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
-                        <p><a target="_blank" href="./DontTouchChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                            <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-0">
+                        <h1 class="brand-heading">Speech + Motion</h1>
+                        <p class="intro-text">
+                            Im Rahmen des Kurses Interactive Systems (Prof. Dr. Hildebrand, SS2016) der Beuth Hochschule entstand folgende Idee für ein Projekt:
+                            </br>Eine 3D Szene im Browser mit Gesten und Sprache steuern.
+                            </br></br>
+
+
+                       Projekt: Markus Küpper und Lisa Bell
+                         </p>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
-</section>
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Konzept</h2>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leap JS Section -->
+    <section id="leap" class="content-section text-center">
+        <div class="download-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Leap Motion</h2>
+                    <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
+                    <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the preview page</a>. The theme is open source, and you can use it for any purpose, personal or commercial.</p>
+                    <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
+                    <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
+                    <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the preview page</a>. The theme is open source, and you can use it for any purpose, personal or commercial.</p>
+                    <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
+                    <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
+                    <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit Download Page</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Annyang Section -->
+    <section id="annyang" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Annyang</h2>
+                    <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the preview page</a>. The theme is open source, and you can use it for any purpose, personal or commercial.</p>
+                    <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
+                    <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leap JS Section -->
+    <section id="babylon" class="content-section text-center">
+        <div class="download-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>BabylonJS</h2>
+                    <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
+                    <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit Download Page</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-26 col-lg-offset-0">
 
 
+            <h1>&nbsp Demos</h1>
+            </br>
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail leap-interactive">
+                            <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
+                            <div class="caption">
+                                <h3>Bildbearbeitung</h3>
+                                <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
+                                <p><a target="_blank" href="./speechmotion.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                    <a href="./dokuPictureEditing.html" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation </a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail leap-interactive">
+                            <img src="images/watersp.PNG" alt="...">
+                            <div class="caption">
+                                <h3>Landschaftsspiel</h3>
+                                <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
+                                <p><a target="_blank" href="./LandscapeChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                    <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail leap-interactive">
+                            <img src="images/dontouch.PNG" alt="...">
+                            <div class="caption">
+                                <h3>Geschicklichkeits-Spiel</h3>
+                                <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
+                                <p><a target="_blank" href="./DontTouchChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                    <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-<body>
-<nav  class="navbar mynav navbar-fixed-bottom " role="navigation">
+         </div>
+        </div>
+    </section>
 
-</nav>
 
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>Copyright &copy; Your Website 2016</p>
+        </div>
+    </footer>
 
-<!-- Init Leap, Set all "a" interactive, use 1 Leap cursor/finger -->
-<script>LeapManager.init({interactiveSelector:"a",maxCursors:1});</script>
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/grayscale.min.js"></script>
 
 </body>
+
 </html>
