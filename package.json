@@ -1,12 +1,12 @@
 {
-  "name": "grayscale",
-  "title": "Grayscale",
+  "name": "Speechmotion",
+  "title": "Speechmotion",
   "version": "1.1.1",
-  "homepage": "http://startbootstrap.com/template-overviews/grayscale",
-  "author": "Start Bootstrap",
+  "homepage": "http://speechmotion.herokuapp.com/",
+  "author": "Lisa Bell und Markus Küpper",
   "license": {
-    "type": "MIT",
-    "url": "https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE"
+    "type": "",
+    "url": ""
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
@@ -22,6 +22,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/BlackrockDigital/startbootstrap-grayscale.git"
+    "url": "https://github.com/lisabell-li/ISY-speechmotion.git"
   }
 }

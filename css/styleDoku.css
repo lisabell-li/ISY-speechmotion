@@ -1,0 +1,81 @@
+/* -----Doku Page----*/
+
+.mynav {
+    background-color:white;
+    color:cadetblue;
+    border-radius:0;
+    font-family: "Agency FB";
+    font-size: 24px;
+
+}
+
+.mynav .navbar-nav > li > a {
+    color:cadetblue;
+}
+.mynav .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color:cadetblue;
+    background-color:white;
+}
+
+.navbar-fixed-top .navbar-nav > li > a:hover, .navbar-fixed-top .navbar-nav > li > a:focus {
+    background-color: transparent;
+    color: black;
+}
+
+.mynav .navbar-brand {
+    color:#2b2d2f;
+    font-size: 30px;
+    font-family: "Bauhaus 93";
+}
+
+
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+    text-align: center;
+}
+.jumbotron p, .jumbotron ul, .jumbotron li{
+    font-size: 18px ;
+    color: dimgray;
+}
+.navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
+.navbar {min-height:40px !important}
+
+.dimgray{
+    color: dimgray;
+}
+
+section {
+    padding-top:50px;
+    min-height: 900px;
+    color:cadetblue;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+
+section h1{
+    font-family: "Agency FB";
+}
+section h3{
+    font-family: "Agency FB";
+}
+.card {
+    width: 300px;
+    height: 200px;
+    background-color: white;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 200px;  /* the same as the div height */
+
+    /* 50% black box shadow */
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+/* ---Index Page ENDE----*/
