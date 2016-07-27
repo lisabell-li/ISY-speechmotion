@@ -903,7 +903,7 @@ window.addEventListener("DOMContentLoaded", function () {
                     previousFrame = frame;
 
                     //get a past frame -> click event is triggered if finger is at one position for frame(x) frames
-                    var tenFramesBack = controller.frame(50);
+                    var tenFramesBack = controller.frame(30);
                     //get the movement vector of tenFramesBack and current frame
                     var movement = hand.translation(tenFramesBack);
 
@@ -1299,17 +1299,17 @@ window.addEventListener("DOMContentLoaded", function () {
                                         }
                                     }
                                 }
-                                console.log("Circle Gesture");
+                                console.log("Circle gesture");
                                 break;
                             case "keyTap":
-                                console.log("key tap Gesture");
+                                console.log("key tap gesture");
                                 break;
                             case "screenTap":
                                 var position = gesture.position;
-                                console.log("screen tap Gesture" + position);
+                                console.log("screen tap gesture" + position);
                                 break;
                             case "swipe":
-                                console.log("Swipe Gesture");
+                                console.log("Swipe gesture");
                                 break;
                         }
                     });

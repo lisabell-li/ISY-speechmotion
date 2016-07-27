@@ -21,12 +21,34 @@
     font-family: "Bauhaus 93";
 }
 
-section {
-    padding-top:70px;
-    min-height: 800px;
-    color:cadetblue;
+
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+    vertical-align: top;
 }
+
+.navbar .navbar-collapse {
+    text-align: center;
+}
+
+.navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
+.navbar {min-height:40px !important}
+
+
+section {
+    padding-top:50px;
+    min-height: 900px;
+    color:cadetblue;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+
 section h1{
+    font-family: "Agency FB";
+}
+section h3{
     font-family: "Agency FB";
 }
 .card {
@@ -65,7 +87,7 @@ section h1{
     border: 1px solid #ff0000;
 }
 #imgcanvas{
-
+display:none;
 
 }
 #imgprocessingButtons{

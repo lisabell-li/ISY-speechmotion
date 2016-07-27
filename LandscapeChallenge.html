@@ -370,9 +370,9 @@
         y = width - y;
 
         brushcontext.save();
-        brushcontext.globalAlpha = 0.1;
+        brushcontext.globalAlpha = 0.3;
         brushcontext.beginPath();
-        brushcontext.fillStyle = 'rgba(' + alphaSmooth + ',' + alphaSmooth + ',' + alphaSmooth + ', 0.1)';
+        brushcontext.fillStyle = 'rgba(' + alphaSmooth + ',' + alphaSmooth + ',' + alphaSmooth + ', 0.3)';
         brushcontext.arc(x, y, 55, 0, 2 * Math.PI);
         brushcontext.fill();
         brushcontext.restore();
@@ -680,8 +680,8 @@
 
                 case 2: // EDIT HIGH MAP
                     //cursors position is updated with leaps normalized position
-                    cursor.style.left = canvas.width / 2 + leapX + 30 + 'px';
-                    cursor.style.top = canvas.height / 2 - leapY + 50 + 'px';
+                    cursor.style.left = canvas.width / 2 + leapX  + 'px';
+                    cursor.style.top = canvas.height / 2 - leapY  + 'px';
 
                     // ------- RAY COLLOSION -------------
 
