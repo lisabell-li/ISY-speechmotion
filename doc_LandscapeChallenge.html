@@ -16,7 +16,8 @@
 
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
     <!-- Theme CSS -->
@@ -25,270 +26,409 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+<!-- Navigation -->
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="./index.html">
+                <i class="fa fa-play-circle"></i> <span class="light">Start</span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#anleitung">Anleitung</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#code">Implementierung</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#analyse">Analyse</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#fazit">Fazit</a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!-- Intro Header -->
+<header class="intro" style=" background: url(./images/landscape-bg.jpg) no-repeat bottom center scroll;">
+    <div class="intro-body">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    Menu <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="./index.html">
-                    <i class="fa fa-play-circle"></i> <span class="light">Start</span>
-                </a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#anleitung">Anleitung</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#code">Implementierung</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#analyse">Analyse</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#fazit">Fazit</a>
-                    </li>
-
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Intro Header -->
-    <header class="intro" style=" background: url(./images/landscape-bg.jpg) no-repeat bottom center scroll;">
-        <div class="intro-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-md-offset-0">
-                        <h1 class="brand-heading">Landschaftsspiel</h1>
-                        <p class="intro-text">
-                            Gestensteuerung in komplexen 3D Umfeld und Objektgenerierung/Spielleitung über Spracherkennung
-                         </p>
-                        <a href="#about" class="btn btn-circle page-scroll">
-                            <i class="fa fa-angle-double-down animated"></i>
-                        </a>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 col-md-offset-0">
+                    <h1 class="brand-heading">Landschaftsspiel</h1>
+                    <p class="intro-text">
+                        Gestensteuerung in komplexen 3D Umfeld und Objektgenerierung/Spielleitung über Spracherkennung
+                    </p>
+                    <a href="#anleitung" class="btn btn-circle page-scroll">
+                        <i class="fa fa-angle-double-down animated"></i>
+                    </a>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <!-- About Section -->
-    <section id="anleitung" class="container content-section text-justify">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Anleitung</h2>
-               <p>
-                   Landscape Challenge
+<!-- About Section -->
+<section id="anleitung" class="container content-section text-justify">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>Anleitung</h2>
+            <p>
+                Landscape Challenge
 
-                   Ziel dieser Anwendung ist die Leap Motion Steuerung im 3D Raum zu testen und die Sprachsteuerung als Tool zur Spielleitung zu nutzen.
-                   Desweiteren beinhaltet die Anwendung komplexere 3D und Shader Elemente wodurch auch die Performance von Gesten und Sprachsteuerung in komplexen Szenen getestet wird.
-<br>
-                   Der Nutzer sieht zunächst eine flache Ebene und schwarze Fläche mit einer eingezeichneten Kontur. Aufgabe ist es in der schwarzen Fläche, möglichst innerhalb der Kontur per Gestensteurung eine Height Map einzuzeichnen, aus welcher darauf ein neuer Mesh mit entsprechenden Höheninformationen erstellt wird. Daraufhin muss der Nutzer 4 Bäume an eine zufällig erscheinende Stelle innerhalb der Landschaft verschieben. Als nächster Schritt wird Wasser inklusive Shader in die Szene hinzugefügt. Das Wasser soll durch eine Circle-Geste in einen unruhigen Wellenzustand gebracht werden. Als letzten Schritt aktiviert der Nutzer eine Spielfigur, welche er daraufhin per Tap-Geste zu einem Rettungshelikopter steuern muss. Das Wasser steigt dabei an und setzt den Nutzer emotional unter Zeitdruck. Schafft die Spielfigur es nicht rechtzeitig zum Hubschrauber wird das Spiel als verloren gewertet. Alle Schritte nochmal zusammengefasst:
-                    <br> <br>
-                   <strong>1) Sprachkommando „Karte“ startet die Höhenmap Aufgabe</strong> <br>
-                   > Per Handbewegung wird der Cursor gesteuert. Bei sich schließender Hand wird eine weiße Fläche gemalt je nach Stärke der geschlossenen Faust.
-                   <br>
-                   <img src="images/land1.jpg" class="img-responsive" alt="...">
-                   <br> <br>
-
-                   <strong>2) Sprachkommando „Wald“ startet die Platzierungsaufgabe </strong><br>
-                   > Es wird pro Sprachkommando ein Baum erzeugt, welcher an eine der 4 eingezeichneten Punkte verschoben werden muss. Bei Kontakt wird der Baum fest platziert.
-                   > Alle 4 Bäume müssen platziert werden
-                   <br>
-                   <img src="images/land2.jpg" class="img-responsive" alt="...">
-                   <br> <br>
-
-                   <strong>3) Sprachkommando „Wasser“ startet die Wasser Aufgabe </strong><br>
-                   > Per Kreis-Bewegung der Hand mit ausgestrecktem Zeigefinger kann eine der standardisierten Leap Motion Gesten getriggert werden. Pro erkannte Kreis-Geste werden wie Wellen und die Windstärke des Wassers erhöht. Sobald die zu erreichende Wellenhöhe erreicht wurde ist die Challenge beendet,
-                   <br>
-                   <img src="images/land3.jpg" class="img-responsive" alt="...">
-                   <br> <br>
-
-                   <strong>4) Sprachkommando „Spiel“ start die Helikopter Aufgabe.</strong> <br>
-                   > In der Mitte der Landschaft erscheint eine Spielfigur und eine rotes Dreieck, welches das anzuvisierende Laufziel der Figur symbolisiert. Aufgabe ist nun eine Finger-Tap-Geste auszuführen, so als würde man eine Tastaturtaste drücken. Wird diese vom Leap Sensor erkannt, rennt die Figur zu der anvisierten Stelle.
-               </p>
-
+                Ziel dieser Anwendung ist die Leap Motion Steuerung im 3D Raum zu testen und die Sprachsteuerung als
+                Tool zur Spielleitung zu nutzen.
+                Desweiteren beinhaltet die Anwendung komplexere 3D und Shader Elemente wodurch auch die Performance von
+                Gesten und Sprachsteuerung in komplexen Szenen getestet wird.
                 <br>
-                <img src="images/land4.jpg" class="img-responsive" alt="...">
-            </div>
+                Der Nutzer sieht zunächst eine flache Ebene und schwarze Fläche mit einer eingezeichneten Kontur.
+                Aufgabe ist es in der schwarzen Fläche, möglichst innerhalb der Kontur per Gestensteurung eine Height
+                Map einzuzeichnen, aus welcher darauf ein neuer Mesh mit entsprechenden Höheninformationen erstellt
+                wird. Daraufhin muss der Nutzer 4 Bäume an eine zufällig erscheinende Stelle innerhalb der Landschaft
+                verschieben. Als nächster Schritt wird Wasser inklusive Shader in die Szene hinzugefügt. Das Wasser soll
+                durch eine Circle-Geste in einen unruhigen Wellenzustand gebracht werden. Als letzten Schritt aktiviert
+                der Nutzer eine Spielfigur, welche er daraufhin per Tap-Geste zu einem Rettungshelikopter steuern muss.
+                Das Wasser steigt dabei an und setzt den Nutzer emotional unter Zeitdruck. Schafft die Spielfigur es
+                nicht rechtzeitig zum Hubschrauber wird das Spiel als verloren gewertet. Alle Schritte nochmal
+                zusammengefasst:
+                <br> <br>
+                <strong>1) Sprachkommando „Karte“ startet die Höhenmap Aufgabe. "Fertig" zum Beenden.</strong> <br>
+                > Per Handbewegung wird der Cursor gesteuert. Bei sich schließender Hand wird eine weiße Fläche gemalt
+                je nach Stärke der geschlossenen Faust.
+                <br>
+                <img src="images/land1.jpg" class="img-responsive" alt="...">
+                <br> <br>
+
+                <strong>2) Sprachkommando „Wald“ startet die Platzierungsaufgabe </strong><br>
+                > Es wird pro Sprachkommando ein Baum erzeugt, welcher an eine der 4 eingezeichneten Punkte verschoben
+                werden muss. Bei Kontakt wird der Baum fest platziert.
+                > Alle 4 Bäume müssen platziert werden
+                <br>
+                <img src="images/land2.jpg" class="img-responsive" alt="...">
+                <br> <br>
+
+                <strong>3) Sprachkommando „Wasser“ startet die Wasser Aufgabe </strong><br>
+                > Per Kreis-Bewegung der Hand mit ausgestrecktem Zeigefinger kann eine der standardisierten Leap Motion
+                Gesten getriggert werden. Pro erkannte Kreis-Geste werden wie Wellen und die Windstärke des Wassers
+                erhöht. Sobald die zu erreichende Wellenhöhe erreicht wurde ist die Challenge beendet,
+                <br>
+                <img src="images/land3.jpg" class="img-responsive" alt="...">
+                <br> <br>
+
+                <strong>4) Sprachkommando „Spiel“ start die Helikopter Aufgabe.</strong> <br>
+                > In der Mitte der Landschaft erscheint eine Spielfigur und eine rotes Dreieck, welches das
+                anzuvisierende Laufziel der Figur symbolisiert. Aufgabe ist nun eine Finger-Tap-Geste auszuführen, so
+                als würde man eine Tastaturtaste drücken. Wird diese vom Leap Sensor erkannt, rennt die Figur zu der
+                anvisierten Stelle.
+            </p>
+
+            <br>
+            <img src="images/land4.jpg" class="img-responsive" alt="...">
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Leap JS Section -->
-    <section id="code" class="content-section text-justify">
-        <div class="download-section">
-            <div class="container">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Implementierung</h2>
-                    <div class="row">
-                        <p>Innerhalb der Implementierung werden verschiedene Spielzustände definiert, welche durch die Sprachkommandos gesteuert werden. Wird die Höhenmap Aufgabe durch „Karte“ aufgerufen, wird der Cursor per Leap Motion gesteuert und innerhalb des Leap Motion Loops die Stärke der Handkrümmung geprüft. Über die Leap Motion API ist über die jeweilige Hand die GrabStrength abfragbar, was ein Wert zwischen 0 und 1 je nachdem wie geschlossen die Hand ist. Per Ray Tracing wird dann geprüft ob sich die Cursor Position über der Höhenmap befindet und berechnet entsprechend den Schnittpunkt. Der Ray wird aus dem Kamera Ursprung in die Richtung des Punkts gleich der getrackten X/Y-Koordinaten der Hand und dem Z-Abstand der Höhenmap gefeuert.
-                         Ein Timer misst die Zeit wie lange der Nutzer brauch um die Höhenkarte innerhalb der Kontur einzuzeichnen. Verlässt der Nutzer mit dem Cursor die Höhenmap wird die Landschaft aufgrund der neuen Höhenmap neu erstellt und ein Mesh erzeugt.
-                         <br><br>
-                         Wird die Baum Platzierung gestartet, so wird die Kamera Positionen nach oben rotiert, da ansonsten die Zielpositionen für die Bäume nicht erkennbar wären. Es werden 4 zufällige Positionen auf der Karte erzeugt an welche die Bäume platziert werden sollen. Hier wird mit Collision Detection zwischen Meshes abgefragt, bis ein Baum eine der Markierungen berührt. Gemessen wird die Zeit die der Nutzer benötigt, nach einem erzeugten Baum diesen an eine der Position zu bringen. Die benötigte Zeit für alle 4 Bäume wird aufsummiert und gespeichert. Die Bäume werden wiederum per Ray Tracing zwischen Kamera und der Landschaft und getreckten Leap Motion Koordinaten gesteuert. Der Baum bewegt sich zudem nur auf der Höhe des Meshes, da es zu schwer wäre den Baum auch in der Höhe auf der Y-Achse entsprechend in der richtigen Höhe zu platzieren.
-                         <br>
-                        </p>
-                    <a target="_blank" href="https://www.leapmotion.com/" class="btn btn-default btn-lg">Link zum Git-Repository</a>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Annyang Section -->
-    <section id="analyse" class="container content-section text-center">
-        <div class="row">
+<!-- Leap JS Section -->
+<section id="code" class="content-section text-justify">
+    <div class="download-section"  style=" background: url(./images/code.jpg) scroll;">
+        <div class="container">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Analyse</h2>
+                <h2>Implementierung</h2>
                 <div class="row">
-                    <div class="col-xs-6 col-md-3 thumbnail">
+                    <p>Innerhalb der Implementierung werden verschiedene Spielzustände definiert, welche durch die
+                        Sprachkommandos gesteuert werden. Wird die Höhenmap Aufgabe durch „Karte“ aufgerufen, wird der
+                        Cursor per Leap Motion gesteuert und innerhalb des Leap Motion Loops die Stärke der Handkrümmung
+                        geprüft. Über die Leap Motion API ist über die jeweilige Hand die GrabStrength abfragbar, was
+                        ein Wert zwischen 0 und 1 je nachdem wie geschlossen die Hand ist. Per Ray Tracing wird dann
+                        geprüft ob sich die Cursor Position über der Höhenmap befindet und berechnet entsprechend den
+                        Schnittpunkt. Der Ray wird aus dem Kamera Ursprung in die Richtung des Punkts gleich der
+                        getrackten X/Y-Koordinaten der Hand und dem Z-Abstand der Höhenmap gefeuert.
+                        Ein Timer misst die Zeit wie lange der Nutzer brauch um die Höhenkarte innerhalb der Kontur
+                        einzuzeichnen. Verlässt der Nutzer mit dem Cursor die Höhenmap wird die Landschaft aufgrund der
+                        neuen Höhenmap neu erstellt und ein Mesh erzeugt. <br>
+                        Für das malen auf der Höhenmap wird eine <i>DynamicTexture</i> aus BabylonJS genutzt. Eine <i>DynamicTexture</i>
+                        kann zur Laufzeit verändert und verhält sich wie ein HTML <i>CanvasRenderingContext2D</i> Canvas
+                        in das gemalt oder modelliert werden kann. Die Erzeugung der Landschaft erfolgt über die
+                        Funktion <i>BABYLON.Mesh.CreateGroundFromHeightMap</i>, welche als Parameter die <i>DynamicTexture</i>
+                        übergeben bekommt.
+                        Hier ein Code-Ausschnitt der <i>draw()</i> Funktion, welche mit dem entsprechenden Ray Tracing
+                        Trefferpunkt innerhalb der <i>DynamicTexture</i> malt und die neue Landschaft erzeugt.
+                        <br><br>
+                        <img src="images/drawfunction.jpg" class="img-responsive" alt="...">
 
-                            <img src="images/annybsp.png" alt="...">
+                        <br><br>
+                        Wird die Baum Platzierung gestartet, so wird die Kamera Positionen nach oben rotiert, da
+                        ansonsten die Zielpositionen für die Bäume nicht erkennbar wären. Es werden 4 zufällige
+                        Positionen auf der Karte erzeugt an welche die Bäume platziert werden sollen. Hier wird mit
+                        Collision Detection zwischen Meshes abgefragt, bis ein Baum eine der Markierungen berührt.
+                        Gemessen wird die Zeit die der Nutzer benötigt, nach einem erzeugten Baum diesen an eine der
+                        Position zu bringen. Die benötigte Zeit für alle 4 Bäume wird aufsummiert und gespeichert. Die
+                        Bäume werden wiederum per Ray Tracing zwischen Kamera und der Landschaft und getrackten Leap
+                        Motion Koordinaten der Hand gesteuert. Der Baum bewegt sich zudem nur auf der Höhe des Meshes,
+                        da es zu schwer wäre den Baum auch in der Höhe auf der Y-Achse entsprechend in der richtigen
+                        Höhe zu platzieren. <br>
+                    </p>
+                    <a target="_blank" href="https://github.com/lisabell-li/ISY-speechmotion" class="btn btn-default btn-lg">Link zum
+                        Git-Repository</a>
 
-
-                    </div>
-                    <div class="col-xs-12 col-md-8">
-                        <p>
-                        <ul style="text-align: left">
-                            <li>JavaScript Framework für Sprachbefehle/Spracherkennung </li>
-                            <li>JavaScript-Wrapper für GoogleSpeech</li>
-                        <li>unterstützt viele verschiedene Sprachen</li>
-                        <li>kostenlos</li>
-                        <li>einfach einzubinden</li>
-                        <li>wird nicht von allen aktuellen Browsern unterstützt (z.B. Firefox)</li>
-
-                    </ul>
-                        </p>
-                    </div>
-
-                </div>
-
-                <a target="_blank" href="https://www.talater.com/annyang/" class="btn btn-default btn-lg">Zur offiziellen Annyang-Seite</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Babylon JS Section -->
-    <section id="fazit" class="content-section text-center">
-        <div class="download-section">
-            <div class="container">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Fazit</h2>
-                    <div class="row">
-                        <div class="col-xs-6 col-md-3">
-                            <a href="#" class="thumbnail">
-                                <img src="images/babylonCoordinates.PNG" alt="...">
-                            </a>
-                            <small>Koordinatensystem BabylonJS</small>
-                        </div>
-                        <div class="col-xs-12 col-md-8">
-                            <p>
-                                <ul style="text-align: left">
-                            <li>JavaScript Framework um  mit HTML5 und WebGL 3D Szenen zu entwickeln </li>
-                            <li>Untersützt verschiedene Kameras, Lichter, Materialen, Texturen und Meshes</li>
-
-
-                            </ul>
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <a target="_blank" href="http://www.babylonjs.com/" class="btn btn-default btn-lg">Zur offiziellen BabylonJS-Seite</a>
                 </div>
             </div>
         </div>
-    </section>
+</section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-26 col-lg-offset-0">
+<!-- Annyang Section -->
+<section id="analyse" class="container content-section text-justify">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>Analyse</h2>
+            <div class="row">
+                <p>
+                    Für die Analyse haben 10 Probanden jeweils einen Testdurchlauf und anschließend einen aufgezeichneten Durchlauf absolviert.
+                    Alle Probanden kamen mit der Spracherkennung gut zurecht und hatten nur wenig Fehler bei der Erkennung der Kommandos.
+                    Die Höhenkarte Aufgabe wurde unterschiedlich genau vollzogen, während einige Probanden relativ schnell mit der gezeichneten Map zufrieden waren, malten andere die Kontur komplett weiß aus.
+                    Die Probanden welche sich hier Zeit gelassen haben schafften am Ende auch die Helikopter Challenge, da sie durch die höheren Berge mehr Zeit hatten.
+                    Bei der Wald Aufgabe kam es zu ein paar Sprachproblemen, da die Probanden zu unruhig neue Baum Objekte erzeugen wollten. Hieraus lässt sich folgern, dass es besser wäre keine identischen Sprachkommandos mehrfach hintereinander ausführen zu lassen, da es sonst zu Doppelungen kommen kann. Besser wäre es „Wald 1“ - „Wald x“ Kommandos zu verwenden.
+                    Die Wasser Aufgabe wurde am schnellsten von allen gelöst und die Circle Geste von Leap Motion wurde sehr zuverlässig mit einer durchschnittlichen Erkennungsrate von 96,5 % erkannt im Verhältnis zu allen anderen erkannten Gesten in dem Zeitraum.
+                    Bei der Spiel Aufgabe ging es vorallem darum den Spieler in eine Stresssituation zu versetzen, wo er unter Zeitdruck eine bestimmte Geste (Keytap) ausführen sollte. Zum einen konnte bei unseren Tests festgestellt werden, das die Keytab Geste deutlich schlechter erkannt wird als z.B. die Circle Geste, aber trotzdem hatten wir eine höhere Erfolgsquote als die gemessene Erkennungsrate bei den Probanden unter Stress. Hier lag die Erkennungsrate bei gerademal 20,28 %, da viele die Geste zu unruhig, schnell und hektisch ausführten. Insgesamt schafften nur 4 von 10 Probanden die Spiel Aufgabe nicht und gingen mit ihrer Spielfigur baden.
+                </p>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Aufgabe</th>
+                        <th>Durschnittszeit</th>
+                        <th>Gestenerkennungsrate</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Höhenkarte</td>
+                        <td>25,2 sec</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Wald</td>
+                        <td>21,2 sec</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Wasser</td>
+                        <td>9,9 sec</td>
+                        <td>Circle-Geste 96,5%</td>
+                    </tr>
+                    <tr>
+                        <td>Spiel</td>
+                        <td>-</td>
+                        <td>Tap-Geste 20,3%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Raw Daten
+            </button>
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Raw Daten</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Daten</p>
+                            <img src="images/datenLandscape.jpg" class="img-responsive" alt="...">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Babylon JS Section -->
+<section id="fazit" class="content-section text-justify">
+    <div class="download-section">
+        <div class="container">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Fazit</h2>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><b>Positiv</b></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Spracherkennung eignet sich gut zur Spielleitung und wird zuverlässig erkannt</td>
+
+                        </tr>
+                        <tr>
+                            <td>Leap Sensor kann genutzt werden um Objekte in einer 3D-Szene zuverlässig zu bewegen</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Ray Tracing von BabylonJS liefert sehr zuverlässig Schnittpunkte ausgehend von der Kamera und erfassten Leap Koordinaten</td>
+
+                        </tr>
+                        <tr>
+                            <td>Trotz Partikel, Wassershader, 3D-Objekten und Texturen gab es keinerlei Performance Probleme</td>
+
+                        </tr>
+                        <tr>
+                            <td>Circle Geste der Leap Motion wird sehr zvuerlässig erkannt</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <br>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><b>Negativ</b></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Sprachkommandos sollten nicht direkt wiederholt werden, sondern sich unterscheiden</td>
+
+                        </tr>
+                        <tr>
+                            <td>Platzierung von Objekten auf jeweils X,Y,Z-Achse schwierig, da die Kamera hierbei möglicherweise rotiert werden muss</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Keytab Geste wurde sehr schlecht erkannt, gerade unter Stress</td>
+
+                        </tr>
+                        <tr>
+                            <td>In Stresssituation sollten nur Gesten eingesetzt werden die zuverlässig funktionieren</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="container content-section text-center">
+    <div class="row">
+        <div class="col-lg-26 col-lg-offset-0">
 
 
             <h1>&nbsp Demos</h1>
             </br>
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail leap-interactive">
-                            <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
-                            <div class="caption">
-                                <h3>Bildbearbeitung</h3>
-                                <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
-                                <p><a target="_blank" href="./speechmotion.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                    <a href="./dokuPictureEditing.html" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation </a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail leap-interactive">
-                            <img src="images/watersp.PNG" alt="...">
-                            <div class="caption">
-                                <h3>Landschaftsspiel</h3>
-                                <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
-                                <p><a target="_blank" href="./LandscapeChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                    <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail leap-interactive">
-                            <img src="images/dontouch.PNG" alt="...">
-                            <div class="caption">
-                                <h3>Geschicklichkeits-Spiel</h3>
-                                <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
-                                <p><a target="_blank" href="./DontTouchChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                    <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
-                            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
+                        <div class="caption">
+                            <h3>Bildbearbeitung</h3>
+                            <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
+                            <p><a target="_blank" href="./speechmotion.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="./dokuPictureEditing.html" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation </a></p>
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/watersp.PNG" alt="...">
+                        <div class="caption">
+                            <h3>Landschaftsspiel</h3>
+                            <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
+                            <p><a target="_blank" href="./LandscapeChallenge.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="#" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/dontouch.PNG" alt="...">
+                        <div class="caption">
+                            <h3>Geschicklichkeits-Spiel</h3>
+                            <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
+                            <p><a target="_blank" href="./DontTouchChallenge.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="#" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-         </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>Copyright &copy; Your Website 2016</p>
-        </div>
-    </footer>
+<!-- Footer -->
+<footer>
+    <div class="container text-center">
+        <p>Copyright &copy; Your Website 2016</p>
+    </div>
+</footer>
 
-    <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
 
-    <!-- Plugin JavaScript -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
-    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+<!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
 
-    <!-- Theme JavaScript -->
-    <script src="js/grayscale.min.js"></script>
+<!-- Theme JavaScript -->
+<script src="js/grayscale.min.js"></script>
 
 </body>
 

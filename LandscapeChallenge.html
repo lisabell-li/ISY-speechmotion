@@ -79,7 +79,7 @@
     <p><p class="inline black">Babylon FPS:</p><p class="inline" id="fpsbaby"></p>
     <p></p><p class="inline black">Zeit HeightMap: </p> <p class="inline" id="heightmap"></p>
     <p></p><p class="inline black">Zeit Baumplatzierung: </p> <p class="inline" id="baum"></p>
-    <p></p><p class="inline black">Zeit Wassersimulation: </p> <p class="inline" id="wasser"></p>
+    <p></p><p class="inline black">Zeit Wassersimulation: </p> <p class="inline" id="wasser"></p> <p class="inline" id="gesturesWasser"></p>
     <p></p><p class="inline black">Überlebt? </p> <p class="inline" id="alive"></p> <p class="inline" id="gestures"></p>
 
 </div>
@@ -90,6 +90,7 @@
     var heightmapDisplay = document.getElementById('heightmap');
     var baumDisplay = document.getElementById('baum');
     var wasserDisplay = document.getElementById('wasser');
+    var wasserGestures = document.getElementById('gesturesWasser');
     var aliveDisplay = document.getElementById('alive');
     var gestures = document.getElementById('gestures');
 
@@ -113,6 +114,8 @@
     var animationWater = 0;
     var gesturesCounter = 0;
     var gesturesKeytabs = 0;
+    var gesturesCounter2 = 0;
+    var gesturesCircles = 0;
     // ------- TEST STUFF---
 
     // Scene Creation
@@ -214,7 +217,7 @@
                 obj.position.y = pickInfo.pickedPoint.y + 30;
                 if (player != 0) {
                     //      console.log(pickInfo.pickedPoint.y + 40);
-                    //       playerY = pickInfo.pickedPoint.y + 40;
+                           playerY = pickInfo.pickedPoint.y + 40;
                 }
             }
         }
@@ -250,6 +253,8 @@
         if (state == 4) {
             timerWater += (1 / engine.getFps().toFixed());
             wasserDisplay.innerText = timerWater.toString();
+            wasserGestures.innerText = "Gestures :" + gesturesCounter2 + " / Circle "+ gesturesCircles;
+
 
         }
 
@@ -306,7 +311,6 @@
     bg.material = new BABYLON.StandardMaterial("tex", scene);
     bg.material.diffuseTexture = new BABYLON.Texture("heightmaps/hm1.png", scene);
     bg.material.diffuseTexture.hasAlpha = true;
-
 
     // DYNAMIC TEXTURE
     var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
@@ -389,8 +393,6 @@
         ground.material.backFaceCulling = true;
         ground.isPickable = true;
         ground.position.y = -300;
-
-
     };
 
     // --------------- Height Maps Gallery ------------------------
@@ -409,9 +411,7 @@
         camera.beta = -Math.PI / 2;
 
         state = 3;
-        //(name, height, diameter, tessellation, scene, updatable)
         tree = BABYLON.Mesh.CreateCylinder("treeBody", 70, 70, 6, 6, 1, scene, false);
-        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
         var treeM = new BABYLON.StandardMaterial("treeM", scene);
         treeM.diffuseTexture = new BABYLON.Texture("texturen/gras.jpg", scene);
 
@@ -429,6 +429,12 @@
 
         camera.beta = Math.PI / 2.4;
         state = 2;
+    };
+
+    var finishMap = function () {
+
+        camera.beta = -Math.PI / 2;
+        state = 1;
     };
     var addPlayer = function () {
 
@@ -560,6 +566,7 @@
 
             'Wald': addTree,
             'Karte': editMap,
+            'Fertig': finishMap,
             'Wasser': addWater,
             'Spiel': addPlayer
         };
@@ -681,7 +688,7 @@
                     // ------- RAY COLLOSION -------------
 
                     var origin = camera.position;
-                    var pos = new BABYLON.Vector3(leapX, leapY, 0);
+                    var pos = new BABYLON.Vector3(leapX, leapY, 550);
                     var dir = pos.subtract(origin).normalize();
                     var ray = new BABYLON.Ray(camera.position, dir, 2500);
                     var mesh = scene.pickWithRay(ray);
@@ -720,7 +727,8 @@
                         frame.gestures.forEach(function (gesture) {
                             switch (gesture.type) {
                                 case "circle":
-
+                                    gesturesCounter2++;
+                                    gesturesCircles++;
                                     var clockwise = false;
                                     var pointableID = gesture.pointableIds[0];
                                     var direction = frame.pointable(pointableID).direction;
@@ -729,10 +737,10 @@
                                     if (dotProduct > 0) {
                                         clockwise = true;
 
-                                        waterMaterial.waveHeight += 0.01;
-                                        waterMaterial.waveSpeed += 1.0;
+                                        waterMaterial.waveHeight += 0.03;
+                                        waterMaterial.waveSpeed += 1.5;
 
-                                        if (waterMaterial.waveSpeed > 200) {
+                                        if (waterMaterial.waveSpeed > 400) {
                                             console.log("Sturm");
                                             state = 1;
 
@@ -748,12 +756,17 @@
                                     console.log("Circle Gesture");
                                     break;
                                 case "keyTap":
+                                    gesturesCounter2++;
+
                                     console.log("Key Tap Gesture");
                                     break;
                                 case "screenTap":
+                                    gesturesCounter2++;
+
                                     console.log("Screen Tap Gesture");
                                     break;
                                 case "swipe":
+                                    gesturesCounter2++;
 
                                     waterMaterial.windForce *= -1;
 
