@@ -191,6 +191,15 @@
                         Motion Koordinaten der Hand gesteuert. Der Baum bewegt sich zudem nur auf der Höhe des Meshes,
                         da es zu schwer wäre den Baum auch in der Höhe auf der Y-Achse entsprechend in der richtigen
                         Höhe zu platzieren. <br>
+                        <br>
+                        Bei der Wasser Aufgabe geht es darum die Gestenerkennung der Lear Motion zu testen. Es gibt 4 standardisierte Gesten in Form von Wisch-, Keytap-, Screentap- und Circle-Gesten. Nachdem das Wasser per Sprachkommando erzeugt wurde kann die Windrichtung per Wisch-Bewegung gewechselt werden und die Wellen können per Circle-Bewegung vergrößert werden. Ziel der Aufgabe ist das Wasser auf eine bestimmte Wellenhöhe zu bringen. Hierfür sind exakt 263 Circle Gesten von Nöten. Getrackt wird wieviele Gesten allgemein erkannt werden und wieviele davon als Circle Geste erkannt wurden. Das Wasser wird mit Hilfe eines Shaders erzeugt, welcher die Objekte der Szene in der Wasseroberfläche spiegelt.
+                        <br>
+                        Für die Spiel Aufgabe wird eine Spielfigur, einem simplen Grafik Sprite mit Animation, in der Mitte der Landschaft erzeugt. Die Steuerung erfolgt wiederum über Ray Tracing und einem Marker welcher sich entsprechend der getreckten Leap Motion Position über die Landschaft bewegt. Per Keytab-Geste kann die Spielfigur an die entsprechende Position verschoben werden. Hierbei wird ein Babylon Animation verwendet, welche mit einer festgelegten Anzahl an Frames die Figur von A nach B bewegt. Folgender Code zeigt die Berechnung der getrackten Leap Koordinaten der Hand Position im Bereich der definierten Interactions Box über dem Sensor.
+                        <br><br>
+
+                        <img src="images/codeLandschaft2.jpg" class="img-responsive" alt="...">
+                        <br>
+                        Das Wasser wird ebenfalls per Animation langsam Richtung Y-Achse verschoben, bis die Spielfigur darunter verschwindet. Erreicht die Spielfigur den Helikopter über einen einfachen Kollisionstest, so ich das Spiel gemeistert.
                     </p>
                     <a target="_blank" href="https://github.com/lisabell-li/ISY-speechmotion" class="btn btn-default btn-lg">Link zum
                         Git-Repository</a>
@@ -215,7 +224,7 @@
                     Die Wasser Aufgabe wurde am schnellsten von allen gelöst und die Circle Geste von Leap Motion wurde sehr zuverlässig mit einer durchschnittlichen Erkennungsrate von 96,5 % erkannt im Verhältnis zu allen anderen erkannten Gesten in dem Zeitraum.
                     Bei der Spiel Aufgabe ging es vorallem darum den Spieler in eine Stresssituation zu versetzen, wo er unter Zeitdruck eine bestimmte Geste (Keytap) ausführen sollte. Zum einen konnte bei unseren Tests festgestellt werden, das die Keytab Geste deutlich schlechter erkannt wird als z.B. die Circle Geste, aber trotzdem hatten wir eine höhere Erfolgsquote als die gemessene Erkennungsrate bei den Probanden unter Stress. Hier lag die Erkennungsrate bei gerademal 20,28 %, da viele die Geste zu unruhig, schnell und hektisch ausführten. Insgesamt schafften nur 4 von 10 Probanden die Spiel Aufgabe nicht und gingen mit ihrer Spielfigur baden.
                 </p>
-                <table class="table">
+                <table class="table" style="font-size: 16px;">
                     <thead>
                     <tr>
                         <th>Aufgabe</th>
@@ -282,7 +291,7 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Fazit</h2>
                 <div class="row">
-                    <table class="table">
+                    <table class="table" style="font-size: 16px;">
                         <thead>
                         <tr>
                             <th><b>Positiv</b></th>
@@ -316,7 +325,7 @@
 
                     <br>
 
-                    <table class="table">
+                    <table class="table" style="font-size: 16px;">
                         <thead>
                         <tr>
                             <th><b>Negativ</b></th>
@@ -410,7 +419,7 @@
 <!-- Footer -->
 <footer>
     <div class="container text-center">
-        <p>Copyright &copy; Your Website 2016</p>
+        <p>Copyright &copy; Markus Küpper / Lisa Bell 2016</p>
     </div>
 </footer>
 

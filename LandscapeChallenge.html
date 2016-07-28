@@ -648,18 +648,13 @@
         if (frame.hands.length > 0) {
 
             previousFrame = frame;
+            canvas.width = canvas.width; //clear
 
             var hand = frame.hands[0];
             var position = hand.palmPosition;
-            var velocity = hand.palmVelocity;
-            var direction = hand.direction;
 
-            var pointable = frame.pointables[0];
-            var stabilizedPosition = pointable.stabilizedTipPosition;
+            // ---------- TRACKED LEAP COORDINATES ----------------
 
-            // ---------- LEAP COORDINATE MAPPING IN CAMERA COORDINATE ----------------
-
-            canvas.width = canvas.width; //clear
             var interactionBox = frame.interactionBox;
 
             var normalizedPosition = interactionBox.normalizePoint(position, true);
@@ -672,8 +667,6 @@
             leapY = (radius) - canvasY;
             leapZ = (radius) - canvasZ;
 
-      //      debugRay.position.x = leapX;
-      //      debugRay.position.y = leapY;
 
             switch (state) {
                 case 1:
