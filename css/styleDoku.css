@@ -53,12 +53,11 @@ section {
     padding-top:50px;
     min-height: 900px;
     color:cadetblue;
-    margin-left: 50px;
-    margin-right: 50px;
+
 }
 
 
-section h1{
+section h1, .jumbotron h1{
     font-family: "Agency FB";
 }
 section h3{

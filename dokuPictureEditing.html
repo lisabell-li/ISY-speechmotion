@@ -34,15 +34,18 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+
                 <!--   <span class="icon-bar"></span> </button> <a class="navbar-brand leap-interactive" href="#">Speechmotion 3D</a> -->
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a class="leap-interactive" href="index2.html#idea">Die Idee</a></li>
-                <li><a class="leap-interactive" href="index2.html#implementation">Umsetzung</a></li>
-                <li><a class="leap-interactive" href="index2.html#examples">Anwendungen</a></li>
+                <li><a class="navbar-brand leap-interactive" rel="home" href="#" title="Bildbearbeitung">
+                    Speechmotion / Bildbearbeitung
+                </a></li>
             </ul>
 
 
@@ -53,86 +56,74 @@
     <nav  class="navbar mynav navbar-fixed-top " role="navigation" style="margin-top: 40px;">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+            <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+            <a class="navbar-brand" href="./index.html"></a>
                 <!--   <span class="icon-bar"></span> </button> <a class="navbar-brand leap-interactive" href="#">Speechmotion 3D</a> -->
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="nav2">
             <ul class="nav navbar-nav">
-                <li><a class="navbar-brand leap-interactive" rel="home" href="#" title="Bildbearbeitung">
-                    Bildbearbeitung:
-                </a></li>
+
                 <li><a class="leap-interactive" href="#help">Anleitung</a></li>
                 <li><a class="leap-interactive" href="#doku">Dokumentation</a></li>
+                <li><a target="_blank" class="leap-interactive" href="./speechmotion.html">Demo</a></li>
             </ul>
 
 
         </div>
         <!-- /.navbar-collapse -->
     </nav>
-<section style="background-color:rgba(0, 150, 250, 0.30);" id="help">
 
-    <div style="padding:70px;">
-        <div class="page-header">
+<section style="background-color:rgba(0, 150, 250, 0.30);" >
+
+    <div style="padding:70px; padding-bottom: 10px">
+        <div class="page-header"id="help">
             <h1>Bildbearbeitung <small class="dimgray">mit Leap Motion, BabylonJS und Annyang</small></h1>
         </div>
 
-        <div class="jumbotron" style="background-color: white">
+        <div class="jumbotron" style="background-color: white; padding-top: 10px;">
             <h1 style="font-size: 46px;">Anleitung</h1>
 
-    <p>
-        Folgende Befehle können zur Interaktion ausgeführt werden:
+        <p>
+        Folgende Befehle können ausgeführt werden:
         </br>
         <small><i class="fa fa-sign-language" aria-hidden="true"></i> = Leap Motion</small>
         </br>
         <small><i class="fa fa-comment" aria-hidden="true"></i> = Sprachbefehle</small>
-    </p>
+        </p>
         <p><strong>Interaktion</strong></p>
             <ul>
-                <li>Auswahl eines Bildes: <i class="fa fa-sign-language" aria-hidden="true"></i> mit dem rechten Zeigefiner ca. 1 Sekunde auf das Bild zeigen. </li>
-                <li>drehen</li>
-                <li>okay</li>
-                <li>verschieben</li>
-
-                <li>animieren</li>
-                <li>Graustufen</li>
-                <li>Invertieren</li>
-                <li>Blaufilter</li>
-
-                <li>speichern</li>
-                <li>editieren</li>
-                <li>heller</li>
-                <li>dunkel</li>
-
-                <li>Kontrast erhöhen</li>
-                <li>Kontrast reduzieren</li>
-                <li>Bilder wechseln</li>
-                <li>Zurücksetzen</li>
+                <li>Auswahl eines Bildes:<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Mit dem rechten Zeigefiner ca. 1 Sekunde auf das Bild zeigen. </li></ul> </li>
+                <li>Bild drehen: <ol><li><i class="fa fa-comment" aria-hidden="true"></i> Sag "drehen", nachdem ein Bild ausgewählt wurde.</li><li><i class="fa fa-sign-language" aria-hidden="true"></i> Rotiere die rechte Hand um das Bild zu rotieren </li></ol> </li>
+                <li>Bild verschieben: <ol><li><i class="fa fa-comment" aria-hidden="true"></i> Sag "verschieben", nachdem ein Bild ausgewählt wurde</li><li><i class="fa fa-sign-language" aria-hidden="true"></i> Verschiebe das Bild mit Hilfe des rechten Zeigefingers</li></ol> </li>
+                <li>Bild abwählen: <ul><li><i class="fa fa-comment" aria-hidden="true"></i> Sag "okay", nachdem ein Bild ausgewählt wurde</li></ul> </li>
+                <li>Untergrund und Bildersockel <ul><li><i class="fa fa-comment" aria-hidden="true"></i> Sag "Boden", nachdem ein Bild ausgewählt wurde um einen Boden und 4 Sockel anzuzeigen sowie eine Information zur Kollision-Erkennung</li></ul> </li>
+                <li>Untergrund und Bildersockel entfernen<ul><li><i class="fa fa-comment" aria-hidden="true"></i> Sag "entfernen" um den Boden und die Bildersockel zu entfernen</li></ul> </li>
 
 
 
 
-                <li>entfernen</li>
-                <li>drehen</li>
-                <li>okay</li>
-                <li>verschieben</li>
+            </ul>
+            </br>
+            <p><strong>Bildbearbeitung</strong></p>
+            <p><small>Zur Bildbearbeitung muss ein Bild ausgewählt sein und <i class="fa fa-comment" aria-hidden="true"></i> sage "editieren"</small></p>
+            <ul>
+                <li>Graustufen<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "Graustufen" </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "Graustufen" </li></ul> </li>
+                <li>Invertieren<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "Invertieren" </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "Invertieren" </li></ul> </li>
+                <li>Blaufilter<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "Blaufilter" </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "Blaufilter" </li></ul> </li>
+                <li>Helligkeit erhöhen<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "+" rechts neben dem Slider für Helligkeit </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "heller" </li></ul> </li>
+                <li>Helligkeit reduzieren<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "-" links neben dem Slider für Helligkeit </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "dunkel" [dunkler wurde nicht gut von Annyang erkannt] </li></ul> </li>
+                <li>Kontrast erhöhen<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "+" rechts neben dem Slider für Kontrast  </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "Kontrast erhöhen" </li></ul> </li>
+                <li>Kontrast reduzieren<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "-" rechts neben dem Slider für Kontrast  </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "Kontrast reduzieren" </li></ul> </li>
+                <li>Bilder wechseln<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Male mit dem Zeigefinger, an einer Stelle, kleine Kreise in die Luft </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "Bild wechseln" </li></ul> </li>
+                <li>Zurücksetzen<ul><li><i class="fa fa-sign-language" aria-hidden="true"></i> Zeige mit dem rechten Zeigefinger ca. 1 Sek auf den Button "Zurücksetzen"  </li><li><i class="fa fa-comment" aria-hidden="true"></i> Sage "Zurücksetzen" </li></ul> </li>
+                <li>Speichern<ul><li><i class="fa fa-comment" aria-hidden="true"></i> Lade das aktuelle Bild herunter indem du "Speichern" sagst. </li></ul> </li>
 
-                <li>animieren</li>
-                <li>Graustufen</li>
-                <li>Invertieren</li>
-                <li>Blaufilter</li>
-
-                <li>speichern</li>
-                <li>editieren</li>
-                <li>heller</li>
-                <li>dunkel</li>
-
-                <li>Kontrast erhöhen</li>
-                <li>Kontrast reduzieren</li>
-                <li>Bilder wechseln</li>
-                <li>Zurücksetzen</li>
 
             </ul>
 
@@ -145,19 +136,84 @@
 
 <section style="background-color:rgba(0, 150, 250, 0.30);" id="doku">
     <div style="padding:70px;">
-        <h1>Dokumentation</h1>
-        </br>
+        <div class="jumbotron" style="background-color: white; padding-top: 10px;">
+            <h1 style="font-size: 46px;">Dokumentation</h1>
+            <p><strong>Canvas Elemente</strong></p>
+            <p><small>Erstellung von Elementen mit BabylonJS im 3D Canvas</small></p>
+            <p>Nachdem die üblichen Babylon-Konfigurationen (Kamera, Licht, etc.) gesetzt wurden, werden die einzelnen Elemente des Canvas aufgebaut. In dieser Szene sind das in erster Linie die Bilder und die Buttons/Slider zur Bildbearbeitung.
+            Die Bilder werden in einer Schleife gesetzt. Zuerst wird eine Textur erzeugt mit einem Bild, diese Textur wird dann einem Mesh (Plane) zugeordnet.
+        </p>
+            <p>
+                <pre><code>
+var index = 1;
+var gallery = new Array();
+for (var x = 500; x <= 850; x += 200) {
+for (var y = -400; y <= -100; y += 200) {
+//Creation of image as textured material
+var materialPlane = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+materialPlane.diffuseTexture = new BABYLON.Texture("gallery/img" + index + ".jpg", scene);
+materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
+materialPlane.backFaceCulling = false;//Always show the front and the back of an element
+
+//Creation of a plane with texture-image
+var plane = BABYLON.Mesh.CreatePlane("image" + index, 120, scene);
+plane.material = materialPlane;
+plane.position.y = y;
+plane.position.x = -x;
+plane.position.z = 0;
+plane.isPickable = true;
+gallery.push(plane);
+index++;
+
+}
+}
+            </code></pre></p>
+            <p>Ergebnis:</p>
+            <p>Ähnlich werden auch die Buttons und Slider, also die GUI für die Bildbearbeitung erstellt. Ebenfalls mit Babylon-Planes.</p>
+            <p>
+                <pre><code>
+var sliderMateriaContrast = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+sliderMateriaContrast.specularColor = new BABYLON.Color3(0, 0, 0);
+sliderMateriaContrast.backFaceCulling = false;//Always show the front and the back of an element
+
+var sliderContrast = BABYLON.Mesh.CreatePlane("sliderContrast" , 10, scene);
+sliderContrast.material = sliderMateriaContrast;
+sliderContrast.scaling.x= 30;
+sliderContrast.position.y = canvas.height/2.80;
+sliderContrast.position.x = -640;
+sliderContrast.position.z = 0;
+sliderContrast.isPickable = true;
+
+var sliderSelecterContrastMaterial = new BABYLON.StandardMaterial("texturePlane" + index, scene);
+sliderSelecterContrastMaterial.diffuseColor = new BABYLON.Color3(0.8, 0.20, 1);
+sliderSelecterContrastMaterial.backFaceCulling = false;//Always show the front and the back of an element
+
+//Creation of a plane
+var sliderSelecterContrast = BABYLON.Mesh.CreatePlane("sliderSelectContrast" , 20, scene);
+sliderSelecterContrast.material = sliderSelecterContrastMaterial;
+sliderSelecterContrast.scaling.y= 3;
+sliderSelecterContrast.position.y = canvas.height/2.8;
+sliderSelecterContrast.position.x = -640;
+sliderSelecterContrast.position.z = 0;
+sliderSelecterContrast.isPickable = true;</code></pre>
+            </p>
+            <p>Ergebnis:</p>
+
+            </br><p><strong>Leap Motion</strong></p>
+            <p>Im Leap loop werden mittels Switch-cases die momentan möglichen Interaktionsmöglichkeiten eingegrenzt. Dies ist besonders
+            sinnvoll, da die Leap Motion Sensoren sehr sensibel sind und jede noch so kleine Bewegung wahrnehmen können, sodass Gesten und Bewegungen
+            nicht selten nicht klar voneinander unterschieden werden können.
+            Bei Spielanfang ist der erste Case 1 gesetzt, das bedeutet per Leap kann man nur eine Interaktion machen und diese ist: auswählen. Der Nutzer soll
+            also ein Bild auswählen. Wie geschieht dies?</p>
+            <p></p>
+        </div>
+
     </div>
 
 </section>
 
 
 
-
-<body>
-<nav  class="navbar mynav navbar-fixed-bottom " role="navigation">
-
-</nav>
 
 
 <!-- Init Leap, Set all "a" interactive, use 1 Leap cursor/finger -->

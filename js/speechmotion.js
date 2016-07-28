@@ -286,7 +286,7 @@ window.addEventListener("DOMContentLoaded", function () {
             materialPlane.specularColor = new BABYLON.Color3(0, 0, 0);
             materialPlane.backFaceCulling = false;//Always show the front and the back of an element
 
-            //Creation of a plane
+            //Creation of a plane with texture-image
             var plane = BABYLON.Mesh.CreatePlane("image" + index, 120, scene);
             plane.material = materialPlane;
             plane.position.y = y;

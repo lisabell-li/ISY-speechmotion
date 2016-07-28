@@ -13,6 +13,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/leapstrap.css" media="screen" />
 
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -21,12 +22,15 @@
 
     <!-- Theme CSS -->
     <link href="css/grayscale.min.css" rel="stylesheet">
-
+    <script src="js/jquery.min.js"></script>
+    <script src="js/leapstrap.js"></script>
+    <script src="js/leap.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
 
 </head>
@@ -37,7 +41,7 @@
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse" data-target=".navbar-main-collapse">
                     Menu <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand page-scroll" href="#page-top">
@@ -53,19 +57,19 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">Konzept</a>
+                        <a class="page-scroll leap-interactive"  href="#about">Konzept</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#leap">Leap Motion</a>
+                        <a class="page-scroll leap-interactive" href="#leap">Leap Motion</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#annyang">Annyang</a>
+                        <a class="page-scroll leap-interactive" href="#annyang">Annyang</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#babylon">BabylonJS</a>
+                        <a class="page-scroll leap-interactive" href="#babylon">BabylonJS</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#contact">Demos</a>
+                        <a class="page-scroll leap-interactive" href="#contact">Demos</a>
                     </li>
                 </ul>
             </div>
@@ -89,7 +93,7 @@
 
                        Projekt: Markus Küpper und Lisa Bell
                          </p>
-                        <a href="#about" class="btn btn-circle page-scroll">
+                        <a href="#about" class="leap-interactive btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
                         </a>
                     </div>
@@ -279,6 +283,9 @@
 
     <!-- Theme JavaScript -->
     <script src="js/grayscale.min.js"></script>
+
+    <!-- Init Leap, Set all "a" interactive, use 1 Leap cursor/finger -->
+    <script>LeapManager.init({interactiveSelector:"a",maxCursors:1});</script>
 
 </body>
 
