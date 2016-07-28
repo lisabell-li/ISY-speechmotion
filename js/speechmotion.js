@@ -275,7 +275,18 @@ window.addEventListener("DOMContentLoaded", function () {
     //----GUI ELEMENTS ENDE----///
 
     //---------------Image/Texture Gallery Creation --------//
-
+/*
+Bilderquellen:
+Himbeere: https://pixabay.com/de/himbeeren-fr%C3%BCchte-obst-rot-s%C3%BC%C3%9F-1426859/
+Kuh: https://pixabay.com/de/kuh-rot-orange-weide-neugierig-1509258/
+Wildschwein: https://pixabay.com/de/wildschweine-tiere-wild-wald-657916/
+Ziege: https://pixabay.com/de/ziege-tier-h%C3%B6rner-schwarz-wei%C3%9F-50290/
+Eichhörchen: https://pixabay.com/de/tier-eichh%C3%B6rnchen-sciurus-927904/
+Maulwurf: https://pixabay.com/de/maulwurf-natur-tiere-13298/
+Pferd: https://pixabay.com/de/pferd-weide-natur-tiere-197199/
+Mops: https://pixabay.com/de/mops-hund-tier-niedlich-690566/
+alle mit folgender Lizens: "CC0 Public Domain Freie kommerzielle Nutzung Kein Bildnachweis nötig"
+ */
     var index = 1;
     var gallery = new Array();
     for (var x = 500; x <= 850; x += 200) {
@@ -848,17 +859,20 @@ window.addEventListener("DOMContentLoaded", function () {
             'Kontrast erhöhen' : increaseContrast,
             'Kontrast reduzieren' : decreaseContrast,
             'Bilder wechseln' : changeImages,
-            'zurücksetzen' : reset,
+            'zurücksetzen' : reset
         };
         annyang.debug(true);
         // Add our commands to annyang
         annyang.addCommands(commands);
         //language = german
-        annyang.setLanguage("de-DE")
+        annyang.setLanguage("de-DE");
 
 
         // Start annyang.
         annyang.start(true, true);
+    }
+    else{
+        console.log("Annyang ist mit diesem Browser nicht kompatibel.")
     }
 
     //---------------------------------//
@@ -892,19 +906,13 @@ window.addEventListener("DOMContentLoaded", function () {
                     //cursors position is updated with leaps normalized position
                     cursor.style.left = (canvas.width * normalized[0]) + 'px';
                     cursor.style.top = (canvas.height * (1 - normalized[1] )) + 'px';
-
-
-                    if (frame.hands[0].type === "left") {	// hand roll is from 0 to 180deg
-                        var degreeRoll = frame.hands[0].roll()
-                        console.log("lefthand");
-                        //scene.activeCamera.alpha = degreeRoll;
-                    }
+                    
                     // Store frame for hand motion comparisment, see above
                     previousFrame = frame;
 
                     //get a past frame -> click event is triggered if finger is at one position for frame(x) frames
                     var tenFramesBack = controller.frame(30);
-                    //get the movement vector of tenFramesBack and current frame
+                    //get the movement vector of tenFramesBack and current frame    
                     var movement = hand.translation(tenFramesBack);
 
                     //if movement is smaller than 1, than the user is pointing at the screen
@@ -1319,64 +1327,18 @@ window.addEventListener("DOMContentLoaded", function () {
             case 4:
 
                 if (frame.pointables.length > 0) {
-
-                    var positionLeap = frame.pointables[0].stabilizedTipPosition;
-                    var normalized = frame.interactionBox.normalizePoint(positionLeap, false);
-
-                    //   pointerSphere.position.x = positionLeap[2];
-                    // pointerSphere.position.y = positionLeap[1];
-                    //pointerSphere.position.z = positionLeap[0];
-                    // console.log("x:  "+positionLeap[2] + "  y:  "+positionLeap[1]+"  z:  "+positionLeap[0]);
-                    /* //Analayse collision if ground is shown
-                    if (currentPickedMesh.intersectsMesh(center1, false)) {
-                        box1.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-                        document.getElementById("touchedBox").innerHTML = "Upper center of BOX 1";
-                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 1";
-                        console.log("touched center1");
-                    }
-                    else if (currentPickedMesh.intersectsMesh(center2, false)) {
-                        box2.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-                        document.getElementById("touchedBox").innerHTML = "Upper center of BOX 2";
-                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 2";
-                        console.log("touched center2");
-                    }
-                    else if(currentPickedMesh.intersectsMesh(center3, false)) {
-                        box3.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-                        document.getElementById("touchedBox").innerHTML = " Upper center of BOX 3";
-                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 3";
-                        console.log("touched center3");
-                    }
-                    else if (currentPickedMesh.intersectsMesh(center4, false)) {
-                        box4.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-                        document.getElementById("touchedBox").innerHTML = "Upper center of BOX 4";
-                        document.getElementById("touchingNow").innerHTML = " Picture + BOX 4";
-                        console.log("touched center4");
-                    } else {
-                        box1.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
-                        box2.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
-                        box3.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
-                        box4.material.diffuseColor = new BABYLON.Color3(1, 0.4, 0);
-                        document.getElementById("touchingNow").innerHTML = "";
-                    }
-
-*/
-
-                    /*Move Image around with leap
+                    //Move Image around with leap
 
                     var hand = frame.hands[0];
-                    leapX = (-1) * hand.screenPosition()[0]+500;
-                    leapY = (-1) * hand.screenPosition()[1]+500;
-                    leapZ = hand.screenPosition()[2]+200;
+                    leapX = (-1) * hand.screenPosition()[0];
+                    leapY = (-1) * hand.screenPosition()[1];
+                    leapZ = hand.screenPosition()[2];
 
                     //needs adjustment! No matter how the camera has been rotated the movement should be intuitiv
-                    currentPickedMesh.position.x =leapX;
-                    currentPickedMesh.position.y =leapY;
-                    currentPickedMesh.position.z =leapZ;
-*/
-
-
-
-                }
+                    currentPickedMesh.position.x =leapX*2;
+                    currentPickedMesh.position.y =leapY*2;
+                    currentPickedMesh.position.z =leapZ*3;
+            }
                 break
             case 5:
 
@@ -1385,11 +1347,7 @@ window.addEventListener("DOMContentLoaded", function () {
                     var positionLeap = frame.pointables[0].stabilizedTipPosition;
                     var normalized = frame.interactionBox.normalizePoint(positionLeap, false);
 
-                    //   pointerSphere.position.x = positionLeap[2];
-                    // pointerSphere.position.y = positionLeap[1];
-                    //pointerSphere.position.z = positionLeap[0];
-                    // console.log("x:  "+positionLeap[2] + "  y:  "+positionLeap[1]+"  z:  "+positionLeap[0]);
-                   //Analayse collision if ground is shown
+
                      if (currentPickedMesh.intersectsMesh(center1, false)) {
                      box1.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
                      document.getElementById("touchedBox").innerHTML = "Upper center of BOX 1";
