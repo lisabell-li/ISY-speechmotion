@@ -13,11 +13,12 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/leapstrap.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/leapstrap.css" media="screen"/>
 
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
     <!-- Theme CSS -->
@@ -28,8 +29,8 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <![endif]-->
 
@@ -37,275 +38,307 @@
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+<!-- Navigation -->
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse"
+                    data-target=".navbar-main-collapse">
+                Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">
+                <i class="fa fa-play-circle"></i> <span class="light">Start</span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <a class="page-scroll leap-interactive" href="#about">Konzept</a>
+                </li>
+                <li>
+                    <a class="page-scroll leap-interactive" href="#leap">Leap Motion</a>
+                </li>
+                <li>
+                    <a class="page-scroll leap-interactive" href="#annyang">Annyang</a>
+                </li>
+                <li>
+                    <a class="page-scroll leap-interactive" href="#babylon">BabylonJS</a>
+                </li>
+                <li>
+                    <a class="page-scroll leap-interactive" href="#contact">Demos</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!-- Intro Header -->
+<header class="intro">
+    <div class="intro-body">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle leap-interactive" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    Menu <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i> <span class="light">Start</span>
-                </a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll leap-interactive"  href="#about">Konzept</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll leap-interactive" href="#leap">Leap Motion</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll leap-interactive" href="#annyang">Annyang</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll leap-interactive" href="#babylon">BabylonJS</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll leap-interactive" href="#contact">Demos</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Intro Header -->
-    <header class="intro">
-        <div class="intro-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-md-offset-0">
-                        <h1 class="brand-heading">Speech + Motion</h1>
-                        <p class="intro-text">
-                            Im Rahmen des Kurses Interactive Systems (Prof. Dr. Hildebrand, SS2016) der Beuth Hochschule entstand folgende Idee für ein Projekt:
-                            </br>Eine 3D Szene im Browser mit Gesten und Sprache steuern.
-                            </br></br>
+            <div class="row">
+                <div class="col-md-12 col-md-offset-0">
+                    <h1 class="brand-heading">Speech + Motion</h1>
+                    <p class="intro-text">
+                        Im Rahmen des Kurses Interactive Systems (Prof. Dr. Hildebrand, SS2016) der Beuth Hochschule
+                        entstand folgende Idee für ein Projekt:
+                        </br>Eine 3D Szene im Browser mit Gesten und Sprache steuern.
+                        </br></br>
 
 
-                       Projekt: Markus Küpper und Lisa Bell
-                         </p>
-                        <a href="#about" class="leap-interactive btn btn-circle page-scroll">
-                            <i class="fa fa-angle-double-down animated"></i>
-                        </a>
-                    </div>
+                        Projekt: Markus Küpper und Lisa Bell
+                    </p>
+                    <a href="#about" class="leap-interactive btn btn-circle page-scroll">
+                        <i class="fa fa-angle-double-down animated"></i>
+                    </a>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <!-- About Section -->
-    <section id="about" class="container content-section text-justify">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Konzept</h2>
-               <p>Die Idee hinter dem Projekt war es die Steuerung einer Anwendung oder Webseite mit Hilfe von Gesten und Sprache zu ermöglichen. Hierfür sollten verschiedene Anwendungen  implementiert werden, die sich stark in ihrer Interaktion unterscheiden.
-                       Für die Gestensteuerung wurde ein Leap Motion Sensor gewählt und die Sprachsteuerung erfolgt über die Javascript Library Annyang, welche die Google Speech Services nutzt.
-                       Alle Anwendungen sollen im Browser funktionieren, weshalb das Javascript Framework BabylonJS zum Einsatz kommt, welches per WebGL da rendern komplexer 3D-Szenen und Anwendungen zulässt.
-                       Die Verknüpfung von BabylonJS, Annyang und Leap Motion war die Kernarbeit des Projektes, da es hierfür eine lange Einarbeitungszeit in die Technologien benötigte.
-                       Letztendlich sind 3 Anwendungen entwickelt worden, die auf unterschiedliche Weise die Interaktion per Sprache und Gesten ermöglichen.
+<!-- About Section -->
+<section id="about" class="container content-section text-justify">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>Konzept</h2>
+            <p>Die Idee hinter dem Projekt war es die Steuerung einer Anwendung oder Webseite mit Hilfe von Gesten und
+                Sprache zu ermöglichen. Hierfür sollten verschiedene Anwendungen implementiert werden, die sich stark in
+                ihrer Interaktion unterscheiden.
+                Für die Gestensteuerung wurde ein Leap Motion Sensor gewählt und die Sprachsteuerung erfolgt über die
+                Javascript Library Annyang, welche die Google Speech Services nutzt.
+                Alle Anwendungen sollen im Browser funktionieren, weshalb das Javascript Framework BabylonJS zum Einsatz
+                kommt, welches per WebGL da rendern komplexer 3D-Szenen und Anwendungen zulässt.
+                Die Verknüpfung von BabylonJS, Annyang und Leap Motion war die Kernarbeit des Projektes, da es hierfür
+                eine lange Einarbeitungszeit in die Technologien benötigte.
+                Letztendlich sind 3 Anwendungen entwickelt worden, die auf unterschiedliche Weise die Interaktion per
+                Sprache und Gesten ermöglichen.
                 <br>
 
-                <p>
-                <ul >
-                    <li><p>Fotobearbeitung (Steuerung von Software wie z.B. Photoshop)</p></li>
-                     <li><p>Landschafts Generator (Interaktion mit 3D Scenen)</p></li>
-                     <li><p>Geschicklichkeitsspiel (Pixelgenaue Steuerung)</p></li>
-                </ul>
-                </p>
+            <p>
+                <ul>
+                    <li>
+            <p>Fotobearbeitung (Steuerung von Software wie z.B. Photoshop)</p></li>
+            <li><p>Landschafts Generator (Interaktion mit 3D Scenen)</p></li>
+            <li><p>Geschicklichkeitsspiel (Pixelgenaue Steuerung)</p></li>
+            </ul>
+            </p>
 
-                <br>
-                <p>Für alle Anwendungen wurden verschiedene Interaktionen zeitlich oder nummerisch getrackt und so gemessen wie schnell und sicher die Nutzer per Geste und Sprache mit der Anwendung interagieren können.</p>
-                </p>
-                <br>
-                <img src="images/konzept-bild.jpg" class="img-responsive" alt="...">
-            </div>
+            <br>
+            <p>Für alle Anwendungen wurden verschiedene Interaktionen zeitlich oder nummerisch getrackt und so gemessen
+                wie schnell und sicher die Nutzer per Geste und Sprache mit der Anwendung interagieren können.</p>
+            </p>
+            <br>
+            <img src="images/konzept-bild.jpg" class="img-responsive" alt="...">
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Leap JS Section -->
-    <section id="leap" class="content-section text-center">
-        <div class="download-section">
-            <div class="container">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Leap Motion</h2>
-                    <div class="row">
-                        <div class="col-xs-6 col-md-3">
-                            <a href="#" class="thumbnail">
-                                <img src="images/LeapCoordinates.png" alt="...">
-                            </a>
-                            <small>Koordinatensystem Leap Motion</small>
-                        </div>
-                        <div class="col-xs-12 col-md-8">
-                            <p>
-                            <ul style="text-align: left">
-                            <li>2 monochromatische IR-Kameras und 3 IR-LEDs </li>
-                            <li>Handbewegung wird 60fps analysiert/ausgegeben</li>
-                            <li>Erfasst ca. 1 Meter</li>
-                            <li>JavaScript API : LeapJS</li>
+<!-- Leap JS Section -->
+<section id="leap" class="content-section text-justify">
+    <div class="download-section">
+        <div class="container">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Leap Motion</h2>
+                <div class="row">
+                    <p> Leap Motion ist ein Sensor der gleichnamigen amerikanischen Firma und ermöglicht das exakte
+                        Tracken der Hände. Der Sensor wird per USB an den Rechner angeschlossen und liefert in der
+                        aktuellsten Version laut Hersteller 200 Frames pro Sekunde über seine 2 eingebauten
+                        Infrarotkameras. 3 Infrarot LED’s sorgen dafür das die Kameras die Hände in einem Abtastbereich
+                        von ca. 1 Meter oberhalb des Sensor in einem 150 Grad Winkel tracken können.
+                        Leap Motion liefert nicht nur die Rohdaten der Kameras, sondern bereitet dieses direkt als API
+                        auf um den Programmierern die Entwicklung zu erleichtern. Für dieses Projekt wurde die LeapJS
+                        Javascript API genutzt um den Sensor zusammen mit BabylonJS und Annyang im Browser zu nutzen.
+                    </p>  <br>
+                    <p> Um die Daten der Leap Motion zu nutzen müssen sie entsprechend auf unsere Anwendung skaliert und
+                        gemappt werden. Das Leap Motion Koordinatensystem unterscheidet sich zum Koordinatensystem von
+                        BabylonJS, da die Z-Achse invertiert ist. Der Wertebereich in dem die Daten für z.B. die
+                        Position einer Hand geliefert werden, muss normalisiert und auf die Größe der Anwendung
+                        umgerechnet werden. Um den Tracking Bereich besser zu kontrollieren kann eine Interaktion Box
+                        über dem Sensor festgelegt werden. Die Positionsdaten der Leap könnnen folgendermaßen auf die
+                        Koordinaten der Anwendung umgerechnet werden: </p> <br>
+                    <img src="images/berechnung.jpg" class="img-responsive" alt="...">
 
-
-
-
-                        </ul>
-                            </p>
-                        </div>
-
-                    </div>
-                    <a target="_blank" href="https://www.leapmotion.com/" class="btn btn-default btn-lg">Zur offiziellen Leap Motion-Seite</a>
+                    <br>
+                    <p> Es gibt unterschiedliche Positionsdaten die verwendet werden können. LeapJS liefert pro Frame
+                        Informationen zu den jeweilig getrackten Hand Objekten, den Fingern und Handgelenken.
+                        Insgesamt stellt sich der Aufbau der API wie folgt dar:</p>
+                    <img src="images/model.jpg" class="img-responsive" alt="...">
+                    <br>
+                    <p>Neben Positionsdaten liefert LeapJS auch Daten über Bewegung und Ausrichtung der Objekte, sowie
+                        der Rotation.
+                        Es gibt 4 standardisierte Gesten in Form von Circle-, Screentap-,Keytap- und Swipe-Geste, welche
+                        der Sensor direkt erkennen kann. Einige dieser Gesten werden in diesem Projekt verwendet und
+                        getestet.
+                    </p>   <img src="images/gesten.jpg" class="img-responsive" alt="...">
+                    <br>
+                    <p>Die Verarbeitung der Daten und wie diese für die Anwendung verwendet werden erfolgt innerhalb
+                        eines Controller Objekts, welches einen Leap Loop startet. Innerhalb des Loops haben wir Zugriff
+                        auf die einzelnen Frames. Es ist auch möglich auf bestimmte vorangehende Frames zuzugreifen und
+                        somit Veränderung zwischen Frames zu berechnen. Weitere Informationen gibt es in der Dokumentation der LeapJS API.</p>
+                    <a target="_blank" href="https://developer.leapmotion.com/documentation/v2/javascript/index.html" class="btn btn-default btn-lg">LeapJS Dokumentation</a>
 
                 </div>
             </div>
         </div>
-    </section>
+</section>
 
-    <!-- Annyang Section -->
-    <section id="annyang" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Annyang</h2>
-                <div class="row">
-                    <div class="col-xs-6 col-md-3 thumbnail">
+<!-- Annyang Section -->
+<section id="annyang" class="container content-section text-center">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>Annyang</h2>
+            <div class="row">
+                <div class="col-xs-6 col-md-3 thumbnail">
 
-                            <img src="images/annybsp.png" alt="...">
+                    <img src="images/annybsp.png" alt="...">
 
 
-                    </div>
-                    <div class="col-xs-12 col-md-8">
-                        <p>
-                        <ul style="text-align: left">
-                            <li>JavaScript Framework für Sprachbefehle/Spracherkennung </li>
-                            <li>JavaScript-Wrapper für GoogleSpeech</li>
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <p>
+                    <ul style="text-align: left">
+                        <li>JavaScript Framework für Sprachbefehle/Spracherkennung</li>
+                        <li>JavaScript-Wrapper für GoogleSpeech</li>
                         <li>unterstützt viele verschiedene Sprachen</li>
                         <li>kostenlos</li>
                         <li>einfach einzubinden</li>
                         <li>wird nicht von allen aktuellen Browsern unterstützt (z.B. Firefox)</li>
 
                     </ul>
+                    </p>
+                </div>
+
+            </div>
+
+            <a target="_blank" href="https://www.talater.com/annyang/" class="btn btn-default btn-lg">Zur offiziellen
+                Annyang-Seite</a>
+        </div>
+    </div>
+</section>
+
+<!-- Babylon JS Section -->
+<section id="babylon" class="content-section text-center">
+    <div class="download-section">
+        <div class="container">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>BabylonJS</h2>
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                        <a href="#" class="thumbnail">
+                            <img src="images/babylonCoordinates.PNG" alt="...">
+                        </a>
+                        <small>Koordinatensystem BabylonJS</small>
+                    </div>
+                    <div class="col-xs-12 col-md-8">
+                        <p>
+                        <ul style="text-align: left">
+                            <li>JavaScript Framework um mit HTML5 und WebGL 3D Szenen zu entwickeln</li>
+                            <li>Untersützt verschiedene Kameras, Lichter, Materialen, Texturen und Meshes</li>
+
+
+                        </ul>
                         </p>
                     </div>
 
                 </div>
 
-                <a target="_blank" href="https://www.talater.com/annyang/" class="btn btn-default btn-lg">Zur offiziellen Annyang-Seite</a>
+                <a target="_blank" href="http://www.babylonjs.com/" class="btn btn-default btn-lg">Zur offiziellen
+                    BabylonJS-Seite</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Babylon JS Section -->
-    <section id="babylon" class="content-section text-center">
-        <div class="download-section">
-            <div class="container">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h2>BabylonJS</h2>
-                    <div class="row">
-                        <div class="col-xs-6 col-md-3">
-                            <a href="#" class="thumbnail">
-                                <img src="images/babylonCoordinates.PNG" alt="...">
-                            </a>
-                            <small>Koordinatensystem BabylonJS</small>
-                        </div>
-                        <div class="col-xs-12 col-md-8">
-                            <p>
-                                <ul style="text-align: left">
-                            <li>JavaScript Framework um  mit HTML5 und WebGL 3D Szenen zu entwickeln </li>
-                            <li>Untersützt verschiedene Kameras, Lichter, Materialen, Texturen und Meshes</li>
-
-
-                            </ul>
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <a target="_blank" href="http://www.babylonjs.com/" class="btn btn-default btn-lg">Zur offiziellen BabylonJS-Seite</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-26 col-lg-offset-0">
+<!-- Contact Section -->
+<section id="contact" class="container content-section text-center">
+    <div class="row">
+        <div class="col-lg-26 col-lg-offset-0">
 
 
             <h1>&nbsp Demos</h1>
             </br>
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail leap-interactive">
-                            <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
-                            <div class="caption">
-                                <h3>Bildbearbeitung</h3>
-                                <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
-                                <p><a target="_blank" href="./speechmotion.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                    <a href="./docuPictureEditingSpeechmotion.html" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation </a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail leap-interactive">
-                            <img src="images/watersp.PNG" alt="...">
-                            <div class="caption">
-                                <h3>Landschaftsspiel</h3>
-                                <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
-                                <p><a target="_blank" href="./LandscapeChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                    <a href="./doc_LandscapeChallenge.html" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail leap-interactive">
-                            <img src="images/dontouch.PNG" alt="...">
-                            <div class="caption">
-                                <h3>Geschicklichkeits-Spiel</h3>
-                                <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
-                                <p><a target="_blank" href="./DontTouchChallenge.html" class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                    <a href="#" class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation</a></p>
-                            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
+                        <div class="caption">
+                            <h3>Bildbearbeitung</h3>
+                            <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
+                            <p><a target="_blank" href="./speechmotion.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="./docuPictureEditingSpeechmotion.html"
+                                   class="btn btn-default btn-sm leap-interactive" role="button">Dokumentation </a></p>
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/watersp.PNG" alt="...">
+                        <div class="caption">
+                            <h3>Landschaftsspiel</h3>
+                            <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
+                            <p><a target="_blank" href="./LandscapeChallenge.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="./doc_LandscapeChallenge.html" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/dontouch.PNG" alt="...">
+                        <div class="caption">
+                            <h3>Geschicklichkeits-Spiel</h3>
+                            <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
+                            <p><a target="_blank" href="./DontTouchChallenge.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="#" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-         </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>Autoren: Lisa Bell & Markus Küpper</p>
-        </div>
-    </footer>
+<!-- Footer -->
+<footer>
+    <div class="container text-center">
+        <p>Autoren: Lisa Bell & Markus Küpper</p>
+    </div>
+</footer>
 
-    <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
 
-    <!-- Plugin JavaScript -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
-    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+<!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
 
-    <!-- Theme JavaScript -->
-    <script src="js/grayscale.min.js"></script>
+<!-- Theme JavaScript -->
+<script src="js/grayscale.min.js"></script>
 
-    <!-- Init Leap, Set all "a" interactive, use 1 Leap cursor/finger -->
-    <script>LeapManager.init({interactiveSelector:"a",maxCursors:1});</script>
+<!-- Init Leap, Set all "a" interactive, use 1 Leap cursor/finger -->
+<script>LeapManager.init({interactiveSelector: "a", maxCursors: 1});</script>
 
 </body>
 
