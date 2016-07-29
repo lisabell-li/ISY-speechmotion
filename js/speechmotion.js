@@ -1313,8 +1313,8 @@ alle mit folgender Lizens: "CC0 Public Domain Freie kommerzielle Nutzung Kein Bi
                                 console.log("key tap gesture");
                                 break;
                             case "screenTap":
-                                var position = gesture.position;
-                                console.log("screen tap gesture" + position);
+                               // var position = gesture.position;
+                                console.log("screen tap gesture");
                                 break;
                             case "swipe":
                                 console.log("Swipe gesture");
