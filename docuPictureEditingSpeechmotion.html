@@ -480,30 +480,13 @@ currentPickedMesh.scaling.y = handNormPosition[1] * 10;}</code></pre>
                         </br>
                         <p><strong>Annyang</strong></p>
                         <p><small>Sprachsteuerung</small></p>
-                        <p>Annyang ist sehr einfach zu nutzen. Wichtig zu wissen bei Annyang ist (was wir nur durch Testen mit einhergehender Verzweiflung herausfanden)
-                        </p>
-                        <p><strong>Annyang kann nur in einem Tab genutzt werden!</strong> Wird Annyang in mehreren Tabs verwendet funktioniert die Spracherkennung nicht.</p>
-                        <p><strong>Annyang kann nicht im aktuellen Firefox oder Edge verwendet werden.</strong> Im aktuellen Chrome hingegen funktioniert Annyang.</p>
-                        <p><strong>Annyang stürzt manchmal ab.</strong> Meist ohne ersichtlichen Grund und nur durch Neustart der Seite behebbar.</p>
-                        <p>Des weiteren ist darauf zu achten, dass es nicht zuviele Hintergrundgeräusche gibt.</p>
-                        <p>Wenn Annyang denn dann funktioniert, dann werden die vorher festgelegten Befehle sehr gut erkannt.</p>
-                        <p>
+                        <p>Annyang ist, wenn es dann dann funktioniert, wie bereits auf der Startseite erklärt, sehr einfach zu nutzen.</p>
+                        <p>Bei der Bildbearbeitungs-Anwendung wurde Annyang genutzt um per Sprachbefehl das Bild zu manipulieren. Insbesondere in Kombination mit Leap Motion ergaben sich sinnvolle Interaktionen.</p>
+                        <p>Angenommen man skaliert  ein Bild mit Leap Motion, ist also in dem Switch Cases des Leap Loops in einem State der nur skalieren erlaubt. Man hat nun das Bild in der gewünschten Größe und will das Bild "abspeichern", also die Skalier-Interaktion abbrechen,
+                            hat man mit der Leap Motion keine Möglichkeit eine andere Geste zu benutzen um diese Größe zu speichern ohne das
+                        die Größe des Bildes wieder verändert wird, da jede noch so kleine Bewegung aufgezeichnet wird und die Gesten und unterschiedlichen Händer, Finger sich oft nicht gut unterscheiden lassen.</p>
+                        <p>Skaliert man aber ein Bild mit Leap Motion und nutzt Annyang, also Sprachbefehle, um die gewünschte Größe zu speichern funktiert dies sehr gut.</p>
 
-
-<pre><code>//Wenn der Browser Annyang unterstützt
-if (annyang) {
-// Sprachbefehle und die damit aufzurufenden Funktionen
-var commands = {
-'Boden': addGround,
-'verschieben': move,
-'Graustufen': grayscale,
-'Invertieren': invert,
-[...]
-annyang.addCommands(commands);
-//language = german
-annyang.setLanguage("de-DE");
-annyang.start(true, true);}
-else{console.log("Annyang ist mit diesem Browser nicht kompatibel.")}</code></pre></p>
                         </br>
 
                         <a target="_blank" href="https://github.com/lisabell-li/ISY-speechmotion/" class="btn btn-default btn-lg">Link zum Git-Repository</a>
