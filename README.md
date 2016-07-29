@@ -6,6 +6,15 @@ The main goal was to discover the possibilities and drawbacks using Leap Motion,
 
 Authors: Lisa Bell & Markus Küpper
 
-Documentation can be found here:
-peechmotion.herokuapp.com/
+Documentation (in germand) can be found here:
+http://speechmotion.herokuapp.com/
+-----
+Deutsch:
 
+Im Rahmen des Kurses Interactive Systems (Prof. Dr. Hildebrand, SS2016) der Beuth Hochschule entstand folgende Idee für ein Projekt:
+Eine 3D Szene im Browser mit Gesten und Sprache steuern mit Leap Motion, BabylonJS und Annyang.
+
+Autoren: Markus Küpper und Lisa Bell 
+
+Dokumentation:
+http://speechmotion.herokuapp.com/
