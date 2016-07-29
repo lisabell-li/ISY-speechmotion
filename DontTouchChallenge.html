@@ -105,7 +105,7 @@
     torus.material = matPlan;
 
     //intersection sphere
-    var collideSphere1 = BABYLON.Mesh.CreateSphere("sphere1", 3, 1, scene);
+    var collideSphere1 = BABYLON.Mesh.CreatePlane("sphere1", 2, scene);
     collideSphere1.position = points[0];
     collideSphere1.visibility = false;
 
@@ -186,7 +186,7 @@
     // ------------------------------
 
     // Show some Debug Axis
-   /* var showAxis = function (size) {
+ /*   var showAxis = function (size) {
         var makeTextPlane = function (text, color, size) {
             var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
             dynamicTexture.hasAlpha = true;
@@ -225,10 +225,11 @@
     };
 
     showAxis(20);
-    */
+*/
     state = 1;
     var appWidth = 100;
     var appHeight = 50;
+    var count = true;
     // LEAP MOTION LOOP
     var controller = Leap.loop({enableGestures:true}, function (frame) {
 
@@ -297,15 +298,21 @@
                                 console.log("In line");
                                 torus.material.emissiveColor = new BABYLON.Color3(1, 0, 1);
                                 collide = false;
+                                count =true;
                             }
                         }
+
                         if(collideSphere1.intersectsMesh(endBox)){
                             playing = false;
                             doneDisplay.innerText = "YES!!"
                         }
                         if(collide && playing){
-                            counterCollisions++;
+                            if(count){
+                                counterCollisions++;
+                                count = false;
+                            }
                             torus.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+                            collide = false;
                         }
                     }
                 }

@@ -98,8 +98,6 @@
         <div class="col-lg-8 col-lg-offset-2">
             <h2>Anleitung</h2>
             <p>
-                Landscape Challenge
-
                 Ziel dieser Anwendung ist die Leap Motion Steuerung im 3D Raum zu testen und die Sprachsteuerung als
                 Tool zur Spielleitung zu nutzen.
                 Desweiteren beinhaltet die Anwendung komplexere 3D und Shader Elemente wodurch auch die Performance von
@@ -134,7 +132,8 @@
                 <strong>3) Sprachkommando „Wasser“ startet die Wasser Aufgabe </strong><br>
                 > Per Kreis-Bewegung der Hand kann eine der standardisierten Leap Motion
                 Gesten getriggert werden. Pro erkannte Kreis-Geste werden die Wellen und die Windstärke des Wassers
-                erhöht. Sobald die zu erreichende Wellenhöhe gesetzt wurde ist die Aufgabe beendet. Per Wisch-Bewegung kann die Windrichtung geändert werden.
+                erhöht. Sobald die zu erreichende Wellenhöhe gesetzt wurde ist die Aufgabe beendet. Per Wisch-Bewegung
+                kann die Windrichtung geändert werden.
                 <br>
                 <img src="images/land3.jpg" class="img-responsive" alt="...">
                 <br> <br>
@@ -154,7 +153,7 @@
 
 <!-- Leap JS Section -->
 <section id="code" class="content-section text-justify">
-    <div class="download-section"  style=" background: url(./images/code.jpg) scroll;">
+    <div class="download-section" style=" background: url(./images/code.jpg) scroll;">
         <div class="container">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Implementierung</h2>
@@ -192,16 +191,32 @@
                         da es zu schwer wäre den Baum auch in der Höhe auf der Y-Achse entsprechend in der richtigen
                         Höhe zu platzieren. <br>
                         <br>
-                        Bei der Wasser Aufgabe geht es darum die Gestenerkennung der Lear Motion zu testen. Es gibt 4 standardisierte Gesten in Form von Wisch-, Keytap-, Screentap- und Circle-Gesten. Nachdem das Wasser per Sprachkommando erzeugt wurde kann die Windrichtung per Wisch-Bewegung gewechselt werden und die Wellen können per Circle-Bewegung vergrößert werden. Ziel der Aufgabe ist das Wasser auf eine bestimmte Wellenhöhe zu bringen. Hierfür sind exakt 263 Circle Gesten von Nöten. Getrackt wird wieviele Gesten allgemein erkannt werden und wieviele davon als Circle Geste erkannt wurden. Das Wasser wird mit Hilfe eines Shaders erzeugt, welcher die Objekte der Szene in der Wasseroberfläche spiegelt.
+                        Bei der Wasser Aufgabe geht es darum die Gestenerkennung der Lear Motion zu testen. Es gibt 4
+                        standardisierte Gesten in Form von Wisch-, Keytap-, Screentap- und Circle-Gesten. Nachdem das
+                        Wasser per Sprachkommando erzeugt wurde kann die Windrichtung per Wisch-Bewegung gewechselt
+                        werden und die Wellen können per Circle-Bewegung vergrößert werden. Ziel der Aufgabe ist das
+                        Wasser auf eine bestimmte Wellenhöhe zu bringen. Hierfür sind exakt 263 Circle Gesten von Nöten.
+                        Getrackt wird wieviele Gesten allgemein erkannt werden und wieviele davon als Circle Geste
+                        erkannt wurden. Das Wasser wird mit Hilfe eines Shaders erzeugt, welcher die Objekte der Szene
+                        in der Wasseroberfläche spiegelt.
                         <br>
-                        Für die Spiel Aufgabe wird eine Spielfigur, einem simplen Grafik Sprite mit Animation, in der Mitte der Landschaft erzeugt. Die Steuerung erfolgt wiederum über Ray Tracing und einem Marker welcher sich entsprechend der getreckten Leap Motion Position über die Landschaft bewegt. Per Keytab-Geste kann die Spielfigur an die entsprechende Position verschoben werden. Hierbei wird ein Babylon Animation verwendet, welche mit einer festgelegten Anzahl an Frames die Figur von A nach B bewegt. Folgender Code zeigt die Berechnung der getrackten Leap Koordinaten der Hand Position im Bereich der definierten Interactions Box über dem Sensor.
+                        Für die Spiel Aufgabe wird eine Spielfigur, einem simplen Grafik Sprite mit Animation, in der
+                        Mitte der Landschaft erzeugt. Die Steuerung erfolgt wiederum über Ray Tracing und einem Marker
+                        welcher sich entsprechend der getreckten Leap Motion Position über die Landschaft bewegt. Per
+                        Keytab-Geste kann die Spielfigur an die entsprechende Position verschoben werden. Hierbei wird
+                        ein Babylon Animation verwendet, welche mit einer festgelegten Anzahl an Frames die Figur von A
+                        nach B bewegt. Folgender Code zeigt die Berechnung der getrackten Leap Koordinaten der Hand
+                        Position im Bereich der definierten Interactions Box über dem Sensor.
                         <br><br>
 
                         <img src="images/codeLandschaft2.jpg" class="img-responsive" alt="...">
                         <br>
-                        Das Wasser wird ebenfalls per Animation langsam Richtung Y-Achse verschoben, bis die Spielfigur darunter verschwindet. Erreicht die Spielfigur den Helikopter über einen einfachen Kollisionstest, so ich das Spiel gemeistert.
+                        Das Wasser wird ebenfalls per Animation langsam Richtung Y-Achse verschoben, bis die Spielfigur
+                        darunter verschwindet. Erreicht die Spielfigur den Helikopter über einen einfachen
+                        Kollisionstest, so ich das Spiel gemeistert.
                     </p>
-                    <a target="_blank" href="https://github.com/lisabell-li/ISY-speechmotion" class="btn btn-default btn-lg">Link zum
+                    <a target="_blank" href="https://github.com/lisabell-li/ISY-speechmotion"
+                       class="btn btn-default btn-lg">Link zum
                         Git-Repository</a>
 
                 </div>
@@ -216,13 +231,28 @@
             <h2>Analyse</h2>
             <div class="row">
                 <p>
-                    Für die Analyse haben 10 Probanden jeweils einen Testdurchlauf und anschließend einen aufgezeichneten Durchlauf absolviert.
-                    Alle Probanden kamen mit der Spracherkennung gut zurecht und hatten nur wenig Fehler bei der Erkennung der Kommandos.
-                    Die Höhenkarte Aufgabe wurde unterschiedlich genau vollzogen, während einige Probanden relativ schnell mit der gezeichneten Map zufrieden waren, malten andere die Kontur komplett weiß aus.
-                    Die Probanden welche sich hier Zeit gelassen haben schafften am Ende auch die Helikopter Challenge, da sie durch die höheren Berge mehr Zeit hatten.
-                    Bei der Wald Aufgabe kam es zu ein paar Sprachproblemen, da die Probanden zu unruhig neue Baum Objekte erzeugen wollten. Hieraus lässt sich folgern, dass es besser wäre keine identischen Sprachkommandos mehrfach hintereinander ausführen zu lassen, da es sonst zu Doppelungen kommen kann. Besser wäre es „Wald 1“ - „Wald x“ Kommandos zu verwenden.
-                    Die Wasser Aufgabe wurde am schnellsten von allen gelöst und die Circle Geste von Leap Motion wurde sehr zuverlässig mit einer durchschnittlichen Erkennungsrate von 96,5 % erkannt im Verhältnis zu allen anderen erkannten Gesten in dem Zeitraum.
-                    Bei der Spiel Aufgabe ging es vorallem darum den Spieler in eine Stresssituation zu versetzen, wo er unter Zeitdruck eine bestimmte Geste (Keytap) ausführen sollte. Zum einen konnte bei unseren Tests festgestellt werden, das die Keytab Geste deutlich schlechter erkannt wird als z.B. die Circle Geste, aber trotzdem hatten wir eine höhere Erfolgsquote als die gemessene Erkennungsrate bei den Probanden unter Stress. Hier lag die Erkennungsrate bei gerademal 20,28 %, da viele die Geste zu unruhig, schnell und hektisch ausführten. Insgesamt schafften nur 4 von 10 Probanden die Spiel Aufgabe nicht und gingen mit ihrer Spielfigur baden.
+                    Für die Analyse haben 10 Probanden jeweils einen Testdurchlauf und anschließend einen
+                    aufgezeichneten Durchlauf absolviert. Getestet wurde auf OSX 10.9.5, Chrome 51.0.2704 und Leap Motion 2.3.1.
+                    Alle Probanden kamen mit der Spracherkennung gut zurecht und hatten nur wenig Fehler bei der
+                    Erkennung der Kommandos.
+                    Die Höhenkarte Aufgabe wurde unterschiedlich genau vollzogen, während einige Probanden relativ
+                    schnell mit der gezeichneten Map zufrieden waren, malten andere die Kontur komplett weiß aus.
+                    Die Probanden welche sich hier Zeit gelassen haben schafften am Ende auch die Helikopter Challenge,
+                    da sie durch die höheren Berge mehr Zeit hatten.
+                    Bei der Wald Aufgabe kam es zu ein paar Sprachproblemen, da die Probanden zu unruhig neue Baum
+                    Objekte erzeugen wollten. Hieraus lässt sich folgern, dass es besser wäre keine identischen
+                    Sprachkommandos mehrfach hintereinander ausführen zu lassen, da es sonst zu Doppelungen kommen kann.
+                    Besser wäre es „Wald 1“ - „Wald x“ Kommandos zu verwenden.
+                    Die Wasser Aufgabe wurde am schnellsten von allen gelöst und die Circle Geste von Leap Motion wurde
+                    sehr zuverlässig mit einer durchschnittlichen Erkennungsrate von 96,5 % erkannt im Verhältnis zu
+                    allen anderen erkannten Gesten in dem Zeitraum.
+                    Bei der Spiel Aufgabe ging es vorallem darum den Spieler in eine Stresssituation zu versetzen, wo er
+                    unter Zeitdruck eine bestimmte Geste (Keytap) ausführen sollte. Zum einen konnte bei unseren Tests
+                    festgestellt werden, das die Keytab Geste deutlich schlechter erkannt wird als z.B. die Circle
+                    Geste, aber trotzdem hatten wir eine höhere Erfolgsquote als die gemessene Erkennungsrate bei den
+                    Probanden unter Stress. Hier lag die Erkennungsrate bei gerademal 20,28 %, da viele die Geste zu
+                    unruhig, schnell und hektisch ausführten. Insgesamt schafften nur 4 von 10 Probanden die Spiel
+                    Aufgabe nicht und gingen mit ihrer Spielfigur baden.
                 </p>
                 <table class="table" style="font-size: 16px;">
                     <thead>
@@ -309,11 +339,15 @@
                         </tr>
 
                         <tr>
-                            <td>Ray Tracing von BabylonJS liefert sehr zuverlässig Schnittpunkte ausgehend von der Kamera und erfassten Leap Koordinaten</td>
+                            <td>Ray Tracing von BabylonJS liefert sehr zuverlässig Schnittpunkte ausgehend von der
+                                Kamera und erfassten Leap Koordinaten
+                            </td>
 
                         </tr>
                         <tr>
-                            <td>Trotz Partikel, Wassershader, 3D-Objekten und Texturen gab es keinerlei Performance Probleme</td>
+                            <td>Trotz Partikel, Wassershader, 3D-Objekten und Texturen gab es keinerlei Performance
+                                Probleme
+                            </td>
 
                         </tr>
                         <tr>
@@ -338,16 +372,21 @@
 
                         </tr>
                         <tr>
-                            <td>Platzierung von Objekten auf jeweils X,Y,Z-Achse schwierig, da die Kamera hierbei möglicherweise rotiert werden muss wegen Verdeckung</td>
+                            <td>Platzierung von Objekten auf jeweils X,Y,Z-Achse schwierig, da die Kamera hierbei
+                                möglicherweise rotiert werden muss wegen Verdeckung
+                            </td>
 
                         </tr>
 
                         <tr>
-                            <td>Keytab Geste wurde sehr schlecht erkannt, gerade unter wenn der Nutzer nicht ruhig und eindeutig interagiert</td>
+                            <td>Keytab Geste wurde sehr schlecht erkannt, gerade unter wenn der Nutzer nicht ruhig und
+                                eindeutig interagiert
+                            </td>
 
                         </tr>
                         <tr>
-                            <td>In Stresssituation sollten nur Gesten eingesetzt werden die zuverlässig funktionieren</td>
+                            <td>In Stresssituation sollten nur Gesten eingesetzt werden die zuverlässig funktionieren
+                            </td>
 
                         </tr>
                         </tbody>
@@ -403,7 +442,7 @@
                             <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
                             <p><a target="_blank" href="./DontTouchChallenge.html"
                                   class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
-                                <a href="#" class="btn btn-default btn-sm leap-interactive"
+                                <a href="./doc_Geschicklichkeit.html" class="btn btn-default btn-sm leap-interactive"
                                    role="button">Dokumentation</a></p>
                         </div>
                     </div>
@@ -418,13 +457,13 @@
 
 <!-- Footer -->
 <footer>
-<<<<<<< HEAD
+    <<<<<<< HEAD
     <div class="container text-center">
         <p>Copyright &copy; Markus Küpper / Lisa Bell 2016</p>
-=======
-    <div class="container text-center"> <p>Autoren: Lisa Bell & Markus Küpper</p>
->>>>>>> origin/master
-    </div>
+        =======
+        <div class="container text-center"><p>Autoren: Lisa Bell & Markus Küpper</p>
+            >>>>>>> origin/master
+        </div>
 </footer>
 
 <!-- jQuery -->
