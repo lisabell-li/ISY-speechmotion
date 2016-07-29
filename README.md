@@ -6,7 +6,7 @@ The main goal was to discover the possibilities and drawbacks using Leap Motion,
 
 Authors: Lisa Bell & Markus Küpper
 
-Documentation (in germand) can be found here:
+Documentation (in german) can be found here:
 http://speechmotion.herokuapp.com/
 -----
 Deutsch:
