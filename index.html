@@ -137,7 +137,12 @@
                 wie schnell und sicher die Nutzer per Geste und Sprache mit der Anwendung interagieren können.</p>
             </p>
             <br>
-            <img src="images/konzept-bild.jpg" class="img-responsive" alt="...">
+            <div>
+                <img src="images/konzept-bild.jpg" class="img-responsive" alt="...">
+                <a href="https://developer.leapmotion.com/documentation/javascript/devguide/Leap_Overview.html" title="Urheber und Quelle">
+                    Logos Leap Motion: Leap Motion, Inc.</a>
+            </div>
+
         </div>
     </div>
 </section>
@@ -165,20 +170,44 @@
                         umgerechnet werden. Um den Tracking Bereich besser zu kontrollieren kann eine Interaktion Box
                         über dem Sensor festgelegt werden. Die Positionsdaten der Leap könnnen folgendermaßen auf die
                         Koordinaten der Anwendung umgerechnet werden: </p> <br>
-                    <img src="images/berechnung.jpg" class="img-responsive" alt="...">
+
+                    <div>
+                        <img src="images/berechnung.jpg" class="img-responsive" alt="...">
+                        <a href="https://developer.leapmotion.com/documentation/javascript/devguide/Leap_Overview.html" title="Urheber und Quelle">
+                            Foto: Leap Motion, Inc.</a>
+                    </div>
 
                     <br>
                     <p> Es gibt unterschiedliche Positionsdaten die verwendet werden können. LeapJS liefert pro Frame
                         Informationen zu den jeweilig getrackten Hand Objekten, den Fingern und Handgelenken.
                         Insgesamt stellt sich der Aufbau der API wie folgt dar:</p>
-                    <img src="images/model.jpg" class="img-responsive" alt="...">
+
+                    <div>
+                        <img src="images/model.jpg" class="img-responsive" alt="Leap Motion Gestures">
+                        <a target="_blank" href="https://developer.leapmotion.com/documentation/v2/javascript/devguide/Leap_Tracking.html" title="Urheber und Quelle">
+                            Foto: Leap Motion, Inc. </a>
+
+                    </div>
+
                     <br>
                     <p>Neben Positionsdaten liefert LeapJS auch Daten über Bewegung und Ausrichtung der Objekte, sowie
                         der Rotation.
                         Es gibt 4 standardisierte Gesten in Form von Circle-, Screentap-,Keytap- und Swipe-Geste, welche
                         der Sensor direkt erkennen kann. Einige dieser Gesten werden in diesem Projekt verwendet und
                         getestet.
-                    </p>   <img src="images/gesten.jpg" class="img-responsive" alt="...">
+                    </p>
+                    <div>
+                        <img src="images/gesten.jpg" class="img-responsive" alt="...">
+
+                        Fotos: Leap Motion, Inc.
+                        <a target="_blank" href="https://developer.leapmotion.com/documentation/v2/cpp/api/Leap.CircleGesture.html" title="Urheber und Quelle">Quelle: Circle Gesture.</a>
+                        <a target="_blank" href="https://developer.leapmotion.com/documentation/v2/cpp/api/Leap.KeyTapGesture.html" title="Urheber und Quelle">Quelle: Keytab Gesture.</a>
+                        <a target="_blank" href="https://developer.leapmotion.com/documentation/v2/cpp/api/Leap.ScreenTapGesture.html" title="Urheber und Quelle">Quelle: Screentab Gesture.</a>
+                        <a target="_blank" href="https://developer.leapmotion.com/documentation/v2/cpp/api/Leap.SwipeGesture.html" title="Urheber und Quelle">Quelle: Swipe Gesture.</a>
+
+                    </div>
+
+
                     <br>
                     <p>Die Verarbeitung der Daten und wie diese für die Anwendung verwendet werden erfolgt innerhalb
                         eines Controller Objekts, welches einen Leap Loop startet. Innerhalb des Loops haben wir Zugriff
@@ -189,35 +218,50 @@
                 </div>
             </div>
         </div>
+        </div>
 </section>
 
 <!-- Annyang Section -->
-<section id="annyang" class="container content-section text-center">
+<section id="annyang" class="container content-section text-center" style="padding-top: 90px;">
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-            <h2>Annyang</h2>
-            <div class="row">
-                <div class="col-xs-6 col-md-3 thumbnail">
+        <div class="col-lg-8 col-lg-offset-2" style="text-align: left">
+            <h1>Annyang</h1>
+            <p><small>Sprachsteuerung</small></p>
+            <ul style="text-align: left">
+                <li>JavaScript Framework für Sprachbefehle/Spracherkennung</li>
+                <li>JavaScript-Wrapper für GoogleSpeech</li>
+                <li>unterstützt viele verschiedene Sprachen</li>
+                <li>kostenlos</li>
+                <li>einfach einzubinden</li>
+                <li>wird nicht von allen aktuellen Browsern unterstützt (z.B. Firefox)</li>
 
-                    <img src="images/annybsp.png" alt="...">
+            </ul>
+            <p>Annyang ist sehr einfach zu nutzen. Wichtig zu wissen bei Annyang ist (was wir nur durch Testen mit einhergehender Verzweiflung herausfanden)
+            </p>
+            <p><strong>Annyang kann nur in einem Tab genutzt werden!</strong> Wird Annyang in mehreren Tabs verwendet funktioniert die Spracherkennung nicht.</p>
+            <p><strong>Annyang kann nicht im aktuellen Firefox oder Edge verwendet werden.</strong> Im aktuellen Chrome hingegen funktioniert Annyang.</p>
+            <p><strong>Annyang stürzt manchmal ab.</strong> Meist ohne ersichtlichen Grund und nur durch Neustart der Seite behebbar.</p>
+            <p>Des weiteren ist darauf zu achten, dass es nicht zuviele Hintergrundgeräusche gibt.</p>
+            <p>Wenn Annyang denn dann funktioniert, dann werden die vorher festgelegten Befehle sehr gut erkannt.</p>
+            <p>
 
 
-                </div>
-                <div class="col-xs-12 col-md-8">
-                    <p>
-                    <ul style="text-align: left">
-                        <li>JavaScript Framework für Sprachbefehle/Spracherkennung</li>
-                        <li>JavaScript-Wrapper für GoogleSpeech</li>
-                        <li>unterstützt viele verschiedene Sprachen</li>
-                        <li>kostenlos</li>
-                        <li>einfach einzubinden</li>
-                        <li>wird nicht von allen aktuellen Browsern unterstützt (z.B. Firefox)</li>
+<pre><code>//Wenn der Browser Annyang unterstützt
+if (annyang) {
+// Sprachbefehle und die damit aufzurufenden Funktionen
+var commands = {
+'Boden': addGround,
+'verschieben': move,
+'Graustufen': grayscale,
+'Invertieren': invert,
+[...]
+annyang.addCommands(commands);
+//language = german
+annyang.setLanguage("de-DE");
+annyang.start(true, true);}
+else{console.log("Annyang ist mit diesem Browser nicht kompatibel.")}</code></pre></p>
+            </br>
 
-                    </ul>
-                    </p>
-                </div>
-
-            </div>
 
             <a target="_blank" href="https://www.talater.com/annyang/" class="btn btn-default btn-lg">Zur offiziellen
                 Annyang-Seite</a>
@@ -226,7 +270,7 @@
 </section>
 
 <!-- Babylon JS Section -->
-<section id="babylon" class="content-section text-center">
+<section id="babylon" class="content-section text-center" style="padding-top: 50px;">
     <div class="download-section">
         <div class="container">
             <div class="col-lg-8 col-lg-offset-2">
@@ -268,11 +312,12 @@
             </br>
             <div class="row">
                 <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail leap-interactive">
+                    <div class="thumbnail leap-interactive " style="min-height: 600px";>
                         <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
                         <div class="caption">
                             <h3>Bildbearbeitung</h3>
                             <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
+                            </br>
                             <p><a target="_blank" href="./speechmotion.html"
                                   class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
                                 <a href="./docuPictureEditingSpeechmotion.html"
@@ -281,11 +326,12 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail leap-interactive">
+                    <div class="thumbnail leap-interactive" style="min-height: 600px;">
                         <img src="images/watersp.PNG" alt="...">
                         <div class="caption">
                             <h3>Landschaftsspiel</h3>
-                            <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
+                            <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D. Interaktive 3D Szene</p>
+</br>
                             <p><a target="_blank" href="./LandscapeChallenge.html"
                                   class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
                                 <a href="./doc_LandscapeChallenge.html" class="btn btn-default btn-sm leap-interactive"
@@ -294,11 +340,12 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail leap-interactive">
+                    <div class="thumbnail leap-interactive" style="min-height: 600px;">
                         <img src="images/dontouch.PNG" alt="...">
                         <div class="caption">
                             <h3>Geschicklichkeits-Spiel</h3>
                             <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
+
                             <p><a target="_blank" href="./DontTouchChallenge.html"
                                   class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
                                 <a href="#" class="btn btn-default btn-sm leap-interactive"
