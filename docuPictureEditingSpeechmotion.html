@@ -27,8 +27,8 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
     <![endif]-->
 <style>.jumbotron p, .jumbotron ul, .jumbotron li{
     font-size: 20px ;
@@ -340,7 +340,7 @@ index++;
 }
 }
             </code></pre></p>
-                        <p>Ergebnis:   <img class="media-object" src="images/gallery.png" alt="Gallery"></p>
+                        <p>Ergebnis:  </br> <img  src="images/gallery.png" alt="Gallery" width="200px"></p>
                         <p>Ähnlich werden auch die Buttons und Slider, also die GUI für die Bildbearbeitung erstellt. Ebenfalls mit Babylon-Planes.</p>
                         <p>
 
@@ -360,7 +360,7 @@ sliderContrast.position.z = 0;
 sliderContrast.isPickable = true;
 </code></pre>
                         </p>
-                        <p>Ergebnis:   <img class="media-object" src="images/slider.png" alt="Slider and Buttons on babylon 3d canvas"></p>
+                        <p>Ergebnis:   </br> <img src="images/slider.png" alt="Slider and Buttons on babylon 3d canvas" width="200px"></p>
 
                         </br><p><strong>Leap Motion</strong></p>
 
@@ -505,7 +505,9 @@ currentPickedMesh.scaling.y = handNormPosition[1] * 10;}</code></pre>
 <p>Leider stellte sich heraus, dass die von Leap Motion vorgegebenen 4 Gesten: Circle, Swipe, Screentap und Keytap, sehr schlecht erkannt werden,
 bis auf die Circle-Geste</p>
                 <p>Die Circle-Geste wird in dieser Anwendung genutzt um in der Gallery neue Bilder anzuzeigen.</p>
-                <p>Die Gesten wurden von 10 Probanden, nach ausfürlicher Beschreibung und einem Testdurchlauf, jeweils 10 Mal ausprobiert.</p>
+                <p>Um die Genauigkeit der oben genannten Gesten zu analysieren, wurden die Gesten von 10 Probanden, nach ausfürlicher Beschreibung und einem Testdurchlauf, jeweils 10 Mal ausprobiert. </p>
+                <p>Es ergaben sich Unterschiede in den Ergebnissen zwischen dem Testen der Gesten bei der Anwendung "Bildbearbeitung" und "Landschaftsspiel". Zu erklären sind die Unterschiede z.B. dadurch, dass die Anwendungen
+                bzw die Tests mit 2 unterschiedlichen Leap Motion Geräten und Testleitern durchgeführt wurden.</p>
                 <img width="100%" src="images/diagrammProband1.PNG" alt="Gestemerkennung je Proband">
                 </br></br>
                 <img width="100%" src="images/siagramgesten.PNG" alt="Gestenerkennung insgesamt">
@@ -524,8 +526,10 @@ bis auf die Circle-Geste</p>
 <p><i class="fa fa-thumbs-up" aria-hidden="true"></i><p>
                         <p>
                         <ul>
-                        <li>Generell kann man Annyang, Leap Motion und BabylonJS zusammen verwenden.</li>
-                        <li>Durch den Einsatz von Sprachbefehlen kann man die Gestenerkennung von Leap Motion besser differenzieren.</li>
+                        <li>Generell kann man Annyang, Leap Motion und BabylonJS zusammen verwenden, auch um komplexere Programme zu nutzen</li>
+                        <li>Durch den Einsatz von Sprachbefehlen kann man die Gestenerkennung von Leap Motion besser differenzieren</li>
+                        <li>Mit der Leap Motion kann man einen Cursor nachempfinden und Button-Klicks simulieren</li>
+                        <li>Keine Performance-Probleme</li>
                    
                     </ul>
                         </p>
@@ -537,8 +541,10 @@ bis auf die Circle-Geste</p>
                             <li>Annyang nur in wenigen Browsern verwendbar</li>
                             <li>Annyang stürzt manchmal ab</li>
                             <li>Annyang nur ohne Hintergrundgeräusche verwendbar</li>
-                            <li>Leap Motion ist teilweise zu genau und da</li>
-                            <li>Die Gesternerkennung von Leap Motion bezüglich der von Leap Motion vorgegebenen Gesten ist schlecht, siehe Analyse oben</li>
+                            <li>Leap Motion ist teilweise zu genau und die einzelnen Bewegungen schwer zu unterscheiden, wenn man z.B. ein Bild pixelgenau skalieren will</li>
+                        <li>Pixelgenaue Interaktion ist ohne Übung nicht möglich und auch dann nicht zuverlässig</li>
+                            <li>Die Gesternerkennung von Leap Motion bezüglich der von Leap Motion vorgegebenen Gesten ist unzureichend, siehe Analyse oben</li>
+
 
                         </ul>
                         </p>
@@ -550,6 +556,48 @@ bis auf die Circle-Geste</p>
     </section>
 
 
+    <!-- Demo Section -->
+    <section id="contact" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-26 col-lg-offset-0">
+
+
+                <h1>&nbsp Andere Demos</h1>
+                </br>
+                <div class="row">
+
+                    <div class="col-sm-6 col-md-6">
+                        <div class="thumbnail leap-interactive">
+                            <img src="images/watersp.PNG" alt="...">
+                            <div class="caption">
+                                <h3>Landschaftsspiel</h3>
+                                <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
+                                <p><a target="_blank" href="./LandscapeChallenge.html"
+                                      class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                    <a href="./doc_LandscapeChallenge.html" class="btn btn-default btn-sm leap-interactive"
+                                       role="button">Dokumentation</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="thumbnail leap-interactive">
+                            <img src="images/dontouch.PNG" alt="...">
+                            <div class="caption">
+                                <h3>Geschicklichkeits-Spiel</h3>
+                                <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
+                                <p><a target="_blank" href="./DontTouchChallenge.html"
+                                      class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                    <a href="./doc_Geschicklichkeit.html" class="btn btn-default btn-sm leap-interactive"
+                                       role="button">Dokumentation</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
 
 
     <!-- Footer -->
@@ -567,7 +615,7 @@ bis auf die Circle-Geste</p>
     <script src="js/bootstrap.min.js"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
 
     <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
