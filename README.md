@@ -6,7 +6,7 @@ The main goal was to discover the possibilities and drawbacks using Leap Motion,
 
 Authors: Lisa Bell & Markus Küpper
 
-Documentation (in german) can be found here:
+Documentation (in german) and demo applications can be found here:
 http://speechmotion.herokuapp.com/
 -----
 Deutsch:
@@ -16,5 +16,5 @@ Eine 3D Szene im Browser mit Gesten und Sprache steuern mit Leap Motion, Babylon
 
 Autoren: Markus Küpper und Lisa Bell 
 
-Dokumentation:
+Dokumentation und Demos:
 http://speechmotion.herokuapp.com/
