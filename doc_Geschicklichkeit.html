@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Speech + Motion - Projektdokumenation - Interactive Systems</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="css/grayscale.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="./index.html">
+                <i class="fa fa-play-circle"></i> <span class="light">Start</span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#anleitung">Anleitung</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#code">Implementierung</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#analyse">Analyse</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#fazit">Fazit</a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!-- Intro Header -->
+<header class="intro" style=" background: url(./images/donttouch.jpg) no-repeat bottom center scroll;">
+    <div class="intro-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-0">
+                    <h1 class="brand-heading">Geschicklichkeitsspiel</h1>
+                    <p class="intro-text">
+                        Pixelgenaue Steuerung eines Objekts
+                    </p>
+                    <a href="#anleitung" class="btn btn-circle page-scroll">
+                        <i class="fa fa-angle-double-down animated"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- About Section -->
+<section id="anleitung" class="container content-section text-justify">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>Anleitung</h2>
+            <p>
+                Der pinke Ring soll möglichst ohne Kollision mit der Linie bis zum anderen Ende geführt werden.
+                Hierfür wird der Ring mit der rechten Hand rotiert und durch Wisch Bewegung über dem Sensor angeschoben.
+                Je nach Bewegungsgeschwindigkeit der Hand wird der Ring schneller oder langsamer geschoben.
+                Per Sprachbefehl "Nächstes Level" wird der Ring an den Ursprung versetzt und die Linie wird stärker geschwungen.
+            </p>
+
+            <br>
+            <img src="images/ring.jpg" class="img-responsive" alt="...">
+        </div>
+    </div>
+</section>
+
+<!-- Leap JS Section -->
+<section id="code" class="content-section text-justify">
+    <div class="download-section" style=" background: url(./images/code.jpg) scroll;">
+        <div class="container">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Implementierung</h2>
+                <div class="row">
+                    <p>
+                        Die Implementierung ist sehr einfach gehalten. Der Ring ist ein Torus Objekt in dessen Mitte
+                        eine Plane liegt, die ständig prüft ob sie noch Kontakt hat zu der Linie oder nicht. Wenn nicht
+                        wird der Zähler der Kollisionen erhöht.
+                        Die Plane ist nötig da Babylon Kollisionen nur mit Bounding Boxes prüft und somit das Loch in
+                        der Mitte des Torus bei Kollisionsabfragen keine Rolle spielt.
+                        Die Linie wird aus 50 kleinen Linien zusammengesetzt, welche per Sinus-Funktion geschwungen
+                        werden.
+                        <br>
+                        Die Bewegung des Rings erfolgt im Gegensatz zu den anderen Anwendungen nicht mit fest
+                        getrackten Positionen der Hand oder eines Fingers, sondern erfolgt über die
+                        Bewegungsgeschwindigkeit der Hand zwischen 2 Frames. Die Rotation des Rings wird über die Rotation der
+                        Hand zur Z-Achse gleichgesetzt. Hierfür liefert LeapJS bereits Funktionen wie roll(),pitch() und yaw().
+
+                        <br>
+                        <img src="images/velocity.jpg" class="img-responsive" alt="...">
+
+                    </p>
+                    <a target="_blank" href="https://github.com/lisabell-li/ISY-speechmotion"
+                       class="btn btn-default btn-lg">Link zum
+                        Git-Repository</a>
+
+                </div>
+            </div>
+        </div>
+</section>
+
+<!-- Annyang Section -->
+<section id="analyse" class="container content-section text-justify">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>Analyse</h2>
+            <div class="row">
+                <p>
+                    Für die Analyse haben 10 Probanden jeweils einen Testdurchlauf und anschließend einen
+                    aufgezeichneten Durchlauf absolviert. Getestet wurde auf OSX 10.9.5, Chrome 51.0.2704 und Leap Motion 2.3.1.
+                    Nur 2 der Probanden haben es geschafft den Ring ohne Kollision bis zum Ende zu führen.
+                    Es war den meisten möglich mit Ruhe und Konzentration wenig Fehler zu begehen und den Ring sehr genau zu führen, aber gerade bei der Rotation kamen Schwierigkeiten auf.
+                    Hin und wieder kommt es noch zu kleineren sprunghaften Bewegungen, wenn bei den Tracking Daten Unregelmäßgkeiten auftauchen.
+                    Gerade bei der Rotation sind manchmal fehlerhafte Daten, wenn die Drehung der Hand nicht richtig erkannt wird.
+                    Insgesamt konnten alle Probaden sehr intuitiv den Ring mit dem Sensor steuern und Fehlerrate hält sich in einem vertretbaren Rahmen.
+                </p>
+                <table class="table" style="font-size: 16px;">
+                    <thead>
+                    <tr>
+                        <th>Zeit</th>
+                        <th>Kollisionen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>14 sec</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>9 sec</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>16 sec</td>
+                        <td>2 </td>
+                    </tr>
+                    <tr>
+                        <td>20 sec</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th>17 sec</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <td>11 sec</td>
+                        <td>9 </td>
+                    </tr>
+                    <tr>
+                        <td>14 sec</td>
+                        <td>0 </td>
+                    </tr>
+                    <tr>
+                        <td>17 sec</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>10 sec</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>19 sec</td>
+                        <td>2</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<!-- Babylon JS Section -->
+<section id="fazit" class="content-section text-justify">
+    <div class="download-section">
+        <div class="container">
+            <div class="col-lg-10 col-lg-offset-1">
+                <h2>Fazit</h2>
+                <div class="row">
+                    <table class="table" style="font-size: 18px;">
+                        <thead>
+                        <tr>
+                            <th><b>Positiv</b></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Steuerung per Handbewegung sehr intuitiv</td>
+
+                        </tr>
+                        <tr>
+                            <td>Bewegung wird sehr genau getrackt und macht pixelgenaues Navigieren möglich</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Fehlerquote war relativ gering
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    <br>
+
+                    <table class="table" style="font-size: 18px;">
+                        <thead>
+                        <tr>
+                            <th><b>Negativ</b></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Bei der Rotation gibt es teils Sprünge wenn die Drehung der Hand nicht korrekt erkannt wird</td>
+
+                        </tr>
+                        <tr>
+                            <td>Nur 2 Probanden schafften den Parkour komplett fehlerfrei
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="container content-section text-center">
+    <div class="row">
+        <div class="col-lg-26 col-lg-offset-0">
+
+
+            <h1>&nbsp Demos</h1>
+            </br>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/speech.PNG" alt="Bildbearbeitung Speechmotion 3D">
+                        <div class="caption">
+                            <h3>Bildbearbeitung</h3>
+                            <p>Bildbearbeitung mit Leap Motion und Annyang in einer Babylon 3D Szene.</p>
+                            <p><a target="_blank" href="./speechmotion.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="./dokuPictureEditing.html" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation </a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/watersp.PNG" alt="...">
+                        <div class="caption">
+                            <h3>Landschaftsspiel</h3>
+                            <p>Spielerische Interaktion mit Leap Motion, Annyang und 3D.</p>
+                            <p><a target="_blank" href="./LandscapeChallenge.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="./doc_LandscapeChallenge.html" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail leap-interactive">
+                        <img src="images/dontouch.PNG" alt="...">
+                        <div class="caption">
+                            <h3>Geschicklichkeits-Spiel</h3>
+                            <p>Teste deine Leap-Motion-Fähigkeiten. Berühre nicht den Draht. </p>
+                            <p><a target="_blank" href="./DontTouchChallenge.html"
+                                  class="btn btn-primary btn-sm leap-interactive" role="button">Anwendung</a>
+                                <a href="#" class="btn btn-default btn-sm leap-interactive"
+                                   role="button">Dokumentation</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer>
+    <<<<<<< HEAD
+    <div class="container text-center">
+        <p>Copyright &copy; Markus Küpper / Lisa Bell 2016</p>
+        =======
+        <div class="container text-center"><p>Autoren: Lisa Bell & Markus Küpper</p>
+            >>>>>>> origin/master
+        </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+<!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+
+<!-- Theme JavaScript -->
+<script src="js/grayscale.min.js"></script>
+
+</body>
+
+</html>
