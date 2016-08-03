@@ -142,7 +142,7 @@
                 > In der Mitte der Landschaft erscheint eine Spielfigur und eine rotes Dreieck, welches das
                 anzuvisierende Laufziel der Figur symbolisiert. Aufgabe ist nun eine Finger-Tap-Geste auszuführen, so
                 als würde man eine Tastaturtaste drücken. Wird diese vom Leap Sensor erkannt, rennt die Figur zu der
-                anvisierten Stelle. Ziel ist es den Helikopter zu erreichen, bevor das Wasser zu hoch steigt.
+                anvisierten Stelle. Ziel ist es den Helikopter zu erreichen bevor das Wasser zu hoch steigt.
             </p>
 
             <br>
@@ -161,8 +161,8 @@
                     <p>Innerhalb der Implementierung werden verschiedene Spielzustände definiert, welche durch die
                         Sprachkommandos gesteuert werden. Wird die Höhenmap Aufgabe durch „Karte“ aufgerufen, wird der
                         Cursor per Leap Motion gesteuert und innerhalb des Leap Motion Loops die Stärke der Handkrümmung
-                        geprüft. Über die Leap Motion API ist über die jeweilige Hand die GrabStrength abfragbar, was
-                        ein Wert zwischen 0 und 1 je nachdem wie geschlossen die Hand ist. Per Ray Tracing wird dann
+                        geprüft. Über die Leap Motion API ist über die jeweilige Hand die GrabStrength abfragbar, welche
+                        ein Wert zwischen 0 und 1 ist je nachdem wie geschlossen die Hand ist. Per Ray Tracing wird dann
                         geprüft ob sich die Cursor Position über der Höhenmap befindet und berechnet entsprechend den
                         Schnittpunkt. Der Ray wird aus dem Kamera Ursprung in die Richtung des Punkts gleich der
                         getrackten X/Y-Koordinaten der Hand und dem Z-Abstand der Höhenmap gefeuert.
@@ -170,8 +170,8 @@
                         einzuzeichnen. Verlässt der Nutzer mit dem Cursor die Höhenmap wird die Landschaft aufgrund der
                         neuen Höhenmap neu erstellt und ein Mesh erzeugt. <br>
                         Für das malen auf der Höhenmap wird eine <i>DynamicTexture</i> aus BabylonJS genutzt. Eine <i>DynamicTexture</i>
-                        kann zur Laufzeit verändert und verhält sich wie ein HTML <i>CanvasRenderingContext2D</i> Canvas
-                        in das gemalt oder modelliert werden kann. Die Erzeugung der Landschaft erfolgt über die
+                        kann zur Laufzeit verändert werden und verhält sich wie ein HTML <i>CanvasRenderingContext2D</i> Canvas
+                        in das gemalt werden kann. Die Erzeugung der Landschaft erfolgt über die
                         Funktion <i>BABYLON.Mesh.CreateGroundFromHeightMap</i>, welche als Parameter die <i>DynamicTexture</i>
                         übergeben bekommt.
                         Hier ein Code-Ausschnitt der <i>draw()</i> Funktion, welche mit dem entsprechenden Ray Tracing
@@ -181,17 +181,16 @@
 
                         <br><br>
                         Wird die Baum Platzierung gestartet, so wird die Kamera Positionen nach oben rotiert, da
-                        ansonsten die Zielpositionen für die Bäume nicht erkennbar wären. Es werden 4 zufällige
+                        ansonsten die Zielpositionen für die Bäume nicht erkennbar wären aufgrund von Vedeckung der Landschaft. Es werden 4 zufällige
                         Positionen auf der Karte erzeugt an welche die Bäume platziert werden sollen. Hier wird mit
-                        Collision Detection zwischen Meshes abgefragt, bis ein Baum eine der Markierungen berührt.
-                        Gemessen wird die Zeit die der Nutzer benötigt, nach einem erzeugten Baum diesen an eine der
-                        Position zu bringen. Die benötigte Zeit für alle 4 Bäume wird aufsummiert und gespeichert. Die
-                        Bäume werden wiederum per Ray Tracing zwischen Kamera und der Landschaft und getrackten Leap
-                        Motion Koordinaten der Hand gesteuert. Der Baum bewegt sich zudem nur auf der Höhe des Meshes,
+                        Collision Detection zwischen Meshes geprüft bis ein Baum eine der Markierungen berührt.
+                        Gemessen wird die Zeit die der Nutzer benötigt um alle erzeugten Bäume ans Ziel zu bringen.
+                        Die Bäume werden wiederum per Ray Tracing zwischen Kamera und der Landschaft und getrackten Leap
+                        Motion Koordinaten der Hand gesteuert. Der Baum bewegt sich zudem nur auf der Höhe des Landschaft-Meshes,
                         da es zu schwer wäre den Baum auch in der Höhe auf der Y-Achse entsprechend in der richtigen
                         Höhe zu platzieren. <br>
                         <br>
-                        Bei der Wasser Aufgabe geht es darum die Gestenerkennung der Lear Motion zu testen. Es gibt 4
+                        Bei der Wasser Aufgabe geht es darum die Gestenerkennung der Leap Motion zu testen. Es gibt 4
                         standardisierte Gesten in Form von Wisch-, Keytap-, Screentap- und Circle-Gesten. Nachdem das
                         Wasser per Sprachkommando erzeugt wurde kann die Windrichtung per Wisch-Bewegung gewechselt
                         werden und die Wellen können per Circle-Bewegung vergrößert werden. Ziel der Aufgabe ist das
@@ -202,18 +201,15 @@
                         <br>
                         Für die Spiel Aufgabe wird eine Spielfigur, einem simplen Grafik Sprite mit Animation, in der
                         Mitte der Landschaft erzeugt. Die Steuerung erfolgt wiederum über Ray Tracing und einem Marker
-                        welcher sich entsprechend der getreckten Leap Motion Position über die Landschaft bewegt. Per
+                        welcher sich entsprechend der getrackten Leap Motion Position über die Landschaft bewegt. Per
                         Keytab-Geste kann die Spielfigur an die entsprechende Position verschoben werden. Hierbei wird
-                        ein Babylon Animation verwendet, welche mit einer festgelegten Anzahl an Frames die Figur von A
-                        nach B bewegt. Folgender Code zeigt die Berechnung der getrackten Leap Koordinaten der Hand
-                        Position im Bereich der definierten Interactions Box über dem Sensor.
+                        eine Babylon Animation verwendet, welche mit einer festgelegten Anzahl an Frames die Figur von A
+                        nach B bewegt. Folgender Code zeigt die Berechnung der getrackten Leap Koordinaten der Hand-Position im Bereich der definierten Interaktionsbox über dem Sensor.
                         <br><br>
 
                         <img src="images/codeLandschaft2.jpg" class="img-responsive" alt="...">
                         <br>
-                        Das Wasser wird ebenfalls per Animation langsam Richtung Y-Achse verschoben, bis die Spielfigur
-                        darunter verschwindet. Erreicht die Spielfigur den Helikopter über einen einfachen
-                        Kollisionstest, so ich das Spiel gemeistert.
+
                     </p>
                     <a target="_blank" href="https://github.com/lisabell-li/ISY-speechmotion"
                        class="btn btn-default btn-lg">Link zum
@@ -248,10 +244,10 @@
                     allen anderen erkannten Gesten in dem Zeitraum.
                     Bei der Spiel Aufgabe ging es vorallem darum den Spieler in eine Stresssituation zu versetzen, wo er
                     unter Zeitdruck eine bestimmte Geste (Keytap) ausführen sollte. Zum einen konnte bei unseren Tests
-                    festgestellt werden, das die Keytab Geste deutlich schlechter erkannt wird als z.B. die Circle
+                    festgestellt werden das die Keytab Geste deutlich schlechter erkannt wird als z.B. die Circle
                     Geste, aber trotzdem hatten wir eine höhere Erfolgsquote als die gemessene Erkennungsrate bei den
-                    Probanden unter Stress. Hier lag die Erkennungsrate bei gerademal 20,28 %, da viele die Geste zu
-                    unruhig, schnell und hektisch ausführten. Insgesamt schafften nur 4 von 10 Probanden die Spiel
+                    Probanden unter Stress. Hier lag die Erkennungsrate bei gerademal 20,28 % da viele die Geste zu
+                    schnell und hektisch ausführten. Insgesamt schafften nur 4 von 10 Probanden die Spiel
                     Aufgabe nicht und gingen mit ihrer Spielfigur baden.
                 </p>
                 <table class="table" style="font-size: 16px;">

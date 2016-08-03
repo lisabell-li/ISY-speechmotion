@@ -88,9 +88,7 @@
                 <div class="col-md-12 col-md-offset-0">
                     <h1 class="brand-heading">Speech + Motion</h1>
                     <p class="intro-text">
-                        Im Rahmen des Kurses Interactive Systems (Prof. Dr. Hildebrand, SS2016) der Beuth Hochschule
-                        entstand folgende Idee für ein Projekt:
-                        </br>Eine 3D Szene im Browser mit Gesten und Sprache steuern.
+                     Steuerung einer browserbasierten Anwendung oder 3D Szene durch Gesten und Sprache
                         </br></br>
 
 
@@ -110,24 +108,24 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
             <h2>Konzept</h2>
-            <p>Die Idee hinter dem Projekt war es die Steuerung einer Anwendung oder Webseite mit Hilfe von Gesten und
-                Sprache zu ermöglichen. Hierfür sollten verschiedene Anwendungen implementiert werden, die sich stark in
+            <p>Die Idee hinter dem Projekt ist die Steuerung einer Anwendung oder Webseite mit Hilfe von Gesten und
+                Sprache zu ermöglichen. Hierfür sollten verschiedene Anwendungenszenarien implementiert werden, die sich stark in
                 ihrer Interaktion unterscheiden.
                 Für die Gestensteuerung wurde ein Leap Motion Sensor gewählt und die Sprachsteuerung erfolgt über die
                 Javascript Library Annyang, welche die Google Speech Services nutzt.
                 Alle Anwendungen sollen im Browser funktionieren, weshalb das Javascript Framework BabylonJS zum Einsatz
-                kommt, welches per WebGL da rendern komplexer 3D-Szenen und Anwendungen zulässt.
+                kommt, welches mittels WebGL das rendern komplexer 3D-Szenen und Anwendungen zulässt.
                 Die Verknüpfung von BabylonJS, Annyang und Leap Motion war die Kernarbeit des Projektes, da es hierfür
-                eine lange Einarbeitungszeit in die Technologien benötigte.
+                eine längere Einarbeitungszeit in die Technologien benötigte.
                 Letztendlich sind 3 Anwendungen entwickelt worden, die auf unterschiedliche Weise die Interaktion per
-                Sprache und Gesten ermöglichen.
+                Sprache und Gesten ermöglichen und testen.
                 <br>
 
             <p>
                 <ul>
                     <li>
-            <p>Fotobearbeitung (Steuerung von Software wie z.B. Photoshop)</p></li>
-            <li><p>Landschafts Generator (Interaktion mit 3D Scenen)</p></li>
+            <p>Fotobearbeitung (Steuerung einer Software wie z.B. Photoshop)</p></li>
+            <li><p>Landschaftsspiel (Interaktion mit 3D Scenen)</p></li>
             <li><p>Geschicklichkeitsspiel (Pixelgenaue Steuerung)</p></li>
             </ul>
             </p>
@@ -164,16 +162,16 @@
                         Tracken der Hände. Der Sensor wird per USB an den Rechner angeschlossen und liefert in der
                         aktuellsten Version laut Hersteller 200 Frames pro Sekunde über seine 2 eingebauten
                         Infrarotkameras. 3 Infrarot LED’s sorgen dafür das die Kameras die Hände in einem Abtastbereich
-                        von ca. 1 Meter oberhalb des Sensor in einem 150 Grad Winkel tracken können.
+                        von ca. 1 Meter oberhalb des Sensors in einem 150 Grad Winkel tracken können.
                         Leap Motion liefert nicht nur die Rohdaten der Kameras, sondern bereitet dieses direkt als API
                         auf um den Programmierern die Entwicklung zu erleichtern. Für dieses Projekt wurde die LeapJS
                         Javascript API genutzt um den Sensor zusammen mit BabylonJS und Annyang im Browser zu nutzen.
                     </p>  <br>
-                    <p> Um die Daten der Leap Motion zu nutzen müssen sie entsprechend auf unsere Anwendung skaliert und
+                    <p> Um die Daten der Leap Motion zu nutzen müssen sie entsprechend auf die Anwendung skaliert und
                         gemappt werden. Das Leap Motion Koordinatensystem unterscheidet sich zum Koordinatensystem von
-                        BabylonJS, da die Z-Achse invertiert ist. Der Wertebereich in dem die Daten für z.B. die
-                        Position einer Hand geliefert werden, muss normalisiert und auf die Größe der Anwendung
-                        umgerechnet werden. Um den Tracking Bereich besser zu kontrollieren kann eine Interaktion Box
+                        BabylonJS, da die Z-Achse invertiert ist. Der Wertebereich der Daten wie z.B. die
+                        Position einer Hand, muss normalisiert und auf die Größe der Anwendung
+                        umgerechnet werden. Um den getrackten Bereich besser zu kontrollieren kann eine Interaktionsbox
                         über dem Sensor festgelegt werden. Die Positionsdaten der Leap könnnen folgendermaßen auf die
                         Koordinaten der Anwendung umgerechnet werden: </p> <br>
 
@@ -186,7 +184,7 @@
 
                     <br>
                     <p> Es gibt unterschiedliche Positionsdaten die verwendet werden können. LeapJS liefert pro Frame
-                        Informationen zu den jeweilig getrackten Hand Objekten, den Fingern und Handgelenken.
+                        Informationen zu den jeweilig getrackten Hand-Objekten, den Fingern und Handgelenken/Armen.
                         Insgesamt stellt sich der Aufbau der API wie folgt dar:</p>
 
                     <div>
@@ -241,34 +239,30 @@
 </section>
 
 <!-- Annyang Section -->
-<section id="annyang" class="container content-section text-center" style="padding-top: 90px;">
+<section id="annyang" class="container content-section text-justify" style="padding-top: 90px;">
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2" style="text-align: left">
+        <div class="col-lg-8 col-lg-offset-2" >
             <h1>Annyang</h1>
             <p>
-                <small>Sprachsteuerung</small>
+                Annyang ist eine 2 kb große Javascript Library mit der eine Webseite um einige Spracherkennungsfeatures erweitert werden kann.
+                Annyang nutzt hierfür die eingebauten Spracherkennungsfunktionen des Browsers soweit diese vorhanden sind.
+                Für den Chrome-Browser (genutzer Browser für dieses Projekt) nutzt Annyang beispielsweise die Services der Google Speech API.
+                Neben einer breiten Sprachenunterstützung ermöglicht Annyang es unterschiedlich strukturierte Sprachkommandos zu definieren.
+                Per Default nutzt Annyang das Mikrophone des Laptops/PC, was bei ruhiger Umgebungslautstärke gut funktioniert.
+                Mittels eines einfachen Headsets konnte die Spracherkennung jedoch zuverlässiger und stabiler gegenüber Umgebungsgeräuschen gemacht werden.
+                Beim ersten Aufruf der Webseite muss Annyang die Nutzung des Mikrophones erlaubt werden. Daraufhin zeichnet die Webseite Sprache auf und vergleich diese mit bekannten definierten Sprachkommandos.
+                Hier kann es zu Problemen kommen da Annyang die aufgenommene Sprache in Blöcke einteilt und nicht jedes gesprochene Wort direkt mit den Kommandos abgleicht.
+                Dies kann dazu führen das ein gesprochener Satz einzelne Kommandos enthält, diese aber nicht als solche erkannt werden, da der gesamte Satz als Wörterblock mit den Kommmandos verglichen wird.
+                Sprackkommandos müssen also einzeln und getrennt von anderen Wörtern gesprochen werden damit diese erkannt werden können.
+                Auch direkt hintereinander gesprochene Sprachkommandos können als Block erfasst werden und somit zu Fehlern führen.
+                Insgesamt sollten Sprachkommandos nur mit einer zeitlichen Distanz von 2-3 Sekunden gesprochen werden.
+                Die Erkennungsrate von Annyang in Chrome ist sehr überzeugend und fast fehlerfrei sofern die Kommandos klar und einzeln geäußert werden.
+                Die Erkennung benötigt durch die Server-Abfrage mit Google ca. 2-3 Sekunden. Je nachdem welches Kommando erkannt wurde, wird eine entsprechend verknüpfte Javascript Funktion aufgerufen.
+                Da Annyang auf das Mikrophone zugreift ist es nur möglich eine Instanz innerhalb der Browser-Tabs zu nutzen. Ist eine Webseite mit Annyang mehrfach geöffnet kommt es zu Fehlern.
+                Desweiteren gab es hin und wieder Abstürze, bei der Annyang ohne Fehlermeldung die Spracherkennung einstellte. Hier half nur ein Neustart der Webseite.
+                <br> <br>
+                Folgender Code zeigt die einfache Definition einzelner Sprachkommandos, Spracheinstellung und Starten der Annyang Spracherkennung.
             </p>
-            <ul style="text-align: left">
-                <li>JavaScript Framework für Sprachbefehle/Spracherkennung</li>
-                <li>JavaScript-Wrapper für GoogleSpeech</li>
-                <li>unterstützt viele verschiedene Sprachen</li>
-                <li>kostenlos</li>
-                <li>einfach einzubinden</li>
-                <li>wird nicht von allen aktuellen Browsern unterstützt (z.B. Firefox)</li>
-
-            </ul>
-            <p>Annyang ist sehr einfach zu nutzen. Wichtig zu wissen bei Annyang ist (was wir nur durch Testen mit
-                einhergehender Verzweiflung herausfanden)
-            </p>
-            <p><strong>Annyang kann nur in einem Tab genutzt werden!</strong> Wird Annyang in mehreren Tabs verwendet
-                funktioniert die Spracherkennung nicht.</p>
-            <p><strong>Annyang kann nicht im aktuellen Firefox oder Edge verwendet werden.</strong> Im aktuellen Chrome
-                hingegen funktioniert Annyang.</p>
-            <p><strong>Annyang stürzt manchmal ab.</strong> Meist ohne ersichtlichen Grund und nur durch Neustart der
-                Seite behebbar.</p>
-            <p>Des weiteren ist darauf zu achten, dass es nicht zuviele Hintergrundgeräusche gibt.</p>
-            <p>Wenn Annyang denn dann funktioniert, dann werden die vorher festgelegten Befehle sehr gut erkannt.</p>
-            <p>
 
 
 <pre><code>//Wenn der Browser Annyang unterstützt
@@ -307,13 +301,12 @@ else{console.log("Annyang ist mit diesem Browser nicht kompatibel.")}</code></pr
                         Shader Architektur.
                         BabylonJS bietet gängige Features wie sie von Game Engines bekannt sind und zeichnet sich laut
                         Entwickler durch eine besonders gute Performance aus. Es gibt Anbindungen an Unity, Blender und
-                        3DS Max und es verschiedenste Formate für den Import von 3D Modellen unterstützt.
-                        Ein Szenen Graph in Babylon kann unteranderem Lichter, Kameras, Materials, Meshes, Animationen
+                        3DS Max und unterstützt verschiedenste Formate für den Import von 3D Modellen.
+                        Ein Szenen-Graph in Babylon kann unteranderem Lichter, Kameras, Materialen, Meshes, Animationen
                         und Audio
                         enthalten.
                         Es gibt zahlreiche Funktionen für Kollisionstests, Schattenwurf, Partikel und verschiedenste
-                        Shader
-                        Effekte.
+                        Shader-Effekte.
                         Die Dokumentation von BabylonJS ist umfangreich, aber in den Beschreibungen von Klassen und
                         Funktionen sehr knapp. Die Einarbeitung war relativ schwierig, da viele Konzepte wie z.B.
                         Dynamic Textures nur mangelhaft dokumentiert waren. Das E-Book LEARNING BABYLON.JS von Julian
@@ -332,10 +325,14 @@ else{console.log("Annyang ist mit diesem Browser nicht kompatibel.")}</code></pr
                         <br><br>
                                 >   Babylone.Scene < Render Loop >
                         <br><br>
+                        <img src="images/babylonjs.jpg" class="img-responsive" >
+
+                        <br><br>
+
                         Die meisten Aktionen und Berechnungen unserer Anwendungen erfolgen im Frame-Loop des Leap Motion Controllers.
                         Möchte man in Babylon Aktionen vor jedem Render Durchlauf ausführen wird die Funktion <i>  scene.registerBeforeRender()</i> genutzt.
                         <br>
-                        Nützlich ist bei der Entwicklung der BabylonJS Playground, welcher einfache Beispiele für verschiedene Funktionen liefert und der es ermöglicht im Browser Babylon Anwendung zu programmieren und zu testen.
+                        Nützlich bei der Entwicklung ist der BabylonJS Playground, welcher einfache Beispiele für verschiedene Funktionen liefert und es ermöglicht im Browser Babylon Szenen zu programmieren und zu testen.
                         <br>
                        <br> <a target="_blank" href="http://www.babylonjs-playground.com/" class="btn btn-default btn-lg">Playground</a>
                         <br>
